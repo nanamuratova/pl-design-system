@@ -1,5 +1,62 @@
 // PL Design System — Spacing, Radius & Shadow Tokens
-// Auto-extracted from Figma: Design System Design Components | Protocol Labs
+// Three-layer architecture:
+//   Layer 1: --global-size-* primitives   (from global-style.css Figma export)
+//   Layer 3: Component spacing tokens     (--spacing-*, --radius-*, --shadow-*)
+//
+// Layer 1 uses px values (matching CSS pixel semantics for Figma compatibility).
+// Layer 3 uses rem (base 16px). No semantic layer exists yet for size tokens.
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LAYER 1 — PRIMITIVE GLOBAL SIZE SCALE
+// Raw numeric steps from Figma's global-style.css export.
+// Use Layer 3 tokens in components; these are reference anchors.
+// ─────────────────────────────────────────────────────────────────────────────
+
+:root {
+  --global-size-size-0:    0px;
+  --global-size-size-25:   1px;
+  --global-size-size-50:   2px;
+  --global-size-size-100:  4px;
+  --global-size-size-150:  6px;
+  --global-size-size-200:  8px;
+  --global-size-size-250:  10px;
+  --global-size-size-300:  12px;
+  --global-size-size-350:  14px;
+  --global-size-size-400:  16px;
+  --global-size-size-450:  18px;
+  --global-size-size-500:  20px;
+  --global-size-size-550:  22px;
+  --global-size-size-600:  24px;
+  --global-size-size-650:  26px;
+  --global-size-size-700:  28px;
+  --global-size-size-750:  30px;
+  --global-size-size-800:  32px;
+  --global-size-size-900:  36px;
+  --global-size-size-1000: 40px;
+  --global-size-size-1100: 44px;
+  --global-size-size-1200: 48px;
+  --global-size-size-1300: 52px;
+  --global-size-size-1400: 56px;
+  --global-size-size-1500: 60px;
+  --global-size-size-1600: 64px;
+  --global-size-size-1800: 72px;
+  --global-size-size-2000: 80px;
+  --global-size-size-2400: 96px;
+  --global-size-size-2800: 112px;
+  --global-size-size-3200: 128px;
+  --global-size-size-3600: 144px;
+  --global-size-size-4000: 160px;
+  --global-size-size-4800: 192px;
+  --global-size-size-5600: 224px;
+  --global-size-size-6400: 256px;
+  --global-size-size-7200: 288px;
+  --global-size-size-8000: 320px;
+  --global-size-size-9600: 384px;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LAYER 3 — COMPONENT SPACING TOKENS
+// ─────────────────────────────────────────────────────────────────────────────
 
 :root {
   // ─── Spacing scale (px values from Figma, expressed in rem) ──────────────

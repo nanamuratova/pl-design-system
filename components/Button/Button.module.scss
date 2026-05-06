@@ -184,7 +184,7 @@
   border-color: var(--border-neutral-subtle);
   box-shadow: var(--shadow-xs);
 
-  &:hover:not(:disabled) { background: var(--neutral-slate-200); }
+  &:hover:not(:disabled) { background: var(--semantic-neutral-100); } // slightly elevated neutral — L2 semantic (slate-100 = #e9eff6)
   &:active:not(:disabled) { box-shadow: none; }
 }
 
@@ -287,5 +287,5 @@
   color: var(--foreground-neutral-secondary);
   border-color: transparent;
 
-  &:hover:not(:disabled) { background: var(--neutral-slate-200); }
+  &:hover:not(:disabled) { background: var(--semantic-neutral-100); } // slightly elevated neutral — L2 semantic (slate-100 = #e9eff6)
 }

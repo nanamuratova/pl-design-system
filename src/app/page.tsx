@@ -94,7 +94,7 @@ export default function ShowcasePage() {
           <div className={styles.swatch} style={{ background: 'var(--background-brand-soft-surface)', color: 'var(--foreground-brand-primary)' }}>
             <span>brand/soft</span>
           </div>
-          <div className={styles.swatch} style={{ background: 'var(--neutral-slate-900)', color: '#fff' }}>
+          <div className={styles.swatch} style={{ background: 'var(--global-color-slate-900)', color: '#fff' }}>
             <span>slate/900</span>
           </div>
         </div>

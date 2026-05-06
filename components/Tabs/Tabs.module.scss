@@ -1,45 +1,173 @@
-.root { width: 100%; }
+@use '../../styles/mixins';
+@use '../../styles/media';
 
-// Line variant
-.list-line { display: flex; align-items: center; border-bottom: 1px solid var(--border-neutral-subtle); }
+.root {
+  width: 100%;
+}
+
+// ── List base ──────────────────────────────────────────────────────────────
+.list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+// ── Line variant ───────────────────────────────────────────────────────────
+.list-line {
+  border-bottom: 1px solid var(--border-neutral-subtle);
+}
+
 .trigger-line {
-  position: relative; padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 14px; font-weight: 500; color: var(--foreground-neutral-secondary);
-  background: transparent; cursor: pointer; outline: none; border: none;
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
-  display: flex; align-items: center; gap: var(--spacing-2xs);
-  transition: color 120ms, border-color 120ms; white-space: nowrap;
-  &:hover { color: var(--foreground-neutral-primary); }
-  &[data-state='active'] { color: var(--foreground-brand-primary); border-bottom-color: var(--foreground-brand-primary); }
-  &[disabled] { opacity: 0.4; cursor: not-allowed; }
+  position: relative;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-neutral-secondary);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition:
+    color 120ms,
+    border-color 120ms;
+
+  &:hover {
+    color: var(--foreground-neutral-primary);
+  }
+
+  &[data-state='active'] {
+    color: var(--foreground-brand-primary);
+    border-bottom-color: var(--foreground-brand-primary);
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
-// Enclosed variant
-.list-enclosed { display: flex; align-items: center; background: var(--background-neutral-subtle); border-radius: var(--radius-md); padding: 4px; gap: 4px; }
+// ── Enclosed variant ───────────────────────────────────────────────────────
+.list-enclosed {
+  background: var(--background-neutral-subtle);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
 .trigger-enclosed {
-  padding: var(--spacing-xs) var(--spacing-md); border-radius: var(--radius-sm);
-  font-size: 14px; font-weight: 500; color: var(--foreground-neutral-secondary);
-  background: transparent; cursor: pointer; outline: none; border: none;
-  display: flex; align-items: center; gap: var(--spacing-2xs);
-  transition: all 120ms; white-space: nowrap;
-  &:hover { background: var(--surface-light); }
-  &[data-state='active'] { background: var(--surface-light); color: var(--foreground-neutral-primary); box-shadow: var(--shadow-sm); }
-  &[disabled] { opacity: 0.4; cursor: not-allowed; }
+  padding: var(--spacing-xs, 8px) var(--spacing-md);
+  border-radius: var(--radius-sm, 6px);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-neutral-secondary);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: all 120ms;
+
+  &:hover {
+    background: var(--surface-light);
+  }
+
+  &[data-state='active'] {
+    background: var(--surface-light);
+    color: var(--foreground-neutral-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
-// Pill variant
-.list-pill { display: flex; align-items: center; gap: var(--spacing-2xs); }
+// ── Pill variant ───────────────────────────────────────────────────────────
+.list-pill {
+  background: var(--background-neutral-subtle);
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 4px;
+}
+
 .trigger-pill {
-  padding: var(--spacing-xs) var(--spacing-md); border-radius: var(--radius-full);
-  font-size: 14px; font-weight: 500; color: var(--foreground-neutral-secondary);
-  background: transparent; cursor: pointer; outline: none; border: none;
-  display: flex; align-items: center; gap: var(--spacing-2xs);
-  transition: all 120ms; white-space: nowrap;
-  &:hover { background: var(--background-neutral-subtle); }
-  &[data-state='active'] { background: var(--action-bg-brand-normal); color: #fff; }
-  &[disabled] { opacity: 0.4; cursor: not-allowed; }
+  padding: var(--spacing-xs, 8px) var(--spacing-md);
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-neutral-secondary);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: all 120ms;
+
+  &:hover {
+    background: var(--surface-light);
+  }
+
+  &[data-state='active'] {
+    background: var(--action-bg-brand-normal);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
-.content { padding: var(--spacing-xl) 0; &:focus-visible { outline: none; } }
-.badge { background: var(--background-neutral-subtle); border-radius: var(--radius-full); padding: 1px 6px; font-size: 11px; font-weight: 500; color: var(--foreground-neutral-secondary); margin-left: 4px; }
-.trigger-pill .badge { background: rgba(255,255,255,0.2); color: inherit; }
+// ── Size modifiers ─────────────────────────────────────────────────────────
+.size-sm {
+  font-size: 12px;
+
+  &.trigger-line,
+  &.trigger-enclosed,
+  &.trigger-pill {
+    padding: 6px var(--spacing-sm);
+    font-size: 12px;
+  }
+}
+
+.size-lg {
+  &.trigger-line,
+  &.trigger-enclosed,
+  &.trigger-pill {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 15px;
+  }
+}
+
+// ── Content ────────────────────────────────────────────────────────────────
+.content {
+  padding: var(--spacing-xl) 0;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// ── Badge ──────────────────────────────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-neutral-subtle);
+  border-radius: 9999px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--foreground-neutral-secondary);
+  margin-left: 6px;
+  line-height: 1.4;
+}
+
+// ── Trigger inner layout ───────────────────────────────────────────────────
+.triggerInner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs, 4px);
+}

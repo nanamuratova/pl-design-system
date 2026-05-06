@@ -5,22 +5,41 @@ import clsx from 'clsx';
 import type { SwitchProps } from './Switch.types';
 import styles from './Switch.module.scss';
 
-const sizeMap = { sm: styles['size-sm'], md: styles['size-md'], lg: styles['size-lg'] };
-const thumbSizeMap = { sm: styles['thumb-sm'], md: styles['thumb-md'], lg: styles['thumb-lg'] };
+export function Switch({
+  size = 'md',
+  label,
+  labelPosition = 'right',
+  description,
+  disabled,
+  className,
+  ...props
+}: SwitchProps) {
+  const control = (
+    <SwitchPrimitive.Root
+      disabled={disabled}
+      className={clsx(styles.root, styles[`size-${size}`], className)}
+      {...props}
+    >
+      <SwitchPrimitive.Thumb className={styles.thumb} />
+    </SwitchPrimitive.Root>
+  );
 
-export function Switch({ size = 'md', label, description, labelPosition = 'right', className, id, ...props }: SwitchProps) {
-  const switchId = id ?? `switch-${Math.random().toString(36).slice(2)}`;
+  if (!label && !description) {
+    return control;
+  }
+
+  const textContent = (
+    <div className={styles.textContent}>
+      {label && <span className={styles.label}>{label}</span>}
+      {description && <span className={styles.description}>{description}</span>}
+    </div>
+  );
+
   return (
-    <div className={clsx(styles.wrapper, labelPosition === 'left' && styles['wrapper-left'], className)}>
-      <SwitchPrimitive.Root id={switchId} className={clsx(styles.root, sizeMap[size])} {...props}>
-        <SwitchPrimitive.Thumb className={clsx(styles.thumb, thumbSizeMap[size])} />
-      </SwitchPrimitive.Root>
-      {(label || description) && (
-        <div className={styles.textContent}>
-          {label && <label htmlFor={switchId} className={styles.label}>{label}</label>}
-          {description && <span className={styles.description}>{description}</span>}
-        </div>
-      )}
+    <div className={clsx(styles.wrapper, disabled && styles['wrapper-disabled'])}>
+      {labelPosition === 'left' && textContent}
+      {control}
+      {labelPosition === 'right' && textContent}
     </div>
   );
 }
