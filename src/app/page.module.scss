@@ -68,6 +68,56 @@
   text-transform: capitalize;
 }
 
+.sectionDesc {
+  @include mixins.body-sm;
+  color: var(--foreground-neutral-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  list-style: none;
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--background-base-white);
+  border: 1px solid var(--border-neutral-subtle);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  position: relative;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--foreground-brand-primary);
+  }
+}
+
+.templateName {
+  @include mixins.label-md;
+  color: var(--foreground-neutral-primary);
+  font-weight: 600;
+}
+
+.templateDesc {
+  @include mixins.body-sm;
+  color: var(--foreground-neutral-secondary);
+}
+
+.templateArrow {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  font-size: 16px;
+  color: var(--foreground-neutral-secondary);
+}
+
 .tokenPreview {
   display: flex;
   flex-wrap: wrap;

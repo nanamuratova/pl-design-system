@@ -1,13 +1,29 @@
 import styles from './page.module.scss';
 
-const components = [
-  { name: 'Button', path: '/button', status: 'planned' },
-  { name: 'Input', path: '/input', status: 'planned' },
-  { name: 'Badge', path: '/badge', status: 'planned' },
-  { name: 'Card', path: '/card', status: 'planned' },
+const uiComponents = [
+  'Accordion', 'Alert', 'Avatar', 'Badge', 'Button', 'Carousel', 'Checkbox',
+  'ContextMenu', 'DatePicker', 'Drawer', 'Dropdown', 'EmptyState', 'Input',
+  'Lightbox', 'Pagination', 'Progress', 'SearchInput', 'Slider', 'Steps',
+  'Switch', 'Table', 'Tabs', 'Textarea', 'Toggle', 'Tooltip', 'Upload',
 ];
 
-export default function HomePage() {
+const layoutComponents = [
+  'BottomNav', 'NavBar', 'PageHeader', 'Sidebar',
+];
+
+const cardComponents = [
+  'CTACard', 'FocusAreaCard', 'ForumPostCard', 'MemberCard', 'OfficeHoursCard', 'TeamCard',
+];
+
+const pageTemplates = [
+  { name: 'Home', path: '/templates/home', description: 'Dashboard with CTA cards, Focus Areas, and Recent Updates feed' },
+  { name: 'Forum', path: '/templates/forum', description: 'Forum listing with tabs, sort, and post cards' },
+  { name: 'Deals', path: '/templates/deals', description: 'Deals browser with filter sidebar and deal cards' },
+  { name: 'Member Profile', path: '/templates/member-profile', description: 'Individual member profile with bio, teams, experience' },
+  { name: 'Team Profile', path: '/templates/team-profile', description: 'Organization profile with fund details, membership sources' },
+];
+
+export default function ShowcasePage() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
@@ -18,19 +34,56 @@ export default function HomePage() {
       </header>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Components</h2>
-        <ul className={styles.grid}>
-          {components.map((c) => (
-            <li key={c.name} className={styles.card} data-status={c.status}>
-              <span className={styles.cardName}>{c.name}</span>
-              <span className={styles.cardStatus}>{c.status}</span>
+        <h2 className={styles.sectionTitle}>Page Templates</h2>
+        <p className={styles.sectionDesc}>Full page compositions assembled from design system components.</p>
+        <ul className={styles.templateGrid}>
+          {pageTemplates.map((t) => (
+            <li key={t.path}>
+              <a href={t.path} className={styles.templateCard}>
+                <span className={styles.templateName}>{t.name}</span>
+                <span className={styles.templateDesc}>{t.description}</span>
+                <span className={styles.templateArrow}>→</span>
+              </a>
             </li>
           ))}
         </ul>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Tokens</h2>
+        <h2 className={styles.sectionTitle}>UI Components</h2>
+        <ul className={styles.grid}>
+          {uiComponents.map((name) => (
+            <li key={name} className={styles.card}>
+              <span className={styles.cardName}>{name}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Layout &amp; Navigation</h2>
+        <ul className={styles.grid}>
+          {layoutComponents.map((name) => (
+            <li key={name} className={styles.card}>
+              <span className={styles.cardName}>{name}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Cards</h2>
+        <ul className={styles.grid}>
+          {cardComponents.map((name) => (
+            <li key={name} className={styles.card}>
+              <span className={styles.cardName}>{name}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Design Tokens</h2>
         <div className={styles.tokenPreview}>
           <div className={styles.swatch} style={{ background: 'var(--foreground-brand-primary)' }}>
             <span>brand/primary</span>
