@@ -1,0 +1,34 @@
+@use '../../styles/mixins';
+
+.wrapper { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+.fullWidth { width: 100%; .inputWrapper { width: 100%; } }
+.label { font-size: 14px; font-weight: 500; line-height: 20px; color: var(--foreground-neutral-primary); }
+.inputWrapper { position: relative; display: flex; align-items: center; }
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border-neutral-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-light);
+  color: var(--foreground-neutral-primary);
+  font-family: var(--font-family-primary);
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms;
+
+  &::placeholder { color: var(--foreground-neutral-tertiary); }
+  &:hover:not(:disabled):not([data-error='true']) { border-color: var(--action-border-neutral-normal); }
+  &:focus:not([data-error='true']) { border-color: var(--foreground-brand-primary); box-shadow: 0 0 0 3px var(--transparent-brand-8); }
+  &[data-error='true'] { border-color: var(--action-border-error-focus); &:focus { box-shadow: 0 0 0 3px rgba(255,56,56,0.12); } }
+  &:disabled { opacity: 0.5; cursor: not-allowed; background: var(--background-neutral-subtle); }
+}
+
+.size-sm { height: 36px; padding: 0 12px; font-size: 14px; &.hasLeftIcon { padding-left: 36px; } &.hasRightIcon { padding-right: 36px; } }
+.size-md { height: 40px; padding: 0 var(--spacing-md); font-size: 14px; &.hasLeftIcon { padding-left: 40px; } &.hasRightIcon { padding-right: 40px; } }
+.size-lg { height: 48px; padding: 0 var(--spacing-lg); font-size: 16px; &.hasLeftIcon { padding-left: 44px; } &.hasRightIcon { padding-right: 44px; } }
+
+.iconLeft, .iconRight { position: absolute; display: flex; align-items: center; justify-content: center; color: var(--foreground-neutral-tertiary); pointer-events: none; width: 16px; height: 16px; }
+.iconLeft { left: 12px; }
+.iconRight { right: 12px; }
+
+.hint { font-size: 12px; color: var(--foreground-neutral-tertiary); line-height: 18px; }
+.errorMessage { font-size: 12px; color: var(--background-error-normal); line-height: 18px; }

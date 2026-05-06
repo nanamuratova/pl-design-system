@@ -1,0 +1,158 @@
+@use '../../styles/mixins';
+
+// ─── Base ─────────────────────────────────────────────────────────────────────
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+// ─── Sizes ────────────────────────────────────────────────────────────────────
+
+.size-sm {
+  height: 16px;
+  padding: 0 4px;
+  gap: 0;
+  font-size: 12px;
+  line-height: 16px;
+
+  .dotIndicator { width: 4px; height: 4px; }
+  .iconSlot { width: 10px; height: 10px; }
+}
+
+.size-md {
+  height: 20px;
+  padding: 0 6px;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 16px;
+
+  .dotIndicator { width: 5px; height: 5px; }
+  .iconSlot { width: 12px; height: 12px; }
+}
+
+.size-lg {
+  height: 24px;
+  padding: 2px 8px;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.013rem;
+
+  .dotIndicator { width: 6px; height: 6px; }
+  .iconSlot { width: 14px; height: 14px; }
+}
+
+// ─── Icon & Dot slots ─────────────────────────────────────────────────────────
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dotIndicator {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+// ─── Light style (color per hue) ──────────────────────────────────────────────
+
+.light-blue {
+  background: var(--transparent-brand-4);
+  color: var(--foreground-brand-secondary-inv);
+}
+
+.light-gray {
+  background: var(--background-neutral-subtle);
+  color: var(--foreground-neutral-secondary);
+}
+
+.light-green {
+  background: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+}
+
+.light-yellow {
+  background: rgba(245, 158, 11, 0.08);
+  color: #d97706;
+}
+
+.light-red {
+  background: rgba(255, 56, 56, 0.08);
+  color: var(--background-error-normal);
+}
+
+// ─── Outline style ────────────────────────────────────────────────────────────
+
+.outline-blue {
+  background: transparent;
+  border-color: var(--foreground-brand-secondary-inv);
+  color: var(--foreground-brand-secondary-inv);
+}
+
+.outline-gray {
+  background: transparent;
+  border-color: var(--foreground-neutral-secondary);
+  color: var(--foreground-neutral-secondary);
+}
+
+.outline-green {
+  background: transparent;
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.outline-yellow {
+  background: transparent;
+  border-color: #d97706;
+  color: #d97706;
+}
+
+.outline-red {
+  background: transparent;
+  border-color: var(--background-error-normal);
+  color: var(--background-error-normal);
+}
+
+// ─── Fill style ───────────────────────────────────────────────────────────────
+
+.fill-blue {
+  background: var(--action-bg-brand-normal);
+  color: #fff;
+}
+
+.fill-gray {
+  background: var(--foreground-neutral-primary);
+  color: #fff;
+}
+
+.fill-green {
+  background: #16a34a;
+  color: #fff;
+}
+
+.fill-yellow {
+  background: #d97706;
+  color: #fff;
+}
+
+.fill-red {
+  background: var(--background-error-normal);
+  color: #fff;
+}
+
+// ─── Disabled ─────────────────────────────────────────────────────────────────
+
+.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
