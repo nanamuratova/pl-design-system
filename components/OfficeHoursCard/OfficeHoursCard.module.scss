@@ -1,0 +1,85 @@
+.root {
+  background: var(--surface-light);
+  border: 1px solid var(--border-neutral-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.title {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 13px;
+  color: var(--foreground-neutral-tertiary);
+  border-bottom: 1px solid var(--border-neutral-subtle);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--action-bg-brand-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  overflow: hidden;
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.teamAvatar {
+  border-radius: var(--radius-md);
+}
+
+.hostInfo { flex: 1; min-width: 0; }
+
+.hostName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground-neutral-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.hostSep { color: var(--foreground-neutral-tertiary); font-weight: 400; }
+.hostAt  { font-size: 14px; font-weight: 400; color: var(--foreground-neutral-secondary); }
+
+.hostBio {
+  font-size: 13px;
+  color: var(--foreground-neutral-tertiary);
+  margin-top: 3px;
+  line-height: 18px;
+}
+
+.scheduleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--spacing-xs) var(--spacing-lg);
+  background: var(--action-bg-brand-normal);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: opacity 120ms;
+
+  &:hover { opacity: 0.9; }
+}
+
+.calIcon { width: 14px; height: 14px; }

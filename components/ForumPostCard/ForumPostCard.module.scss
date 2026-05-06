@@ -1,0 +1,114 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  background: var(--surface-light);
+  border: 1px solid var(--border-neutral-subtle);
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 150ms, border-color 150ms;
+
+  &:hover {
+    border-color: var(--border-neutral-muted);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.pinnedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--foreground-brand-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-2xs);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground-neutral-primary);
+  line-height: 24px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.excerpt {
+  font-size: 14px;
+  color: var(--foreground-neutral-secondary);
+  line-height: 21px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.authorAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--background-neutral-subtle);
+  flex-shrink: 0;
+}
+
+.authorFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--background-neutral-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--foreground-brand-primary);
+  flex-shrink: 0;
+}
+
+.authorText {
+  font-size: 13px;
+  color: var(--foreground-neutral-secondary);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.authorName {
+  font-weight: 500;
+  color: var(--foreground-neutral-primary);
+}
+
+.dot { color: var(--foreground-neutral-tertiary); margin: 0 2px; }
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: 4px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--foreground-neutral-tertiary);
+}
+
+.statIcon { width: 14px; height: 14px; }

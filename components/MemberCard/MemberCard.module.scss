@@ -1,0 +1,145 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-xl);
+  background: var(--surface-light);
+  border: 1px solid var(--border-neutral-subtle);
+  border-radius: var(--radius-xl);
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 150ms, border-color 150ms;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--border-neutral-muted);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--background-neutral-subtle);
+}
+
+.avatarFallback {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--background-neutral-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--foreground-brand-primary);
+}
+
+.availability {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1.5px solid var(--surface-light);
+}
+
+.availability.available  { background: #f0fdf4; color: #16a34a; }
+.availability.booked     { background: rgba(245,158,11,0.1); color: #d97706; }
+.availability.unavailable { background: var(--background-neutral-subtle); color: var(--foreground-neutral-tertiary); }
+
+.availabilityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.available .availabilityDot    { background: #22c55e; }
+.booked .availabilityDot       { background: #f59e0b; }
+.unavailable .availabilityDot  { background: var(--foreground-neutral-tertiary); }
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground-neutral-primary);
+  line-height: 22px;
+}
+
+.role {
+  font-size: 13px;
+  color: var(--foreground-neutral-secondary);
+  line-height: 18px;
+}
+
+.company {
+  font-size: 13px;
+  color: var(--foreground-neutral-secondary);
+  line-height: 18px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--foreground-neutral-tertiary);
+  margin-top: var(--spacing-xs);
+}
+
+.locationIcon { width: 14px; height: 14px; flex-shrink: 0; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: var(--spacing-xs);
+}
+
+.tag {
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--background-neutral-subtle);
+  color: var(--foreground-neutral-secondary);
+}
+
+// Compact (mobile) variant
+.root.compact {
+  flex-direction: row;
+  text-align: left;
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.compact .avatarWrapper { width: 48px; height: 48px; margin-bottom: 0; }
+.compact .avatar, .compact .avatarFallback { width: 48px; height: 48px; font-size: 18px; }
+.compact .content { flex: 1; min-width: 0; }
+.compact .name { font-size: 14px; }
+.compact .role, .compact .company { font-size: 12px; }
+.compact .location { justify-content: flex-start; }
+
+.content { width: 100%; }

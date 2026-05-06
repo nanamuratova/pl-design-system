@@ -1,0 +1,197 @@
+@use '../../styles/media';
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky, 200);
+  width: 100%;
+  background: var(--surface-light);
+  border-bottom: 1px solid var(--border-neutral-subtle);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  height: 100%;
+
+  @include media.tablet-below {
+    padding: 0 var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+  gap: var(--spacing-sm);
+}
+
+.logoMark {
+  width: 32px;
+  height: 32px;
+  background: var(--action-bg-brand-normal);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.logoText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground-neutral-primary);
+  letter-spacing: -0.3px;
+
+  @include media.tablet-below {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+
+  @include media.tablet-below {
+    display: none;
+  }
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-neutral-secondary);
+  text-decoration: none;
+  transition: color 120ms, background 120ms;
+  white-space: nowrap;
+  position: relative;
+
+  &:hover { background: var(--background-neutral-subtle); color: var(--foreground-neutral-primary); }
+  &.active { color: var(--foreground-brand-primary); background: var(--transparent-brand-4); }
+}
+
+.navBadge {
+  background: var(--action-bg-brand-normal);
+  color: #fff;
+  border-radius: var(--radius-full);
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 18px;
+  text-align: center;
+}
+
+.spacer { flex: 1; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--foreground-neutral-secondary);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { background: var(--background-neutral-subtle); color: var(--foreground-neutral-primary); }
+}
+
+.notifDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background: var(--background-error-normal);
+  border-radius: 50%;
+  border: 2px solid var(--surface-light);
+}
+
+.notifBadge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  min-width: 16px;
+  height: 16px;
+  background: var(--background-error-normal);
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 1.5px solid var(--surface-light);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 120ms;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--background-neutral-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground-brand-primary);
+
+  &:hover { border-color: var(--foreground-brand-primary); }
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--foreground-neutral-secondary);
+  cursor: pointer;
+  &:hover { background: var(--background-neutral-subtle); }
+
+  @include media.tablet-below {
+    display: flex;
+  }
+}
