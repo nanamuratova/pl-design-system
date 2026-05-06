@@ -1,0 +1,147 @@
+// PL Design System — Typography Tokens
+// Auto-extracted from Figma: Design System Design Components | Protocol Labs
+// Font: Inter (all weights). Sizes in px, converted to rem (base 16px).
+
+:root {
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  // ─── Font weights ────────────────────────────────────────────────────────
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+}
+
+// ─── Typography mixins (use these in components) ─────────────────────────────
+
+// Heading scale (Inter Medium)
+@mixin heading-3xl {   // 64px / lh 78 / ls -2.3px
+  font-family: var(--font-family-primary);
+  font-size: 4rem;
+  line-height: 4.875rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.144rem;
+}
+@mixin heading-xl {    // 40px — fill in from Foundations file
+  font-family: var(--font-family-primary);
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.075rem;
+}
+@mixin heading-md {    // 32px / lh 42 / ls -0.75px
+  font-family: var(--font-family-primary);
+  font-size: 2rem;
+  line-height: 2.625rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.047rem;
+}
+@mixin heading-sm {    // 24px / lh 34 / ls -0.4px
+  font-family: var(--font-family-primary);
+  font-size: 1.5rem;
+  line-height: 2.125rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.025rem;
+}
+
+// Body scale (Inter Regular / SemiBold)
+@mixin body-xl-strong {   // 20px / lh 27 / ls -0.3px / 600
+  font-family: var(--font-family-primary);
+  font-size: 1.25rem;
+  line-height: 1.688rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.019rem;
+}
+@mixin body-md {           // 16px / lh 24 / ls -0.3px / 400
+  font-family: var(--font-family-primary);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.019rem;
+}
+@mixin body-sm {           // 14px / lh 22 / ls -0.2px / 400
+  font-family: var(--font-family-primary);
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.013rem;
+}
+@mixin body-sm-strong {    // 14px / lh 22 / ls -0.2px / 600
+  font-family: var(--font-family-primary);
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.013rem;
+}
+@mixin body-xs {           // 12px / lh 18 / ls -0.2px / 400
+  font-family: var(--font-family-primary);
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.013rem;
+}
+@mixin body-xs-strong {    // 12px / lh 18 / ls -0.2px / 600
+  font-family: var(--font-family-primary);
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.013rem;
+}
+
+// Label scale (Inter Medium)
+@mixin label-2xl {    // 24px / lh 32 / ls -0.4px / 500
+  font-family: var(--font-family-primary);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.025rem;
+}
+@mixin label-xl {     // 20px / lh 27 / ls -0.4px / 500
+  font-family: var(--font-family-primary);
+  font-size: 1.25rem;
+  line-height: 1.688rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.025rem;
+}
+@mixin label-lg {     // 18px / lh 24 / ls -0.4px / 500
+  font-family: var(--font-family-primary);
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.025rem;
+}
+@mixin label-md {     // 16px / lh 24 / ls -0.3px / 500
+  font-family: var(--font-family-primary);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.019rem;
+}
+@mixin label-sm {     // 14px / lh 20 / ls -0.2px / 500
+  font-family: var(--font-family-primary);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.013rem;
+}
+@mixin label-xs {     // 12px / lh 16 / ls -0.2px / 500
+  font-family: var(--font-family-primary);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.013rem;
+}
+@mixin label-2xs {    // 10px / lh 14 / ls -0.2px / 500
+  font-family: var(--font-family-primary);
+  font-size: 0.625rem;
+  line-height: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.013rem;
+}
+@mixin caption-md {   // 12px / lh 14 / ls 0 / 500
+  font-family: var(--font-family-primary);
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0;
+}

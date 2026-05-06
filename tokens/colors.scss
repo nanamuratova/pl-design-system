@@ -1,0 +1,96 @@
+// PL Design System — Color Tokens
+// Auto-extracted from Figma: Design System Design Components | Protocol Labs
+// DO NOT edit manually — regenerate from Figma via `get_variable_defs`
+
+:root {
+  // ─── Background ──────────────────────────────────────────────────────────
+  --background-base-white:            #ffffff;
+  --background-brand-default:         #1b4dff;
+  --background-brand-soft-surface:    #f2f5ff;
+  --background-brand-light-normal:    #1b4dff0a;
+  --background-brand-light-hover:     #e8edff;
+  --background-brand-active:          #1b4dff;
+  --background-neutral-soft-surface:  #f9fafb;
+  --background-neutral-subtle:        #f0f3f9;
+  --background-neutral-normal:        #2d3643;
+  --background-neutral-hover:         #3d4a5c;
+  --background-neutral-light:         #0e0f110a;
+  --background-error-normal:          #ff3838;
+
+  // ─── Foreground ──────────────────────────────────────────────────────────
+  --foreground-brand-primary:           #1b4dff;
+  --foreground-brand-secondary:         #4174ff;
+  --foreground-brand-secondary-inv:     #4174ff;
+  --foreground-neutral-primary:         #0a0c11;
+  --foreground-neutral-secondary:       #455468;
+  --foreground-neutral-tertiary:        #8897ae;
+  --foreground-neutral-quaternary:      #afbaca;
+  --foreground-light-primary:           #ffffff;
+  --foreground-light-primary-inv:       #ffffff;
+  --foreground-light-secondary-inv:     #ffffffcc;
+  --foreground-error-secondary:         #ff3838;
+
+  // ─── Border ──────────────────────────────────────────────────────────────
+  --border-base-white:                  #ffffff;
+  --border-brand-subtle:                #aebfff;
+  --border-brand-xsubtle:               #e8edff;
+  --border-neutral-subtle:              #1b38601f;
+  --border-neutral-muted:               #1b38603d;
+  --border-neutral-xsubtle:             #1b38600f;
+
+  // ─── Action / Interactive ────────────────────────────────────────────────
+  --action-bg-base-white:               #ffffff;
+  --action-bg-brand-normal:             #1b4dff;
+  --action-bg-brand-active:             #1b4dff;
+  --action-bg-brand-light:              #1b4dff0a;
+  --action-bg-brand-light-hover:        #e8edff;
+  --action-bg-neutral-normal:           #2d3643;
+  --action-bg-neutral-hover:            #3d4a5c;
+  --action-bg-neutral-light:            #0e0f110a;
+  --action-bg-error-normal:             #ff3838;
+  --action-fg-brand-normal:             #1b4dff;
+  --action-fg-brand-inv-normal:         #1b4dff;
+  --action-fg-brand-inv-active:         #1b4dff;
+  --action-fg-neutral-normal:           #455468;
+  --action-fg-neutral-normal-light:     #8897ae;
+  --action-fg-neutral-active:           #3d4a5c;
+  --action-fg-base-inv-white:           #ffffff;
+  --action-border-neutral-normal:       #5e718d;
+  --action-border-neutral-light:        #0e0f1129;
+  --action-border-neutral-light-focus:  #0e0f113d;
+  --action-border-error-focus:          #ff3838;
+
+  // ─── Surface ─────────────────────────────────────────────────────────────
+  --surface-light:                      #ffffff;
+
+  // ─── Transparent overlays ────────────────────────────────────────────────
+  --transparent-dark-2:                 #0e0f1105;
+  --transparent-dark-6:                 #0e0f110f;
+  --transparent-dark-8:                 #0e0f1114;
+  --transparent-dark-12:                #0e0f111f;
+  --transparent-brand-2:                #1b4dff05;
+  --transparent-brand-4:                #1b4dff0a;
+  --transparent-brand-8:                #1b4dff14;
+  --transparent-brand-16:               #1b4dff29;
+  --transparent-light-6:                #ffffff0f;
+  --transparent-light-32:               #ffffff52;
+
+  // ─── Neutral Slate Palette ───────────────────────────────────────────────
+  --neutral-white:                      #ffffff;
+  --neutral-slate-100:                  #f1f5f9;
+  --neutral-slate-200:                  #e2e8f0;
+  --neutral-slate-300:                  #cbd5e1;
+  --neutral-slate-600:                  #475569;
+  --neutral-slate-900:                  #0f172a;
+
+  // ─── Legacy PLAA aliases (backward compat with portal-v2) ────────────────
+  --plaa-primary-blue:                  var(--foreground-brand-primary);
+  --plaa-border-blue:                   var(--foreground-brand-secondary);
+  --plaa-text-dark:                     var(--neutral-slate-900);
+  --plaa-text-menu:                     var(--neutral-slate-600);
+  --plaa-text-muted:                    var(--foreground-neutral-tertiary);
+  --plaa-icon-dark:                     var(--foreground-neutral-tertiary);
+  --plaa-neutral-white:                 var(--neutral-white);
+  --plaa-surface-light-grey:            var(--neutral-slate-100);
+  --plaa-border-light:                  var(--neutral-slate-200);
+}
