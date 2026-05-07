@@ -1,132 +1,160 @@
+@use '../../styles/mixins';
+
 .root {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: var(--spacing-xl);
-  background: var(--surface-light);
-  border: 1px solid var(--border-neutral-subtle);
+  background: var(--background-base-white);
   border-radius: var(--radius-xl);
   gap: var(--spacing-sm);
   text-decoration: none;
   color: inherit;
   transition: box-shadow 150ms, border-color 150ms;
   cursor: pointer;
+  box-shadow: var(--shadow-xs); // Figma: Shadow/xs always present; no border (J2a)
 
   &:hover {
-    border-color: var(--border-neutral-muted);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm); // elevated on hover
   }
 }
 
+// ─── Avatar ───────────────────────────────────────────────────────────────────
+
 .avatarWrapper {
   position: relative;
-  width: 72px;
-  height: 72px;
+  width: 80px;  // J1a: corrected from 72px — Figma canonical 80px
+  height: 80px; // J1a: corrected from 72px — Figma canonical 80px
   margin-bottom: var(--spacing-xs);
 }
 
 .avatar {
-  width: 72px;
-  height: 72px;
+  width: 80px;  // J1a: Figma canonical
+  height: 80px; // J1a: Figma canonical
   border-radius: 50%;
   object-fit: cover;
   background: var(--background-neutral-subtle);
 }
 
 .avatarFallback {
-  width: 72px;
-  height: 72px;
+  width: 80px;  // J1a: Figma canonical
+  height: 80px; // J1a: Figma canonical
   border-radius: 50%;
   background: var(--background-neutral-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: 600;
+  @include mixins.label-2xl;
+  font-weight: var(--font-weight-semibold); // initials — override mixin's 500 to 600
   color: var(--foreground-brand-primary);
 }
 
+// ─── Availability badge ───────────────────────────────────────────────────────
+
 .availability {
   position: absolute;
-  bottom: 2px;
+  bottom: 2px; // pixel-precise badge positioning over avatar edge — structural
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
+  gap: var(--spacing-4xs);
+  padding: 2px var(--spacing-2xs); // 2px vertical — sub-scale; structural
   border-radius: var(--radius-full);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1.5px solid var(--surface-light);
+  @include mixins.label-2xs;
+  font-weight: var(--font-weight-regular); // Figma: w400 — code had w600, corrected
+  letter-spacing: 0.01em; // slight tracking for legibility at 10px — overrides mixin tracking
+  border: 1.5px solid var(--background-base-white); // halo border separates badge from avatar
 }
 
-.availability.available  { background: #f0fdf4; color: #16a34a; }
-.availability.booked     { background: rgba(245,158,11,0.1); color: #d97706; }
-.availability.unavailable { background: var(--background-neutral-subtle); color: var(--foreground-neutral-tertiary); }
+// J3a: available → brand-blue per Figma canonical (was Tailwind green — non-canonical)
+.availability.available {
+  background: var(--transparent-brand-6);
+  border-color: var(--border-brand-subtle);
+  color: var(--foreground-brand-primary);
+}
+
+// J4a: booked background rounded to --transparent-warning-8 (8%, was 10% off-scale)
+.availability.booked {
+  background: var(--transparent-warning-8);
+  color: var(--foreground-warning-secondary);
+}
+
+.availability.unavailable {
+  background: var(--background-neutral-subtle);
+  color: var(--foreground-neutral-tertiary);
+}
 
 .availabilityDot {
-  width: 6px;
-  height: 6px;
+  width: 6px;  // dot size — structural; no token equivalent
+  height: 6px; // dot size — structural; no token equivalent
   border-radius: 50%;
   flex-shrink: 0;
 }
-.available .availabilityDot    { background: #22c55e; }
-.booked .availabilityDot       { background: #f59e0b; }
-.unavailable .availabilityDot  { background: var(--foreground-neutral-tertiary); }
+
+// J5: corrected from Tailwind #22c55e to PL canonical success-500
+.available .availabilityDot   { background: var(--background-success-normal); }
+.booked .availabilityDot      { background: var(--action-bg-warning-normal); }
+.unavailable .availabilityDot { background: var(--foreground-neutral-tertiary); }
+
+// ─── Text content ─────────────────────────────────────────────────────────────
 
 .name {
-  font-size: 16px;
-  font-weight: 600;
+  @include mixins.label-lg; // Figma: Label/Large/strong — 18px/w500/24px; code had 16px/w600, corrected
   color: var(--foreground-neutral-primary);
-  line-height: 22px;
 }
 
 .role {
-  font-size: 13px;
+  @include mixins.label-sm;
+  font-weight: var(--font-weight-regular); // Figma: Label/Small/default — 14px/w400/20px; code had 13px
   color: var(--foreground-neutral-secondary);
-  line-height: 18px;
 }
 
 .company {
-  font-size: 13px;
+  @include mixins.label-sm;
+  font-weight: var(--font-weight-regular); // Figma: Label/Small/default — 14px/w400/20px; code had 13px
   color: var(--foreground-neutral-secondary);
-  line-height: 18px;
 }
 
 .location {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  font-size: 12px;
+  gap: var(--spacing-4xs);
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-regular); // location text is regular weight
   color: var(--foreground-neutral-tertiary);
   margin-top: var(--spacing-xs);
 }
 
-.locationIcon { width: 14px; height: 14px; flex-shrink: 0; }
+.locationIcon {
+  width: 14px;  // icon size — not a spacing token; keep hardcoded
+  height: 14px; // icon size — not a spacing token; keep hardcoded
+  flex-shrink: 0;
+}
+
+// ─── Tags ─────────────────────────────────────────────────────────────────────
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--spacing-3xs);
   justify-content: center;
   margin-top: var(--spacing-xs);
 }
 
 .tag {
-  padding: 2px 10px;
+  padding: 2px var(--spacing-xs); // 2px vertical — sub-scale; structural
   border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 500;
+  @include mixins.label-xs; // 12px by role (chip/tag = metadata); code had 11px
   background: var(--background-neutral-subtle);
   color: var(--foreground-neutral-secondary);
 }
 
-// Compact (mobile) variant
+// ─── Compact (mobile) variant ─────────────────────────────────────────────────
+
 .root.compact {
   flex-direction: row;
   text-align: left;
@@ -135,11 +163,17 @@
   align-items: center;
 }
 
-.compact .avatarWrapper { width: 48px; height: 48px; margin-bottom: 0; }
-.compact .avatar, .compact .avatarFallback { width: 48px; height: 48px; font-size: 18px; }
+.compact .avatarWrapper { width: 48px; height: 48px; margin-bottom: 0; } // compact avatar size — structural
+.compact .avatar,
+.compact .avatarFallback {
+  width: 48px;  // compact avatar size — structural
+  height: 48px; // compact avatar size — structural
+  font-size: var(--type-label-lg-strong-font-size); // 18px initials in 48px compact avatar
+}
 .compact .content { flex: 1; min-width: 0; }
-.compact .name { font-size: 14px; }
-.compact .role, .compact .company { font-size: 12px; }
+.compact .name    { font-size: var(--type-label-sm-strong-font-size); }  // 14px compact title
+.compact .role,
+.compact .company { font-size: var(--type-label-xs-strong-font-size); } // 12px compact secondary text
 .compact .location { justify-content: flex-start; }
 
 .content { width: 100%; }
