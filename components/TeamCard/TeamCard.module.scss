@@ -1,41 +1,42 @@
+@use '../../styles/mixins';
+
 .root {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
   padding: var(--spacing-xl);
-  background: var(--surface-light);
-  border: 1px solid var(--border-neutral-subtle);
+  background: var(--background-base-white);
   border-radius: var(--radius-xl);
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 150ms, border-color 150ms;
+  box-shadow: var(--shadow-xs); // L1a: shadow only, no border — consistent with MemberCard/ForumPostCard/OfficeHoursCard
+  transition: box-shadow 150ms;
 
-  &:hover { border-color: var(--border-neutral-muted); box-shadow: var(--shadow-sm); }
+  &:hover { box-shadow: var(--shadow-sm); }
 }
 
 .header { display: flex; align-items: flex-start; gap: var(--spacing-md); }
 
 .logo {
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-md);
+  width: 52px;  // L2b: landscape layout — 52px fits header row; Figma portrait spec is 80px (flagged for designer review)
+  height: 52px; // L2b: landscape layout — 52px fits header row; Figma portrait spec is 80px (flagged for designer review)
+  border-radius: var(--radius-xl); // L3a: --radius-xl (12px) per Figma — code had --radius-md (8px)
   object-fit: cover;
   background: var(--background-neutral-subtle);
   flex-shrink: 0;
-  border: 1px solid var(--border-neutral-subtle);
 }
 
 .logoFallback {
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-md);
+  width: 52px;  // L2b: see .logo comment
+  height: 52px; // L2b: see .logo comment
+  border-radius: var(--radius-xl); // L3a: matches .logo
   background: var(--action-bg-brand-normal);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
+  @include mixins.label-lg;
+  font-weight: var(--font-weight-bold); // Figma: w700 initials in brand-fill container
+  color: var(--foreground-light-primary);
   flex-shrink: 0;
 }
 
@@ -44,42 +45,39 @@
 .nameRow { display: flex; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap; }
 
 .name {
-  font-size: 18px;
-  font-weight: 600;
+  @include mixins.label-lg; // Figma: Label/Large/strong — 18px/w500/24px/-0.4px; code had 18px/w600/-0.3px
   color: var(--foreground-neutral-primary);
-  letter-spacing: -0.3px;
 }
 
 .externalIcon { color: var(--foreground-neutral-tertiary); }
 
-.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--spacing-sm); }
+.tags { display: flex; flex-wrap: wrap; gap: var(--spacing-3xs); margin-top: var(--spacing-sm); }
 
 .tag {
-  padding: 2px 10px;
+  padding: 2px var(--spacing-xs); // 2px vertical: sub-scale structural; --spacing-xs (10px) horizontal per Figma
   border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 500;
-  border: 1px solid var(--border-neutral-subtle);
+  @include mixins.label-xs; // Figma: Label/xSmall/strong — 12px/w500/16px — exact match, no overrides
+  background: var(--transparent-dark-6); // L4a: Figma filled treatment — replaces outline border
   color: var(--foreground-neutral-secondary);
-  background: transparent;
 
-  &.stage { background: var(--background-neutral-subtle); font-weight: 600; }
+  &.stage { background: var(--background-neutral-subtle); font-weight: var(--font-weight-semibold); }
 }
 
 .website {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
+  gap: var(--spacing-4xs);
+  @include mixins.label-sm;
+  font-weight: var(--font-weight-regular); // website link — body weight, not medium
   color: var(--foreground-brand-primary);
   text-decoration: none;
-  margin-top: 4px;
+  margin-top: var(--spacing-4xs);
 }
 
 .description {
-  font-size: 14px;
+  @include mixins.label-sm;
+  font-weight: var(--font-weight-regular); // Figma: Label/Small/default — 14px/w400/20px; code had 14px/21px
   color: var(--foreground-neutral-secondary);
-  line-height: 21px;
 }
 
 .members {
@@ -93,8 +91,8 @@
 .memberItem { display: flex; align-items: center; gap: var(--spacing-sm); }
 
 .memberAvatar {
-  width: 32px;
-  height: 32px;
+  width: 32px;  // layout dimension — keep hardcoded
+  height: 32px; // layout dimension — keep hardcoded
   border-radius: 50%;
   object-fit: cover;
   background: var(--background-neutral-subtle);
@@ -102,22 +100,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-semibold); // 11px→12px (label-xs), w600 — initials in 32px avatar
   color: var(--foreground-brand-primary);
   overflow: hidden;
   img { width: 100%; height: 100%; object-fit: cover; }
 }
 
-.memberName { font-size: 13px; font-weight: 500; color: var(--foreground-neutral-primary); }
-.memberRole { font-size: 12px; color: var(--foreground-neutral-tertiary); }
+.memberName {
+  @include mixins.label-sm; // 13px→14px per role (primary label in member row)
+  color: var(--foreground-neutral-primary);
+}
+.memberRole {
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-regular); // secondary metadata — override mixin's 500 to 400
+  color: var(--foreground-neutral-tertiary);
+}
 
 .overflowMember {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 32px;  // layout dimension — keep hardcoded
+  height: 32px; // layout dimension — keep hardcoded
+  border-radius: 50%;
   background: var(--background-neutral-subtle);
-  border: 2px solid var(--surface-light);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 600; color: var(--foreground-neutral-tertiary);
+  border: 2px solid var(--background-base-white); // stacking border — structural 2px
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include mixins.label-2xs;
+  font-weight: var(--font-weight-semibold); // 10px/w600 — exact scale match for overflow count
+  color: var(--foreground-neutral-tertiary);
 }
 
 .actions { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; }
