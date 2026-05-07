@@ -1,1010 +1,312 @@
-# PL Design System — Design Reference
+# Protocol Labs Design System — Design Intent
 
-> Extracted from Figma (Design System Foundations, Default Components, Design Components, Icons/Avatars)
-> and from the implemented code in `tokens/`, `styles/`, `components/`, and `components/page/`.
->
-> Lines marked **[INFER]** are intent inferred from code or visual patterns — not directly stated in Figma or documentation. Edit these sections to confirm or correct.
+> This document is the authoritative editorial layer of the PL design system. It explains **why** the system is built the way it is — the thinking behind the tokens, the principles that govern component decisions, and the patterns that distinguish Protocol Labs from every other tech-company design system. Treat it as a designer's rationale, not a technical spec. For mechanical reference, read the token files.
 
 ---
 
-## What is canon
+## 1. Brand Identity
 
-**This system is documented by `tokens/` and `components/`.** Those directories are the source of truth. Every color, spacing value, and component variant defined there is an intentional, reviewed design decision that should be treated as stable.
+Protocol Labs is a research and development organization building foundational internet infrastructure. The design system reflects that mission directly: it is precise, functional, and quietly confident. Every visual choice earns its place.
 
-**The mockups in `components/page/` are example compositions, not system canon.** They demonstrate one valid way to assemble components into a page using realistic mock data. They are useful as a reference and a starting point, but:
+The system's personality is **researcher, not marketer**. It is technical without being cold, professional without being stiff. Inter is the sole typeface — no display serifs, no expressive pairings. Negative letter-spacing throughout the scale gives text a tighter, more refined quality that reads as considered rather than casual. The primary blue (`#1b4dff`, `--foreground-brand-primary`) is electric and decisive — it signals action without shouting.
 
-- They may hardcode layout values (padding, grid column widths) that are not token-backed
-- They may use components in ways that are illustrative rather than prescriptive
-- They are not tested for every screen size or edge case
-- They will drift from the real application over time
+What this system is **not**: playful, decorative, or ornamental. There are no gradients on content surfaces, no emoji-as-icon patterns, no gratuitous animation. Cards float on subtle shadows rather than sitting inside heavy borders. The visual vocabulary is minimal, which means every deviation from baseline — a bold weight, a shadow level, a brand-blue accent — carries real meaning.
 
-When `tokens/` or `components/` and a page mockup disagree, trust the token or component definition. When you want to understand how to compose a page, the mockups in `components/page/` are the faster reference, but verify against Figma before shipping.
-
----
-
-## Table of Contents
-
-1. [Brand & Voice](#1-brand--voice)
-2. [Token Architecture](#2-token-architecture)
-3. [Color System](#3-color-system)
-4. [Typography System](#4-typography-system)
-5. [Spacing & Layout Principles](#5-spacing--layout-principles)
-6. [Component Inventory](#6-component-inventory)
-7. [Page Composition Principles](#7-page-composition-principles)
-
----
-
-## 1. Brand & Voice
-
-### Visual personality
-
-Protocol Labs builds foundational internet infrastructure — IPFS, Filecoin, libp2p. The design system reflects that mission: it is **precise, open, and trustworthy**. The visual language avoids decoration for its own sake. Every element earns its place through utility.
-
-Key traits visible across Figma screens and the implemented components:
-
-| Trait | Expression |
-|---|---|
-| **Clarity over flash** | White cards on a pale grey (`#f9fafb`) background; shadows are barely perceptible (`1px 2px, opacity 6–12%`) |
-| **Brand blue as signal** | `#1b4dff` is used sparingly — it marks the active state, the primary action, the brand anchor. It is never decorative |
-| **Density without crowding** | The directory pages (members, teams, deals) pack a lot of data. The system achieves this through consistent 16–20px gaps, 14px body text, and tight label sizes |
-| **Technical credibility** | Inter typeface, negative letter-spacing, monospace font option for code contexts |
-| **Neutral-first** | Most UI surfaces are white or near-white. Color enters only to convey meaning (status, brand, error, success) |
-
-### Voice **[INFER]**
-
-The product serves a vetted, technical, founder-adjacent audience. UI copy in the page templates is direct and functional: "Quick actions to get the most from your network", "A private space for vetted founders and operators." No marketing language inside the product.
-
-- Write labels in title case for navigation, sentence case for descriptions
-- Prefer nouns over verbs for section headings ("Contact Details" not "How to contact")
-- Counts and stats are shown numerically, never spelled out ("396 Teams" not "three hundred ninety-six teams")
-
-### What Protocol Labs is NOT
-
-- Not playful or emoji-heavy (emoji appear only in notification streams as a functional signal type)
-- Not dark-mode-first — the system is light-mode only as implemented [INFER: dark mode may be planned given transparent overlay tokens]
-- Not a consumer product — skip gradients, illustrations, and decorative color blocks
+The visual signatures that distinguish PL from other tech-org systems: cool blue-tinted neutrals (not gray, not warm beige), brand blue used for *affiliation*, not just *action*, and an almost deliberate resistance to the red/yellow/green traffic-light palette that most product systems default to.
 
 ---
 
 ## 2. Token Architecture
 
-### The three-layer model
+The system uses a strict **three-layer architecture** for color tokens, and a **two-layer architecture** for typography. Components consume only from the outermost layer.
 
-The token system follows a **three-layer architecture**, though layers 1 and 2 are currently collapsed into a single `:root` declaration:
+### The three layers (color)
 
-```
-Layer 1 — Primitive / Raw values
-  Raw named values: #1b4dff, 'Inter', 1rem, 8px
-  (Not directly used in components — these are the source)
+**Layer 1 — Primitives** (`--global-color-*`): Raw named values extracted directly from Figma's global style export. `--global-color-blue-500: #1b4dff`. These are reference anchors only. No component or style rule ever references them directly.
 
-Layer 2 — Semantic tokens  ← CURRENT IMPLEMENTATION
-  CSS custom properties on :root, grouped by role:
-  --background-brand-default
-  --foreground-neutral-primary
-  --border-neutral-muted
-  --spacing-md
-  --radius-lg
+**Layer 2 — Semantic** (`--semantic-*`): Role aliases that map function to primitive. `--semantic-brand-500: var(--global-color-blue-500)`. This layer is what makes the system theme-able: if the brand color changes, one edit here propagates everywhere. Do not reference Layer 2 in components — it exists to decouple Layer 1 from Layer 3.
 
-Layer 3 — Component tokens  ← [INFER: NOT YET IMPLEMENTED]
-  Per-component variables like --button-bg, --badge-text-color
-  Currently components read Layer 2 tokens directly
-```
+**Layer 3 — Component tokens** (`--background-*`, `--foreground-*`, `--border-*`, `--action-*`): Named by role and context. `--foreground-brand-primary: var(--semantic-brand-500)`. This is the only layer components should consume. Component tokens communicate *intent* — a component reading `var(--border-neutral-subtle)` is semantically explicit in a way that `var(--semantic-neutral-200)` is not.
 
-### Current state
+**Why this layering matters**: brand evolution becomes a one-line change at Layer 2. Token refactors don't cascade into components. An AI agent reading the codebase can understand intent from token names alone.
 
-All tokens are defined in `tokens/` and emitted to `:root` via three SCSS files:
+**Naming convention**: Figma token paths with `/` replaced by `-`. `background/brand/default` → `--background-brand-default`. `foreground/neutral/secondary` → `--foreground-neutral-secondary`.
 
-| File | Tokens | Layer |
-|---|---|---|
-| `tokens/colors.scss` | 75 CSS custom properties | Semantic color |
-| `tokens/typography.scss` | 6 CSS custom properties + SCSS mixins | Primitive font values + semantic text styles |
-| `tokens/spacing.scss` | 39 CSS custom properties | Semantic spacing, radius, shadow, z-index, layout |
+### Typography layers
 
-### Naming convention
-
-Token names map Figma's slash-separated path to CSS kebab-case:
-
-```
-Figma path                    →  CSS custom property
-background/brand/default      →  --background-brand-default
-foreground/neutral/primary    →  --foreground-neutral-primary
-corner radius/lg              →  --radius-lg
-spacing/md                    →  --spacing-md
-```
-
-### Legacy aliases
-
-`tokens/colors.scss` includes `--plaa-*` aliases for backward compatibility with `pln-directory-portal-v2`. These map old token names to new semantic tokens:
-
-```scss
---plaa-primary-blue:        var(--foreground-brand-primary)
---plaa-text-dark:           var(--neutral-slate-900)
---plaa-surface-light-grey:  var(--neutral-slate-100)
-```
-
-**Do not use `--plaa-*` tokens in new components.** Use the semantic equivalents.
-
-### Regenerating tokens
-
-Tokens are auto-extracted from Figma. To update:
-1. Open the target Figma file in Figma Desktop
-2. Call `get_variable_defs` via the Figma MCP
-3. Update the relevant `tokens/*.scss` file
-4. Add a backward-compat alias if any token was renamed
+Typography uses two layers: `--type-*` custom properties loaded globally (the values), and SCSS mixins via `@include mixins.label-sm` (the conveniences). The separation exists because CSS Modules rejects `:root {}` blocks, so mixin-only partials must be kept separate from the value declarations. Components reference either mixins (for most UI text) or direct `--type-*` tokens (for form inputs — see §4).
 
 ---
 
 ## 3. Color System
 
-### Semantic groups
+### Brand (blue)
 
-The color system is organized into six semantic groups. Use the group that matches your intent, not whichever value looks right visually.
+The brand family (`--foreground-brand-primary`, `--background-brand-default`, `--action-bg-brand-normal`, `--border-brand-subtle`) is Protocol Labs blue: `#1b4dff`. Use it for primary interactive elements — the main call-to-action button, focus rings, active navigation states, and affiliation indicators. Do not use it as a general accent; every brand-blue element signals "this is important and actionable."
 
-#### Background (`--background-*`)
+The transparent brand scale (`--transparent-brand-2` through `--transparent-brand-96`) enables soft background washes without hardcoded rgba values. The "available" state on MemberCard uses `--transparent-brand-6` (not green), which is a deliberate departure from the traffic-light convention. In the PL system, availability and affiliation are brand-blue concepts, not green ones.
 
-Surfaces, containers, and page regions.
+### Neutral (slate)
 
-| Token | Value | Use |
-|---|---|---|
-| `--background-base-white` | `#ffffff` | Cards, panels, modals, inputs |
-| `--background-brand-default` | `#1b4dff` | Brand-filled surfaces (rarely used at this scale) |
-| `--background-brand-soft-surface` | `#f2f5ff` | Tinted brand backgrounds (selected states, callouts) |
-| `--background-brand-light-hover` | `#e8edff` | Hover state on brand-light elements |
-| `--background-neutral-soft-surface` | `#f9fafb` | **Page background** — the default canvas |
-| `--background-neutral-subtle` | `#f0f3f9` | Slightly darker surface (table rows, inactive tabs) |
-| `--background-neutral-normal` | `#2d3643` | Dark surfaces (tooltips, dark nav variants) |
-| `--background-error-normal` | `#ff3838` | Error-filled surfaces |
+Neutrals are the workhorses — `--foreground-neutral-primary` for body text (`#0a0c11`, slate-900), `--foreground-neutral-secondary` for supporting text (`#455468`, slate-600), `--foreground-neutral-tertiary` for disabled and placeholder states. The neutral scale has a blue-gray tint (built on the `slate` primitive) rather than pure gray, which keeps UI surfaces feeling cool and technical rather than warm.
 
-#### Foreground (`--foreground-*`)
+The border tokens are worth noting specifically because they use transparency, not solid values: `--border-neutral-subtle` is `#1b38601f` (blue-tinted at 12%), which means it reads differently on white versus off-white surfaces. This is intentional — the borders are designed to feel like shadows of the content, not frames around it.
 
-Text and icon colors.
+### Error (red)
 
-| Token | Value | Use |
-|---|---|---|
-| `--foreground-brand-primary` | `#1b4dff` | Brand text, active nav items, links, brand icons |
-| `--foreground-brand-secondary` | `#4174ff` | Secondary brand text, hover states |
-| `--foreground-neutral-primary` | `#0a0c11` | **Default body text** — headlines, primary content |
-| `--foreground-neutral-secondary` | `#455468` | **Supporting text** — descriptions, subtitles, meta |
-| `--foreground-neutral-tertiary` | `#8897ae` | Placeholder text, disabled text, deemphasized labels |
-| `--foreground-neutral-quaternary` | `#afbaca` | Faintest text — decorative separators, unused fields |
-| `--foreground-light-primary` | `#ffffff` | Text on dark/brand backgrounds |
-| `--foreground-error-secondary` | `#ff3838` | Error messages, destructive action labels |
+The error family signals validation failure and destructive action. `--foreground-error-secondary: var(--semantic-error-500)` for error text, `--border-error-default` for error-state borders, `--background-error-soft-surface` for error-state backgrounds. Focus rings on error-state inputs use `--transparent-error-12` to match the visual weight of brand focus rings at `--transparent-brand-8` — maintaining the parallel without making errors look more alarming than they are.
 
-**The foreground hierarchy in practice:**
-- Headline / primary label → `--foreground-neutral-primary`
-- Secondary description / hint → `--foreground-neutral-secondary`
-- Placeholder / disabled → `--foreground-neutral-tertiary`
-- Text on colored background → `--foreground-light-primary`
+Do not use the `--global-color-red-*` scale directly. Do not use Tailwind's `red-500` — it is a slightly different value and will produce visible mismatch on any surface that also uses PL canonical error tokens.
 
-#### Border (`--border-*`)
+### Warning (yellow/amber)
 
-Lines, outlines, dividers.
+Warning tokens (`--foreground-warning-primary`, `--action-bg-warning-normal`) use PL's `yellow-500` (`#f59e0b`). This is **amber-500** in common parlance — explicitly not Tailwind's `amber-500` (`#f59e0b` happens to match here, but `yellow-600` diverges). The "booked" state in MemberCard uses `--transparent-warning-8` for a light amber wash. Keep the scale anchored to `--semantic-warning-*`, not raw hex.
 
-| Token | Value | Use |
-|---|---|---|
-| `--border-brand-subtle` | `#aebfff` | Selected/focused input rings, active card outlines |
-| `--border-brand-xsubtle` | `#e8edff` | Hover borders on brand elements |
-| `--border-neutral-subtle` | `#1b386021` (≈12% opacity) | **Default card/input border** |
-| `--border-neutral-muted` | `#1b38603d` (≈24% opacity) | Stronger dividers, table lines |
-| `--border-neutral-xsubtle` | `#1b38600f` (≈6% opacity) | Barely-there separators |
+### Success (green)
 
-#### Action (`--action-*`)
+Success tokens use PL's `green-500` (`#11a75c`). This is not Tailwind's `green-500` (`#22c55e`), which is lighter and more saturated — a known source of drift found and corrected during batch 3 cleanup. Use `--action-bg-success-normal` for success button fills, `--foreground-success-primary` for success text, `--background-success-normal` for the availability dot on MemberCard.
 
-Interactive element states. Use these specifically for buttons, links, form controls — not for static surfaces.
+The `--transparent-success-8`, `--transparent-warning-8`, and `--transparent-error-8` tokens do not exist in the canonical Figma export — they were added to the system on demand, following the naming pattern of the canonical brand/dark/light transparent scales. If Figma is ever re-exported, these should be confirmed or formally added.
 
-| Namespace | Purpose |
-|---|---|
-| `--action-bg-*` | Button backgrounds across normal/active/hover/light states |
-| `--action-fg-*` | Button/link foreground text and icons |
-| `--action-border-*` | Button/input borders, focus rings, error rings |
+### Forbidden practices
 
-Key action tokens:
-- `--action-bg-brand-normal` → `#1b4dff` — primary filled button
-- `--action-bg-neutral-normal` → `#2d3643` — dark/neutral filled button
-- `--action-fg-base-inv-white` → `#ffffff` — text on filled buttons
-- `--action-border-neutral-light-focus` → ~24% opacity black — default input border
-- `--action-border-error-focus` → `#ff3838` — error state ring
-
-#### Transparent overlays (`--transparent-*`)
-
-For scrim layers, hover overlays, and subtle tints without introducing a new named color.
-
-| Token | Opacity | Use |
-|---|---|---|
-| `--transparent-dark-6` | 6% | Subtle hover overlay on white surfaces |
-| `--transparent-dark-12` | 12% | Pressed state overlay |
-| `--transparent-brand-4` | 4% | Very faint brand tint on hover |
-| `--transparent-brand-16` | 16% | Active brand tint (selected rows, active items) |
-
-#### Neutral Slate Palette (`--neutral-slate-*`)
-
-Raw scale values for when you need a precise shade outside the semantic system. **Prefer semantic tokens.** Use slate only when no semantic token fits.
-
-`100` (#f1f5f9) → `200` (#e2e8f0) → `300` (#cbd5e1) → `600` (#475569) → `900` (#0f172a)
-
-### When NOT to use color
-
-- Do not use color to convey the only signal (always pair with icon or text for accessibility)
-- Do not use `--background-brand-default` as a page background
-- Do not introduce new colors outside the token system — request a token addition instead
+Never hardcode hex values in components. Tailwind color names (`slate-600`, `green-600`, `amber-500`) are traps — they produce values that are close to but not identical to PL canonical values, and the subtle mismatch accumulates into visible inconsistency across a page. Always go through the token chain: use a `--foreground-*`, `--background-*`, or `--border-*` token. If no token covers your case, request a new one rather than reaching into Layer 1 or 2 directly.
 
 ---
 
 ## 4. Typography System
 
-### Typefaces
+All type is Inter. The scale is organized into five categories with distinct purposes. Understanding which category to reach for — before choosing a size — prevents the most common typography drift.
 
-| Variable | Value | Use |
+### Display (96px)
+
+Hero and marketing surfaces only. `@include mixins.display` (or use `--type-display-*` tokens directly). Never use Display inside application UI — it belongs on landing pages, splash screens, and editorial contexts. There are no `display` uses inside the component library itself.
+
+### Heading (64px → 24px: 3xl, 2xl, lg, md, sm)
+
+Page titles, section headers, dialog titles. Headings have weight 500 (default) or 600 (strong). Use `@include mixins.heading-sm` for dialog and drawer titles, `heading-md` for page-level section titles, `heading-lg` and above for hero sections within application pages. Line heights are looser than the label scale — headings breathe.
+
+### Body (20px → 12px: xl, lg, md, sm, xs)
+
+Prose: paragraphs, descriptions, help text, tooltips, multi-line content wherever the reader's eye needs to scan across several lines. The body scale has weight 400 (default) — it is never medium. Body text uses looser line heights than labels: `body-sm` (14px) has a 22px line height vs. `label-sm` (14px) at 20px. This gap is intentional — body text is designed for reading, labels for glancing.
+
+**Critical distinction**: `body-md` and `label-md` are both 16px. They are not interchangeable. `body-md` is for prose in a 16px context (e.g. a description paragraph in a modal). `label-md` is for UI element labels at 16px (e.g. a primary CTA button, a card title). The difference is intent, line height, and weight baseline.
+
+### Label (24px → 10px: 2xl, xl, lg, md, sm, xs, 2xs)
+
+All UI controls: button text, form labels, badge text, table cell content, navigation items, card titles, chips, metadata. Labels default to weight 500 (`strong` variant in Figma naming). When hierarchy within a group of labels is needed — e.g. a member name and their role beneath it, both at 14px — differentiate by weight (600 for name, 400 for role), not by size. **Hierarchy via weight, not size** is the system's primary tool for closely-grouped UI text.
+
+### Underline (24px → 12px)
+
+For inline links within body copy. The mixin includes `text-decoration: underline` automatically. Use `underline-sm` or `underline-xs` for links inside `body-sm` or `body-xs` contexts respectively. Never apply manual `text-decoration: underline` to a body or label style — use the underline mixin or token variant instead.
+
+---
+
+### Established implementation principles
+
+**Role governs font-size rounding.** When a value in Figma (or existing code) falls between scale steps, the element's semantic role determines which step to use — not pixel proximity. A CTA card title at 15px rounds to 16px (`label-md`) because it is a primary action anchor. A metadata chip at 13px rounds to 12px (`label-xs`) because it is secondary information. The gap is 1px in both cases; the roles are different.
+
+**Form inputs use direct tokens, not mixins.** `<input>`, `<textarea>`, and `<select>` elements consume font values via `--type-*` custom properties directly (`font-size: var(--type-label-sm-strong-font-size)`), never via `@include`. Mixins set `letter-spacing`, `font-family`, and other properties that interfere with native input rendering and can produce unexpected visual artifacts. This rule applies to Input, Checkbox labels, Switch labels, and any future form controls.
+
+**Mixin override budget.** One mixin property override: use the mixin and override. Two or more overrides: drop the mixin, enumerate tokens explicitly. The budget keeps component SCSS readable — a deeply-customized mixin is harder to reason about than explicit token declarations.
+
+---
+
+## 5. Spacing & Layout
+
+The spacing scale uses t-shirt sizing from `--spacing-5xs` (2px) through `--spacing-7xl` (80px). Values are in `rem` (base 16px), matching the Figma pixel spec.
+
+| Token | rem | px |
 |---|---|---|
-| `--font-family-primary` | Inter, system-ui fallbacks | All UI text |
-| `--font-family-mono` | JetBrains Mono, Fira Code | Code, hashes, addresses, technical strings |
+| `--spacing-5xs` | 0.125rem | 2px |
+| `--spacing-4xs` | 0.25rem | 4px |
+| `--spacing-3xs` | 0.375rem | 6px |
+| `--spacing-2xs` | 0.5rem | 8px |
+| `--spacing-xs` | 0.625rem | 10px |
+| `--spacing-sm` | 0.75rem | 12px |
+| `--spacing-md` | 1rem | 16px |
+| `--spacing-lg` | 1.25rem | 20px |
+| `--spacing-xl` | 1.5rem | 24px |
+| `--spacing-2xl` | 2rem | 32px |
+| `--spacing-3xl` | 2.5rem | 40px |
+| `--spacing-4xl` | 3rem | 48px |
 
-### The five categories
+The scale has intentional gaps. There is no `--spacing-5xl` (would be 56px or 64px) because the Figma scale jumps to `6xl` (72px) and `7xl` (80px). These gaps are not omissions — they reflect Figma's canonical density breakpoints. Do not fill the gaps with off-scale values; if a layout genuinely needs 64px, use `--spacing-4xl` (48px) or `--spacing-6xl` (72px) and choose based on context.
 
-Typography is organized into five functional categories. Import mixins via `@use 'styles/mixins'` (which forwards `tokens/typography`).
+**Border radius** follows a similar t-shirt scale from `--radius-xsm` (4px) to `--radius-full` (9999px). Interactive controls use `--radius-md` (8px). Cards use `--radius-xl` (12px). Pill shapes use `--radius-full`. The `9999px` pill value is always `var(--radius-full)` — never a hardcoded `border-radius: 9999px` in component code.
 
-#### 1. Heading — `@include mixins.heading-*`
+**Shadows** encode elevation, not decoration. `--shadow-xs` is the resting surface treatment for cards. `--shadow-sm` is the hover state. `--shadow-xl` is for modals and overlays. Hardcoded `box-shadow` values are not permitted — if an elevation need exists that no token covers, mark it as a TODO and open a token request.
 
-For page titles, section titles, modal headings. Always Inter Medium. Negative letter-spacing for optical comfort at large sizes.
-
-| Mixin | Size | Line-height | Letter-spacing | Weight |
-|---|---|---|---|---|
-| `heading-3xl` | 64px (4rem) | 78px | −2.3px | 500 |
-| `heading-xl` | 40px (2.5rem) | — | −1.2px | 500 |
-| `heading-md` | 32px (2rem) | 42px | −0.75px | 500 |
-| `heading-sm` | 24px (1.5rem) | 34px | −0.4px | 500 |
-
-Use `heading-3xl` for marketing/splash contexts [INFER: not used in any current page template].
-Use `heading-md` for page titles (e.g., "Forum", "Deals").
-Use `heading-sm` for card section titles.
-
-#### 2. Body — `@include mixins.body-*`
-
-Running text, descriptions, excerpts. Regular weight for readability; `-strong` variants at SemiBold (600) for emphasis within body copy.
-
-| Mixin | Size | Line-height | Weight | Use |
-|---|---|---|---|---|
-| `body-xl-strong` | 20px | 27px | 600 | Lead paragraph, featured descriptions |
-| `body-md` | 16px | 24px | 400 | **Default body text** |
-| `body-sm` | 14px | 22px | 400 | Secondary descriptions, card excerpts |
-| `body-sm-strong` | 14px | 22px | 600 | Emphasized supporting text |
-| `body-xs` | 12px | 18px | 400 | Fine print, metadata |
-| `body-xs-strong` | 12px | 18px | 600 | Emphasized micro text |
-
-#### 3. Label — `@include mixins.label-*`
-
-UI chrome: button labels, navigation links, form labels, tag text, column headers. Always Medium (500) weight — the defining characteristic that distinguishes labels from body text at the same size.
-
-| Mixin | Size | Line-height | Use |
-|---|---|---|
-| `label-2xl` | 24px | 32px | Large standalone labels, card names |
-| `label-xl` | 20px | 27px | Section heading alternatives |
-| `label-lg` | 18px | 24px | Subheading labels |
-| `label-md` | 16px | 24px | **Default label** — nav items, button text at md |
-| `label-sm` | 14px | 20px | Badge text, small button labels, form labels |
-| `label-xs` | 12px | 16px | Chip labels, tight metadata labels |
-| `label-2xs` | 10px | 14px | Micro labels, notification badges |
-
-#### 4. Caption — `@include mixins.caption-*`
-
-Short auxiliary text adjacent to an element. Unlike body-xs, captions have no letter-spacing (tracking 0), making them feel more "attached" to their context.
-
-| Mixin | Size | Line-height | Letter-spacing | Use |
-|---|---|---|---|---|
-| `caption-md` | 12px | 14px | 0 | Timestamps, status labels, tooltips, image captions |
-
-#### 5. Display / Underline **[INFER]**
-
-A `display` category (hero sizes above 64px) and `underline` category (for hyperlink-style inline text) are referenced in the Figma Foundations file but are not yet extracted into `tokens/typography.scss`. These should be added when marketing or editorial pages are built.
-
-### Choosing the right style
-
-```
-Is this a title or section header?         → heading-*
-Is this running readable text?             → body-*
-Is this a UI label (button, nav, badge)?   → label-*
-Is this very short auxiliary metadata?     → caption-md
-Is the font family wrong for the context?  → use mono only for technical strings
-```
-
-### Letter-spacing principle
-
-All text uses subtle negative tracking (`−0.013rem` to `−0.144rem`). This is intentional — it tightens Inter at all sizes for a more polished, product-grade feel. Never override `letter-spacing` to `0` on headings or labels.
+Breakpoints: mobile (375px), tablet (768px), tablet-landscape (1024px), desktop (1280px), desktop-wide (1440px). Import via `@use '../../styles/media'` and use the named mixins (`media.tablet`, `media.desktop`), not raw `@media` queries.
 
 ---
 
-## 5. Spacing & Layout Principles
+## 6. Component Principles
 
-### Spacing scale
+This section explains how to *think* about adding to or extending the system. The mechanics are in the token files. The judgment calls live here.
 
-The scale follows a near-4px base with descriptive size names. All values are `rem`-based.
+### Composition over reinvention
 
-| Token | rem | px | Use |
-|---|---|---|---|
-| `--spacing-zero` | 0 | 0 | Explicit zero (prefer over `0` literal) |
-| `--spacing-5xs` | 0.125 | 2 | Hairline gaps, offset nudges |
-| `--spacing-4xs` | 0.25 | 4 | Icon-to-text gap, inline element spacing |
-| `--spacing-3xs` | 0.375 | 6 | Dense chip/badge padding |
-| `--spacing-2xs` | 0.5 | 8 | **8px — base unit** · tight list items, icon buttons |
-| `--spacing-xs` | 0.625 | 10 | Medium-tight padding |
-| `--spacing-sm` | 0.75 | 12 | Standard inline gap |
-| `--spacing-md` | 1 | 16 | **16px — standard gap** · most padding, most gaps |
-| `--spacing-lg` | 1.25 | 20 | Generous inline padding |
-| `--spacing-xl` | 1.5 | 24 | Section-level gap, card padding |
-| `--spacing-2xl` | 2 | 32 | Between-section gap |
-| `--spacing-3xl` | 2.5 | 40 | Page-level vertical rhythm |
-| `--spacing-4xl` | 3 | 48 | Large section breaks |
-| `--spacing-6xl` | 4.5 | 72 | Hero-level vertical space |
-| `--spacing-7xl` | 5 | 80 | NavBar height, full-bleed header zones |
+When a new UI need arises, reach for existing primitives first. A new status pill is a Badge with custom color props. A new informational card is a layout using existing spacing tokens, shadow tokens, and typography mixins — not a hand-rolled component with its own spacing and color values. The cost of reinvention is not just the time to build it; it's the maintenance burden of a component that doesn't evolve with the system. A Badge that uses `--transparent-dark-6` will automatically benefit from any future theme change. A hand-rolled status pill using `rgba(14, 15, 17, 0.06)` will not.
 
-**Base rhythm:** Work in multiples of `--spacing-2xs` (8px). The most common values in component SCSS are `8px`, `12px`, `16px`, `20px`, `24px`.
+### Card surface language
 
-### Border radius
+All cards in this system use **elevation** (shadow) rather than **enclosure** (border). At rest: `box-shadow: var(--shadow-xs)`. On hover: `box-shadow: var(--shadow-sm)`. No card in the system has a border by default. This is a deliberate aesthetic choice: bordered cards feel boxed in, constrained. Shadow-only cards feel like objects floating on a surface — lighter, more open, more appropriate for an app that presents dense lists of people, teams, and projects.
 
-| Token | Value | Use |
-|---|---|---|
-| `--radius-zero` | 0px | Sharp-cornered table cells, dividers |
-| `--radius-xsm` | 4px | Small chips, tiny badges |
-| `--radius-sm` | 6px | Secondary badges, compact inputs |
-| `--radius-md` | 8px | **Standard** · inputs, small cards, buttons |
-| `--radius-lg` | 10px | Cards, panels, dropdowns |
-| `--radius-xl` | 12px | Modal dialogs, drawer panels |
-| `--radius-2xl` | 16px | Large cards, feature callouts |
-| `--radius-3xl` | 20px | Full-featured cards |
-| `--radius-full` | 9999px | Pills, avatar circles, circular buttons |
+This principle was applied and corrected consistently across CTACard, FocusAreaCard, ForumPostCard, MemberCard, OfficeHoursCard, and TeamCard during the Batch 4 token compliance pass. If you are adding a new card-type component, it should not have a default border. If a designer adds a border to a card in Figma, treat it as a question, not a specification — ask whether it should become an elevation variant, not a new pattern.
 
-### Shadows
+### Hierarchy via weight, not size
 
-| Token | Use |
-|---|---|
-| `--shadow-xs` | Barely-there card lift |
-| `--shadow-sm` | Standard card depth |
-| `--shadow-xl` | Modal/lightbox floating |
-| `--shadow-button` | Button pressed/raised feel |
-| `--shadow-down-1` | Sticky header underline |
-| `--shadow-dropdown` | Dropdown/popover floating |
+For groups of closely-related text — a card title and subtitle, an author name and bio line, a member name and role — the system uses weight differentiation rather than size differentiation. A member name at `label-sm` (14px/w400) with a semibold override reads as more prominent than the role beneath it at `label-sm` (14px/w400). This creates density without visual noise, which matters when 20 cards are in a grid. If you find yourself reaching for a size jump to establish hierarchy within a compact component, stop and reach for weight first.
 
-### Breakpoints
+### Container-constrained micro-elements
 
-Mobile-first. Use `@include media.*` from `styles/media.scss`:
+Some elements live inside containers so small that the normal scale doesn't apply. A notification badge rendered inside a 16×16 dot uses `--type-label-2xs-strong-font-size` (10px) because anything larger overflows. Avatar initials in a 20px stacked avatar group use 8px for the same reason. These are **legitimate exceptions** — they exist because the container forces them, and they are documented with comments in the code explaining the constraint.
 
-| Mixin | Min-width | Typical use |
-|---|---|---|
-| `mobile` | 375px | Minimum supported viewport |
-| `tablet` | 768px | Two-column layouts begin |
-| `tablet-landscape` | 1024px | Full sidebar patterns |
-| `desktop` | 1280px | Max content width constraints |
-| `desktop-wide` | 1440px | Full-bleed page templates |
+Aesthetic preference is not a legitimate exception. "I just think 15px looks nicer here" is drift, not constraint. Legitimate exceptions always have a measurable container dimension that prevents the canonical scale value from fitting.
 
-Max-width helpers: `mobile-only` (<768px), `tablet-only` (768–1023px).
+### Off-scale value taxonomy
 
-### Layout constants
+When a value in existing code doesn't match any token, classify it before deciding what to do:
 
-| Token | Value | Use |
-|---|---|---|
-| `--app-header-height` | 56px | NavBar height — offset sticky content |
-| `--plaa-sidebar-width` | 215px | Left navigation sidebar |
+**Drift** — the value exists because it was hardcoded without attention to the scale, and a correct token exists for it. Round to the nearest token step and apply the token. Most hardcoded values are drift. When a fallback value inside `var(--token, fallback)` doesn't match the token it's paired with, the fallback usually reveals the original intent — treat the mismatch as evidence of a typo in the token name, not a deviation in the value.
 
-### Content column
+**Structural** — the value is a consequence of a specific alignment requirement that a token cannot express. `margin-top: -1px` to handle overlapping borders, `padding: 2px` in a badge where every other axis uses `--spacing-xs`, `border: 1.5px` for a halo ring that must not visually merge with the element it surrounds. These stay, with a comment explaining why.
 
-Page templates use a ~900px content column centered within the 1440px max-width container, achieved via `padding: 0 270px` at desktop-wide. For pages without sidebars (Team Profile, Forum), content is center-aligned. For pages with sidebars (Deals, Member Profile), a two-column CSS Grid is used.
+**Container-constrained** — as above: the value is forced by its container's dimensions. Keep with comment. Do not round to scale.
+
+Drift gets fixed. The other two stay. If you are unsure which category a value belongs to, look for a comment, check Figma, and ask. Defaulting to "keep it" when drift is likely perpetuates the problem.
+
+### Figma is the source of truth
+
+Even when existing code renders otherwise. The token compliance work across batches 1–4 consistently found cases where the code had diverged from the Figma specification — wrong avatar sizes, wrong colors (Tailwind contamination), wrong border/shadow combinations, wrong typography weights. In every case, the canonical answer came from Figma, not from "what the code currently does."
+
+When Figma and code disagree on a value by more than 1–2px (or any amount for color), treat the code as suspect. Verify against Figma, correct the code, and document the correction in a comment. The only exceptions are layout dimensions that represent an intentional structural choice not captured in Figma (see DESIGNER_REVIEW.md for current open items).
 
 ---
 
-## 6. Component Inventory
+## 7. Component Inventory
 
-### Primitives & Forms
+### Form primitives
 
----
+**Button** — Primary interactive control. Variants: primary, secondary, ghost, danger, success, warning, and light variants of each. Sizes: sm, md, lg. Use Button for any action that triggers navigation, mutation, or dialog. Do not use a `<div onClick>` or `<a>` styled as a button when the semantic element is `<button>`. Use ghost or secondary variants for low-emphasis actions inside dense UI (table rows, card actions) rather than building a custom lower-emphasis control.
 
-#### Button
+**Input** — Single-line text field. Supports label, hint text, error state, icon slots (leading/trailing), and three size variants (sm, md, lg). Error state uses `--border-error-default`, error text uses `--foreground-error-secondary`, and the error focus ring uses `--transparent-error-12`. Input typography uses direct `--type-*` tokens, not mixins. Do not use Input for multi-line content — that is Textarea.
 
-**Purpose:** The primary call-to-action element. Triggers an immediate action or submits data.
+**Checkbox** — Boolean form control using Radix UI's accessible primitive. Sizes: sm, md. Includes label and description slots. Description uses `label-xs` at w400, accepting the mixin's 16px line height (a deliberate system concession). Do not build a custom checkbox using a styled `<div>` — always use this component for accessibility compliance.
 
-**Variants (`variant` × `styleType`):**
+**Switch** — Toggle control for on/off settings. Uses Radix UI's switch primitive. Includes label and description slots. The unchecked track uses `--semantic-neutral-300` directly (a Layer 2 reference) because no Layer 3 component token currently covers "unchecked switch track." This is a documented concession. Do not use Switch for selections that are not binary — use Checkbox groups or a Select.
 
-| variant | fill | border | light |
-|---|---|---|---|
-| `primary` | Blue filled (default CTA) | Blue outline | Blue tinted bg |
-| `secondary` | — | — | — |
-| `warning` | Amber filled | Amber outline | — |
-| `error` | Red filled | Red outline | — |
-| `success` | Green filled | — | — |
-| `neutral` | Dark grey filled | Grey outline | Grey tinted |
+**Badge** — Inline status and category label. Sizes: sm, md, lg. Color variants: default, brand, success, warning, error, and their fill and outline variants. All badge typography uses `label-xs` (sm/md) or `label-sm` (lg) at `font-weight: var(--font-weight-semibold)`. The semibold weight is not optional — badges need it for visual weight at small sizes. Tags inside TeamCard use the filled transparent treatment (`--transparent-dark-6` bg, no border).
 
-**Sizes:** `tiny` · `xs` · `sm` · `md` (default) · `lg` · `xl` · `big`
+**Textarea** — Multi-line text input. Shares most behavioral patterns with Input. Use for free-form text entry where the expected content length exceeds one line.
 
-**States:** default, hover, active (`:active`), disabled (`disabled` + `aria-disabled`), loading (shows spinner, disables interaction)
+**Select** — **(TODO)** SCSS not yet implemented. Use Radix UI's Select primitive when building. Follow Input's token conventions for field states.
 
-**Props:** `leftIcon`, `rightIcon`, `fullWidth`, `loading`
+### Navigation
 
-**Accessibility:** Inherits `<button>` semantics. `aria-disabled` is set alongside `disabled` so screen readers announce state correctly even when the element cannot receive focus.
+**Sidebar** — Application navigation rail. Width: 280px (layout dimension, not tokenized). Supports collapsible sections, active state tracking, notification badges, and a contextual header with avatar and branding. The section title uses `font-size: var(--type-label-xs-strong-font-size)` with `text-transform: uppercase` and `letter-spacing: 0.06em` — the uppercase tracking overrides the mixin's default and is required for legibility on all-caps labels.
 
-**Anti-patterns:**
-- Do not use `variant="primary" styleType="fill"` for destructive actions — use `variant="error"`
-- Do not use a Button when a plain `<a>` link is semantically correct
-- Do not stack two `primary-fill` buttons side by side — one should be `border` or `light`
+**NavBar** — Top application header. Contains logo mark, logo text (`--type-label-md-strong-*` tokens with `-0.3px` tracking for brand wordmark tightness), and avatar. The notification badge inside the 16×16 indicator dot is a container-constrained micro-element — kept at an off-scale font size with a comment. Do not use NavBar and Sidebar simultaneously without a considered layout design; their combination defines the shell of the application.
 
----
+**Tabs** — Horizontal tab navigation. Variants: default, pill, bordered. Sizes: sm, md, lg. Badge slots inside tab items use the same semibold badge pattern as the Sidebar. Use Tabs for content switching within a page or section, not for global navigation — that is NavBar and Sidebar's job.
 
-#### Badge
+**Drawer** — Side panel overlay. Sizes: sm (360px), md (480px), lg (640px) — layout dimensions, not tokenized. Uses Radix Dialog. The overlay scrim uses `--transparent-dark-50`. Use Drawer for contextual detail panels, secondary forms, or filter interfaces that shouldn't navigate away from the current page.
 
-**Purpose:** A small inline label communicating category, status, count, or membership. Not interactive.
+**BottomNav** — Mobile bottom navigation bar. Fixed to the viewport bottom. Use only on mobile viewports — pair with `@include media.tablet` to hide it at tablet and above, showing Sidebar or NavBar instead.
 
-**Variants (`color` × `styleType`):**
+**Pagination** — Page navigation for lists. Supports first/last/prev/next and numbered pages. Use Pagination for server-rendered lists where all results can't be loaded. For client-filtered in-memory lists, prefer infinite scroll or virtualization.
 
-| color | light | outline | fill |
-|---|---|---|---|
-| `blue` | Brand blue tint | Blue outline | Blue filled |
-| `gray` | Grey tint | Grey outline | Grey filled |
-| `green` | Green tint | Green outline | Green filled |
-| `yellow` | Amber tint | Amber outline | Amber filled |
-| `red` | Red tint | Red outline | Red filled |
+### Feedback
 
-**Sizes:** `sm` · `md` (default) · `lg`
+**Alert** — Inline status message. Variants: info, success, warning, error. Supports title, body, and dismissable behavior. Use Alert for page-level feedback (form submission success, error after an API call). Do not use Alert for ephemeral toast notifications — those are a separate pattern not yet implemented.
 
-**Props:** `leftIcon`, `rightIcon`, `brandLogo`, `dot` (adds a colored dot indicator)
+**Tooltip** — Contextual label on hover/focus. Themes: light, blue, dark. Sizes: sm, md, lg. Built on Radix Tooltip. The tooltip title uses `font-size: var(--type-label-xs-strong-font-size)` with semibold weight; the body uses `label-xs` at regular weight. Use Tooltip for labeling icon buttons and surfacing secondary context. Do not use Tooltip for critical information — content hidden behind hover is inaccessible to touch users.
 
-**States:** default, `disabled` (reduces opacity)
+**Progress** — Visual progress indicator for long-running tasks. Uses Radix Progress. Use for upload, import, or generation flows where the user should stay on the page.
 
-**Accessibility:** Rendered as `<span>`. If a badge conveys meaningful state (e.g., "Unread 3"), wrap in an `aria-label` on the parent or use `role="status"`.
+**EmptyState** — Zero-data placeholder. Contains an icon container (64×64, `--radius-2xl`), a heading (`label-lg` + semibold), a description (`body-sm`), and an optional CTA button. The icon container is a decorative wrapping element — use a simple, on-brand illustration or icon, not a complex graphic. Padding is `--spacing-4xl` (48px) on all sides.
 
-**Anti-patterns:**
-- Do not use Badge for interactive filters — use a button with Badge styling, or use Tabs/Dropdown
-- Do not use more than 4–5 badges in a single row without a "+N more" overflow pattern
+### Display
 
----
+**CTACard / CTACardGroup** — Promotional action card. The title uses `label-md` + semibold — card titles are primary action labels, not body text. The description uses `label-xs` at w400. CTA cards are composable into groups with a divider between them. Use for dashboard-level prompts and featured actions.
 
-#### Input
+**FocusAreaCard** — Domain focus area with a stacked avatar group and stat rows. The stacked avatar group mimics the FocusAreaCard pattern from batch 4 — overlapping 20px avatars with a 2px white separation border. The title is `label-lg` (18px) per Figma, not `label-md`. Use for directory-style domain listing.
 
-**Purpose:** Single-line text entry. Wraps `<input>` with label, hint, and error state management.
+**ForumPostCard** — Discussion post preview. Title is `label-lg` (18px), excerpt is `body-sm` for prose line-height, author metadata is `body-xs`. Cards have `--shadow-xs` at rest and `--shadow-sm` on hover; border uses the lighter `--border-neutral-xsubtle` (6%), not `--border-neutral-subtle` (12%). The `authorAvatar` is 28px in code (Figma spec: 24px) — flagged for designer review in DESIGNER_REVIEW.md.
 
-**Sizes:** `sm` · `md` (default) · `lg`
+**MemberCard** — Person profile card. Avatar: 80px (Figma canonical). Available state uses brand-blue (`--transparent-brand-6` bg, `--border-brand-subtle`, `--foreground-brand-primary`) — explicitly not green. Booked state uses `--transparent-warning-8`. The card has no border at rest — shadow only. Use for member directory grids.
 
-**Props:** `label`, `hint`, `error`, `leftIcon`, `rightIcon`, `fullWidth`
+**OfficeHoursCard** — Scheduled session card with host information. Avatar: 56px. Card border-radius is `--radius-md` (8px), tighter than most cards. The host name and role share the same font size (`label-md`) but are differentiated by weight — semibold vs. regular. Use for scheduling and directory contexts.
 
-**States:** default, focused (brand outline), error (`data-error`, red outline, `aria-invalid`, error message below), disabled
+**TeamCard** — Organization/team profile card. Landscape composition: logo (52px, `--radius-xl`) + name/tags in header row, description, member rows below. The logo size is 52px in the landscape implementation (Figma's portrait spec shows 80px) — flagged for designer review in DESIGNER_REVIEW.md. Tags use the filled transparent treatment, not an outline border.
 
-**Accessibility:** Label is linked via `htmlFor`/`id`. Error message uses `role="alert"` and is linked via `aria-describedby`. `aria-invalid` is set on the `<input>` when in error state.
+**Table** — Data table with sortable columns, row variants, and pagination integration. Use Table for structured data comparison. Do not use Table for homogeneous card-style data where a grid of cards communicates the content more naturally.
 
-**Anti-patterns:**
-- Do not omit the `label` prop — if you must hide it visually, provide `aria-label` instead
-- Do not place error and hint text simultaneously (error takes precedence)
+**PageHeader** — Consistent page title and breadcrumb section. Use at the top of all content pages that aren't dashboards or landing pages.
 
----
+### Interactive
 
-#### Textarea
+**Dropdown** — Menu of actions or navigation choices triggered by a button. Built on Radix DropdownMenu. Use for action overflow menus ("…" buttons), user menus, and grouped action sets. Do not use Dropdown for single-value form selection — that is Select.
 
-**Purpose:** Multi-line text entry. Same API as Input with `rows` support.
+**ContextMenu** — Right-click contextual action menu. Built on Radix ContextMenu. Use sparingly — context menus are a power-user affordance and are invisible to most touch users.
 
-Follows identical states and accessibility patterns as Input.
+**Slider** — Range input. Use for numeric value selection where a range is more natural than a text field (volume, threshold, percentage).
 
----
+**Accordion** — Collapsible content sections. Built on Radix Accordion. Supports single and multiple open states. Use for FAQ patterns and collapsible detail panels. Do not use Accordion as navigation — use Sidebar sections instead.
 
-#### Checkbox
+### Specialized
 
-**Purpose:** Binary on/off selection for a single item or within a list.
+**SearchInput** — Search field with leading icon and clear button. Extends Input with search-specific behavior. Use whenever the primary field purpose is filtering or querying.
 
-Built on Radix UI `@radix-ui/react-checkbox`. Prop: `checked`, `onCheckedChange`, `size` (`sm` | `md`).
+**Steps** — Linear progress indicator for multi-step flows. Shows completed, active, and pending states. Use for multi-step forms, onboarding, and checkout-style flows.
 
-**States:** unchecked, checked, indeterminate, disabled (all variants)
+**Upload** — File drop zone with progress feedback. Use for file attachment and import flows.
 
-**Accessibility:** Managed by Radix — keyboard navigable, `aria-checked` maintained automatically.
+**Carousel** — Horizontally scrollable item sequence. Use for featured content, media galleries, and limited-width browsing contexts. Do not use Carousel as the primary navigation pattern for data — users miss items.
 
-**Anti-patterns:**
-- Do not use Checkbox for a mutually exclusive choice — use a radio group
-- Do not use as a toggle for an immediate action — use Switch
+**Lightbox** — Full-screen image viewer with navigation. Use for image galleries and document previews where the content warrants full-screen attention.
+
+### TODO (stubs — empty directories)
+
+**Avatar** — `components/Avatar/` is empty. Should implement circular and rounded-square avatar with fallback initials, matching the patterns already used inline in MemberCard, FocusAreaCard, and ForumPostCard.
+
+**Card** — `components/Card/` is empty. [INFER] Likely intended as a generic composable card primitive that the specific card components (MemberCard, TeamCard, etc.) should eventually compose.
+
+**DatePicker** — `components/DatePicker/` is empty. Use Radix Popover + a calendar library when implementing.
+
+**Icon** — `components/Icon/` is empty. Should wrap SVG icon assets from the Design System Icons Figma file.
+
+**Toggle** — `components/Toggle/` is empty. Likely a segmented control or button group toggle variant — distinct from Switch. **Select** (`components/Select/`) has no SCSS file. Uses Radix Select primitive in the TSX but styles are not implemented.
 
 ---
 
-#### Switch
+## 8. Anti-Patterns
 
-**Purpose:** Toggles a setting on/off with immediate effect (no "submit" required).
+**Don't use Tailwind color names.** Tailwind's `slate-600`, `green-500`, `amber-500` are close to PL canonical values but not identical. They contaminate component styles with values that will quietly mismatch PL token values. In every case where Tailwind-sourced values were found during compliance review (Batches 3 and 4), the code was wrong — not intentionally different.
 
-Built on Radix UI `@radix-ui/react-switch`.
+**Don't reach into the primitive layer from a component.** If `--foreground-brand-primary` doesn't cover your case, add a new Layer 3 token, not a `var(--global-color-blue-500)` reference in your component. Bypassing the token chain breaks theme-ability and makes intent opaque.
 
-**States:** off, on, focused, disabled
+**Don't reinvent badges, cards, or buttons inline.** A status chip hand-rolled with `background: rgba(17, 167, 92, 0.08); border-radius: 9999px; font-size: 12px` inside a card's SCSS is a maintenance liability. It will diverge from Badge immediately. Compose Badge.
 
-**Accessibility:** `role="switch"`, `aria-checked`, keyboard-activatable with Space.
+**Don't add borders to cards.** Cards in this system use elevation only. A border on a card is a design question, not a default.
 
-**Anti-patterns:**
-- Do not use Switch in forms where the selection is saved on submit — use Checkbox
-- Always pair with a visible label describing what is being toggled
+**Don't use hardcoded `box-shadow` values.** Use shadow tokens (`--shadow-xs`, `--shadow-sm`, `--shadow-xl`, `--shadow-button`, `--shadow-dropdown`). If your need isn't covered, add a token. Mark any existing hardcoded shadows as TODO.
 
----
-
-#### SearchInput
-
-**Purpose:** Dedicated search field with a clear button. Used for filtering lists in-place.
-
-**Props:** `value`, `onChange`, `onClear`, `placeholder`, `fullWidth`
-
-**States:** empty (shows search icon), populated (shows clear ×), focused
-
-**Anti-patterns:**
-- Do not use for form inputs — use Input instead
-- Do not use without an `onClear` handler
+**Don't use `border-radius: 9999px`.** Always `var(--radius-full)`.
 
 ---
 
-#### Slider
+## 9. Open Questions for Design
 
-**Purpose:** Range selection on a continuous scale.
-
-Built on Radix UI `@radix-ui/react-slider`.
-
-**Props:** `min`, `max`, `step`, `value`, `onValueChange`, `label`
-
-**Accessibility:** `role="slider"`, `aria-valuemin/max/now`, keyboard-adjustable with arrow keys.
+See [DESIGNER_REVIEW.md](./DESIGNER_REVIEW.md) for the current open items flagged during Batch 4 token compliance work. At time of writing, there are two open items: the ForumPostCard author avatar size discrepancy (code 28px vs. Figma 24px) and the TeamCard layout orientation divergence (code landscape vs. Figma portrait). These should be resolved before those components are used in production.
 
 ---
 
-#### Progress
-
-**Purpose:** Communicates completion of a background process. Read-only.
-
-Built on Radix UI `@radix-ui/react-progress`.
-
-**Props:** `value` (0–100), `max`, `size` (`sm` | `md` | `lg`), `variant` (`default` | `brand` | `success` | `error`)
-
-**Anti-patterns:**
-- Do not use for static data visualization — use a chart
-- Do not animate indefinitely without `aria-label` explaining what is loading
-
----
-
-#### Alert
-
-**Purpose:** Inline contextual message communicating system feedback or important information.
-
-**Variants:** `info` · `success` · `warning` · `error`
-**Style types:** `light` · `filled` · `outline`
-
-**Props:** `title`, `description`, `icon`, `action` (ReactNode for a CTA button), `closable`, `onClose`
-
-**Accessibility:** Renders as `<div role="alert">` for error/warning. For info/success, consider `role="status"` if not urgent.
-
-**Anti-patterns:**
-- Do not use Alert for form field errors — use Input's `error` prop
-- Do not use `filled` alerts inside cards (too much visual weight)
-
----
-
-#### Tooltip
-
-**Purpose:** Reveals supplemental information on hover/focus for an element that cannot be labeled otherwise.
-
-Built on Radix UI `@radix-ui/react-tooltip`.
-
-**Props:** `content`, `side` (`top` | `bottom` | `left` | `right`), `align`
-
-**Accessibility:** Content is announced by screen readers via `role="tooltip"`. The trigger must be a focusable element.
-
-**Anti-patterns:**
-- Do not put interactive content (buttons, links) inside a Tooltip — use a Popover
-- Do not use Tooltip as the only source of important information — it is invisible on touch devices
-
----
-
-#### Dropdown
-
-**Purpose:** A menu of actions or options triggered by a button.
-
-Built on Radix UI `@radix-ui/react-dropdown-menu`.
-
-**Sub-components:** `Dropdown`, `DropdownItem`, `DropdownLabel`, `DropdownSeparator`
-
-**Props:** `trigger` (ReactNode), `align` (`start` | `center` | `end`), `side`
-
-**Accessibility:** Full keyboard navigation (arrow keys, Enter, Escape). `role="menu"`, `role="menuitem"`.
-
-**Anti-patterns:**
-- Do not use Dropdown for navigation links — use NavBar or Sidebar
-- Do not use as a form Select input — use a proper `<select>` or Radix Select
-
----
-
-#### Accordion
-
-**Purpose:** Progressive disclosure of content sections. Reduces visual complexity by hiding detail until requested.
-
-Built on Radix UI `@radix-ui/react-accordion`.
-
-**Sub-components:** `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
-
-**Props on Root:** supports both `single` and `multiple` types (Radix).
-
-**Accessibility:** `role="region"`, trigger uses `aria-expanded` and `aria-controls`.
-
-**Anti-patterns:**
-- Do not use Accordion for content that users always need to see
-- Do not nest Accordions more than one level deep
-
----
-
-#### Tabs
-
-**Purpose:** Divides related content into parallel panes, showing one at a time.
-
-Built on Radix UI `@radix-ui/react-tabs`.
-
-**Variants:** `line` (underline indicator) · `enclosed` (bordered tabs) · `pill` (rounded pill tabs)
-**Sizes:** `sm` · `md` (default) · `lg`
-
-**Props on Trigger:** `badge` (number or string shown as a count chip), `icon`
-
-**Accessibility:** Full ARIA tab pattern — `role="tablist"`, `role="tab"`, `role="tabpanel"`. Keyboard: arrow keys navigate tabs, Enter/Space activates.
-
-**Anti-patterns:**
-- Do not use Tabs for navigation between pages — use NavBar or Sidebar
-- Do not use more than 6–7 tabs; consider a Dropdown overflow pattern beyond that
-
----
-
-#### Pagination
-
-**Purpose:** Navigates through multi-page data sets.
-
-**Variants:** `basic` · `with-text` · `compact` · `goto`
-**Props:** `currentPage`, `totalPages`, `onPageChange`, `siblingCount`, `showFirstLast`
-
-**Anti-patterns:**
-- Do not use Pagination for infinite scroll — omit it and implement a "Load more" pattern
-- Do not show Pagination when there is only one page
-
----
-
-#### Table
-
-**Purpose:** Displays structured data in rows and columns.
-
-**Sub-components:** `Table`, `TableHead`, `TableBody`, `TableRow`, `TableCell`, `TableHeaderCell`
-
-**Anti-patterns:**
-- Do not use Table for layout — use CSS Grid or Flexbox
-- Do not use Table on mobile without a responsive fallback (card view or horizontal scroll)
-
----
-
-#### Steps
-
-**Purpose:** Communicates progress through a multi-step process.
-
-**Props:** `steps` (array of `{ id, label, description? }`), `currentStep`, `orientation` (`horizontal` | `vertical`)
-
-**Anti-patterns:**
-- Do not use Steps for progress that does not require user action at each step — use Progress
-
----
-
-#### EmptyState
-
-**Purpose:** Communicates the absence of data in a list or container.
-
-**Props:** `title`, `description`, `action` (ReactNode), `icon`
-
-**Anti-patterns:**
-- Do not show EmptyState during loading — show a skeleton or Spinner instead
-
----
-
-#### ContextMenu
-
-**Purpose:** Reveals a contextual action menu on right-click (or long-press on touch).
-
-Built on Radix UI `@radix-ui/react-context-menu`.
-
-**Anti-patterns:**
-- Do not use ContextMenu as the primary way to expose actions — always provide a visible affordance too
-
----
-
-#### Drawer
-
-**Purpose:** A slide-in panel from an edge of the viewport for secondary content, filters, or forms.
-
-Built on Radix UI `@radix-ui/react-dialog` with slide-in positioning.
-
-**Props:** `open`, `onClose`, `side` (`left` | `right` | `bottom`), `title`
-
-**Accessibility:** `role="dialog"`, `aria-modal`, focus is trapped inside when open.
-
-**Anti-patterns:**
-- Do not use Drawer for primary navigation on desktop — use Sidebar
-- Do not nest a Drawer inside another Drawer
-
----
-
-#### Lightbox
-
-**Purpose:** Full-screen media viewer for images or videos.
-
-Built on Radix UI `@radix-ui/react-dialog`.
-
-**Props:** `src`, `alt`, `open`, `onClose`
-
-**Anti-patterns:**
-- Do not use Lightbox for non-media content — use a Dialog/Modal
-
----
-
-#### Upload
-
-**Purpose:** File upload with drag-and-drop and file-type validation.
-
-**Props:** `accept`, `maxSize`, `multiple`, `onUpload`, `onError`
-
-**Anti-patterns:**
-- Do not use for inline image fields where a simple `<input type="file">` suffices
-
----
-
-#### DatePicker
-
-**Purpose:** Calendar-based date input. **[INFER: stub only — not yet implemented]**
-
----
-
-#### Carousel
-
-**Purpose:** Horizontally scrollable sequence of cards with dot/arrow navigation.
-
-**Props:** `items`, `autoPlay`, `loop`, `showDots`, `showArrows`
-
-**Anti-patterns:**
-- Do not use Carousel to hide content users need to compare — show items in a grid instead
-- Do not use Carousel for more than 6–8 items
-
----
-
-### Layout & Navigation
-
----
-
-#### NavBar
-
-**Purpose:** The persistent top navigation bar. Present on every page.
-
-**Anatomy:** Logo mark → Nav links (Desktop) → Spacer → Action slot → Notification bell with count badge → Avatar button → Hamburger menu (Mobile)
-
-**Props:** `logo`, `logoHref`, `items` (`{ label, href, active?, badge? }[]`), `notificationCount`, `avatar`, `userName`, `avatarFallback`, `onNotificationClick`, `onAvatarClick`, `onMenuClick`, `actions`
-
-**Height:** 56px (`--app-header-height`)
-
-**Responsive behavior:** Nav links are hidden on mobile; hamburger button appears to open a Sidebar or BottomNav.
-
-**Accessibility:** `<header>` landmark. Each nav item is an `<a>`. Notification button has `aria-label="Notifications"`.
-
-**Anti-patterns:**
-- Do not render NavBar inside a page template that is itself inside a NavBar — it renders once at the layout level
-- Do not add more than 5–6 items to `items` on desktop — overflow goes in a "More" dropdown
-
----
-
-#### Sidebar
-
-**Purpose:** A mobile-only slide-in navigation drawer. On desktop, navigation uses the NavBar + inline tabs.
-
-**Props:** `open`, `onClose`, `sections` (`{ title?, items }[]`), `header`, `footer`, `side` (`left` | `right`)
-
-**Item structure:** `{ id, label, href?, icon?, badge?, active?, children? }`
-
-**Accessibility:** `<nav aria-label="Navigation">`. An overlay scrim (`aria-hidden`) blocks the page behind it. Closing restores focus.
-
-**Anti-patterns:**
-- Do not use Sidebar as a persistent on-screen element on desktop — it is modal by design
-
----
-
-#### BottomNav
-
-**Purpose:** Mobile bottom navigation bar. Fixed to the viewport bottom on small screens.
-
-**Props:** `items` (`{ id, label, href, icon, active? }[]`), `activeId`
-
-**Anti-patterns:**
-- Do not show BottomNav on desktop — hide via CSS `@include media.tablet-landscape`
-- Do not use more than 5 items
-
----
-
-#### PageHeader
-
-**Purpose:** A full-width page-level banner with a colored background, page title, and optional breadcrumb/subtitle/action area.
-
-**Anti-patterns:**
-- Do not use PageHeader for card-level headings — use a plain `<h2>` with `heading-sm`
-
----
-
-### Design / Application Cards
-
----
-
-#### MemberCard
-
-**Purpose:** Represents a single PL network member in a directory grid or list.
-
-**Props:** `avatar`, `name`, `role`, `company`, `location`, `availability` (`available` | `booked` | `unavailable`), `tags`, `href`, `compact`
-
-**States:** default, hover (shadow lifts), availability dot color changes by status
-
-**Anti-patterns:**
-- Do not use MemberCard inside a narrow column — it needs ≥280px minimum width
-
----
-
-#### FocusAreaCard
-
-**Purpose:** Represents one of Protocol Labs' focus areas with team/project counts and member avatar stack.
-
-**Props:** `title`, `description`, `teamCount`, `projectCount`, `members` (avatar stack), `href`
-
-**Anti-patterns:**
-- Do not modify the visual structure — the avatar stack and count layout is a defined pattern
-
----
-
-#### ForumPostCard
-
-**Purpose:** Represents a forum thread in a list — shows title, excerpt, author, engagement metrics.
-
-**Props:** `title`, `excerpt`, `authorAvatar`, `authorName`, `authorRole`, `timeAgo`, `viewCount`, `likeCount`, `commentCount`, `href`, `pinned`
-
-**Anti-patterns:**
-- Do not truncate `title` to a single line — always allow 2 lines minimum
-
----
-
-#### TeamCard
-
-**Purpose:** Represents an organization/team in a directory card grid.
-
-**Anti-patterns:**
-- Do not use TeamCard for individual people — use MemberCard
-
----
-
-#### OfficeHoursCard
-
-**Purpose:** Represents a bookable office hours slot for a member. Shows host, time slot, and booking CTA.
-
-**Anti-patterns:**
-- Do not show this card without a booking action — the card has no meaning without the CTA
-
----
-
-#### CTACard
-
-**Purpose:** A lightweight action-prompt card used in dashboard rows (e.g., "Complete your investor profile").
-
-**Props:** `icon`, `title`, `description`, `href`
-
-**Anti-patterns:**
-- Do not use CTACard for primary page CTAs — use a full-width Alert or a Button
-- Limit to 3 CTACards per row; they become unreadable beyond that
-
----
-
-## 7. Page Composition Principles
-
-These patterns are extracted from the five implemented page templates in `components/page/`.
-
-### Pattern 1: Centered single column (Team Profile)
-
-Used when a page is about one entity with sequential sections. No sidebar.
-
-```
-[NavBar — full width, 56px]
-[Page body: max-width 900px, auto margin, padding 40px]
-  [Card] Profile header
-  [Card] About section (expandable)
-  [Card] Data section (definition list / badge rows)
-  [Card] Data section
-  ...
-```
-
-- Cards are white (`--background-base-white`), 1px `--border-neutral-subtle` border, `--radius-lg` (10px), `--shadow-xs`
-- Section titles inside cards use `heading-sm` or `label-lg`
-- Cards are separated by `24–32px` gap (use `--spacing-xl` or `--spacing-2xl`)
-- Edit buttons appear in the card header row, right-aligned
-
----
-
-### Pattern 2: Two-column with contextual sidebar (Member Profile)
-
-Used for entity detail pages where a secondary action/context panel (e.g., office hours, related content) supports the main content.
-
-```
-[NavBar — full width]
-[Page body: padding 40px 270px (≈900px content)]
-  [← Back breadcrumb]
-  [Two-column grid: main ~71% | sidebar ~26%]
-    Main: sequential Card stack
-    Sidebar: floating card with CTA
-```
-
-- Switch to single column below `tablet-landscape` (1024px) — sidebar moves below main
-- Sidebar card should have a single focused purpose (one action, one message)
-
----
-
-### Pattern 3: Filter sidebar + main content (Deals)
-
-Used for browsable directories or catalogues where users filter a list.
-
-```
-[NavBar — full width]
-[Two-column layout: sidebar ~200px | main flex-1]
-  Sidebar:
-    "Filters" header + "Clear All"
-    SearchInput
-    Category checklist (Checkbox × N)
-  Main:
-    Page title + subtitle + action button
-    Sort controls
-    Scrollable list of item cards
-```
-
-- Filter sidebar is sticky on desktop, collapses to a Drawer on mobile
-- Item cards in the main area are full-width within the content column, not a grid
-- Provide an empty state when filters return 0 results
-
----
-
-### Pattern 4: Full-width tabbed list (Forum)
-
-Used for community/feed pages where content is categorized but not spatially filtered.
-
-```
-[NavBar — full width]
-[Main: max-width ~820px, centered]
-  Page title + subtitle
-  [Tab bar: All | General | Launch | Talent | Intros] + [Sort dropdown] + [Create CTA]
-  Scrollable list of ForumPostCards
-```
-
-- Tabs are `line` variant with a `--foreground-brand-primary` underline on active
-- Sort and Create button are right-aligned in the same row as the tabs
-- No sidebar — the tab bar is the primary filter
-
----
-
-### Pattern 5: Dashboard home with mixed sections (Home)
-
-Used for the authenticated landing page. Combines greeting, quick actions, a card carousel, and a notification feed.
-
-```
-[NavBar — full width]
-[Main: max-width 1440px, padding 40px 270px]
-  Greeting (h1 + subtitle)
-  [3-column CTA grid]      ← CTACards
-  Section: Focus Areas
-    h2 + description
-    [4-column card carousel + dot navigation]  ← FocusAreaCards
-  Section: Recent Updates
-    h2 + unread badge
-    [Stacked update cards]
-      [Icon] [Type label + Title + Date + Body + Meta]
-      [View more button — right-aligned]
-```
-
-- CTA grid collapses to 1 column on mobile
-- Carousel becomes single-column with horizontal scroll on mobile
-- Update cards have a blue left-border treatment and an unread dot for unseen items **[INFER: blue border on `.unread` cards is a pattern not yet enforced via a token]**
-
----
-
-### Universal layout rules
-
-1. **NavBar is always at the layout level, not the page level.** It is rendered once in `src/app/layout.tsx` [INFER: currently each template renders its own NavBar — this should be lifted when the templates are integrated into a real app].
-
-2. **Page backgrounds use `--background-neutral-soft-surface`** (#f9fafb). Do not use white as the page background — it eliminates the card-lifts-from-page illusion.
-
-3. **Content cards are always white** (`--background-base-white`) with `--border-neutral-subtle` and `--shadow-xs`.
-
-4. **Never exceed 900px content width** (or 1204px for full-bleed dashboard layouts). All templates enforce this through padding on the page body, not a wrapping `max-width` container, so full-width elements (NavBar, PageHeader) remain unaffected.
-
-5. **Vertical rhythm is 24–32px between sections** (`--spacing-xl` to `--spacing-2xl`). Use 16px gap (`--spacing-md`) between elements within the same card.
-
-6. **Responsive priority order:** Desktop layouts are the primary design target (the PL network is used primarily on desktop). Mobile layouts are simplified but functional — single column, drawer navigation, touch-friendly tap targets (minimum 44px height).
+*Last updated: May 2026*
+
+**Canonical Figma files:**
+- [Design System Foundations](https://www.figma.com/design/ajJidFJgQCsS9nzXbq6upe/Design-System-Foundations-%7C-Protocol-Labs) — colors, typography, spacing primitives
+- [Design System Icons](https://www.figma.com/design/apsV3GKbIbOSpZYGvhdKqU/Design-System-Icons-%7C-Protocol-Labsd) — icons, emojis, avatars
+- [Design System Default Components](https://www.figma.com/design/V7AhdMa4HXackrEpe8036f/Design-System-Default-Components-%7C-Protocol-Labsd) — base UI components
+- [Design System Design Components](https://www.figma.com/design/su9oMYFBgLwUcfKESSLis0/Design-System-Design-Components-%7C-Protocol-Labsd) — composed/page-level components
