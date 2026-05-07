@@ -587,27 +587,75 @@
   --action-fg-neutral-active:           var(--semantic-neutral-700);
   --action-fg-base-inv-white:           var(--semantic-base-00);
   --action-border-neutral-normal:       var(--semantic-neutral-500);
-  --action-border-neutral-light:        #0e0f1129;  // ⚠ transparent dark 16% — no semantic equivalent
-  --action-border-neutral-light-focus:  #0e0f113d;  // ⚠ transparent dark 24% — no semantic equivalent
+  --action-border-neutral-light:        var(--transparent-dark-16);
+  --action-border-neutral-light-focus:  var(--transparent-dark-24);
   --action-border-error-focus:          var(--semantic-error-500);
 
   // ─── Surface ─────────────────────────────────────────────────────────────
   --surface-light:                      var(--semantic-base-00);
 
   // ─── Transparent overlays ────────────────────────────────────────────────
-  // ⚠ MANUAL REVIEW: No semantic layer coverage for alpha composites.
-  // These are intentional design decisions using opacity on near-black (#0e0f11)
-  // and brand blue (#1b4dff). Consider adding --semantic-transparent-* tokens.
+  // Full Figma scale: 2/4/6/8/12/16/24/32/40/48/56/64/72/80/88/96 + 50 (scrim).
+  // Alpha hex = round(opacity% × 255). Base colours:
+  //   dark  = #0e0f11 (near-black)
+  //   light = #ffffff (white)
+  //   brand = #1b4dff (Protocol blue)
+  // No semantic layer yet — use these primitives directly in component tokens.
+
+  // Dark scale
   --transparent-dark-2:    #0e0f1105;
+  --transparent-dark-4:    #0e0f110a;
   --transparent-dark-6:    #0e0f110f;
   --transparent-dark-8:    #0e0f1114;
   --transparent-dark-12:   #0e0f111f;
+  --transparent-dark-16:   #0e0f1129;
+  --transparent-dark-24:   #0e0f113d;
+  --transparent-dark-32:   #0e0f1152;
+  --transparent-dark-40:   #0e0f1166;
+  --transparent-dark-48:   #0e0f117a;
+  --transparent-dark-50:   #0e0f1180; // modal scrim (rgba(14,15,17,0.5))
+  --transparent-dark-56:   #0e0f118f;
+  --transparent-dark-64:   #0e0f11a3;
+  --transparent-dark-72:   #0e0f11b8;
+  --transparent-dark-80:   #0e0f11cc;
+  --transparent-dark-88:   #0e0f11e0;
+  --transparent-dark-96:   #0e0f11f5;
+
+  // Light scale
+  --transparent-light-2:   #ffffff05;
+  --transparent-light-4:   #ffffff0a;
+  --transparent-light-6:   #ffffff0f;
+  --transparent-light-8:   #ffffff14;
+  --transparent-light-12:  #ffffff1f;
+  --transparent-light-16:  #ffffff29;
+  --transparent-light-24:  #ffffff3d;
+  --transparent-light-32:  #ffffff52;
+  --transparent-light-40:  #ffffff66;
+  --transparent-light-48:  #ffffff7a;
+  --transparent-light-56:  #ffffff8f;
+  --transparent-light-64:  #ffffffa3;
+  --transparent-light-72:  #ffffffb8;
+  --transparent-light-80:  #ffffffcc;
+  --transparent-light-88:  #ffffffe0;
+  --transparent-light-96:  #fffffff5;
+
+  // Brand scale
   --transparent-brand-2:   #1b4dff05;
   --transparent-brand-4:   #1b4dff0a;
+  --transparent-brand-6:   #1b4dff0f;
   --transparent-brand-8:   #1b4dff14;
+  --transparent-brand-12:  #1b4dff1f;
   --transparent-brand-16:  #1b4dff29;
-  --transparent-light-6:   #ffffff0f;
-  --transparent-light-32:  #ffffff52;
+  --transparent-brand-24:  #1b4dff3d;
+  --transparent-brand-32:  #1b4dff52;
+  --transparent-brand-40:  #1b4dff66;
+  --transparent-brand-48:  #1b4dff7a;
+  --transparent-brand-56:  #1b4dff8f;
+  --transparent-brand-64:  #1b4dffa3;
+  --transparent-brand-72:  #1b4dffb8;
+  --transparent-brand-80:  #1b4dffcc;
+  --transparent-brand-88:  #1b4dffe0;
+  --transparent-brand-96:  #1b4dfff5;
 
   // ─── Legacy PLAA aliases (backward compat with portal-v2) ────────────────
   // These reference Layer 3 / Layer 2 tokens — chain resolves automatically.

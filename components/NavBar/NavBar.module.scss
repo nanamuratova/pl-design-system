@@ -1,13 +1,14 @@
 @use '../../styles/media';
+@use '../../styles/mixins';
 
 .navbar {
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky, 200);
+  z-index: var(--z-sticky);
   width: 100%;
-  background: var(--surface-light);
+  background: var(--background-base-white);
   border-bottom: 1px solid var(--border-neutral-subtle);
-  height: 64px;
+  height: 64px; // navbar layout dimension — not a spacing token; keep hardcoded
   display: flex;
   align-items: center;
 }
@@ -38,23 +39,24 @@
 }
 
 .logoMark {
-  width: 32px;
-  height: 32px;
+  width: 32px;  // brand mark touch target — not a spacing token; keep hardcoded
+  height: 32px; // brand mark touch target — not a spacing token; keep hardcoded
   background: var(--action-bg-brand-normal);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-weight: 700;
-  font-size: 14px;
+  color: var(--foreground-light-primary);
+  font-size: var(--type-label-sm-strong-font-size);
+  font-weight: var(--font-weight-bold); // brand monogram weight; override is intentional
 }
 
 .logoText {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--type-label-md-strong-font-size);
+  line-height: var(--type-label-md-strong-line-height);
+  font-weight: var(--font-weight-semibold);
   color: var(--foreground-neutral-primary);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.3px; // brand wordmark — slightly tighter than label tracking
 
   @include media.tablet-below {
     display: none;
@@ -64,7 +66,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-4xs);
   flex: 1;
 
   @include media.tablet-below {
@@ -75,11 +77,10 @@
 .navItem {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-3xs);
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 500;
+  @include mixins.label-sm;
   color: var(--foreground-neutral-secondary);
   text-decoration: none;
   transition: color 120ms, background 120ms;
@@ -92,11 +93,11 @@
 
 .navBadge {
   background: var(--action-bg-brand-normal);
-  color: #fff;
+  color: var(--foreground-light-primary);
   border-radius: var(--radius-full);
-  padding: 1px 6px;
-  font-size: 11px;
-  font-weight: 600;
+  padding: 1px var(--spacing-3xs); // 1px vertical is structural — matches Tabs/Sidebar badge
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-semibold);
   min-width: 18px;
   text-align: center;
 }
@@ -115,8 +116,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 36px;  // icon button touch target — not a spacing token; keep hardcoded
+  height: 36px; // icon button touch target — not a spacing token; keep hardcoded
   border-radius: var(--radius-md);
   border: none;
   background: transparent;
@@ -129,36 +130,36 @@
 
 .notifDot {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 8px;
-  height: 8px;
+  top: 6px;    // structural — positions dot at corner of 36px icon button
+  right: 6px;  // structural — positions dot at corner of 36px icon button
+  width: 8px;  // notification indicator size — not a spacing token
+  height: 8px; // notification indicator size — not a spacing token
   background: var(--background-error-normal);
   border-radius: 50%;
-  border: 2px solid var(--surface-light);
+  border: 2px solid var(--background-base-white); // halo ring — separates dot from icon background
 }
 
 .notifBadge {
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 3px;   // structural — positions badge at corner of 36px icon button
+  right: 3px; // structural — positions badge at corner of 36px icon button
   min-width: 16px;
   height: 16px;
   background: var(--background-error-normal);
   border-radius: var(--radius-full);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
+  color: var(--foreground-light-primary);
+  font-size: 10px;  // layout-constrained micro element inside 16x16 dot
+  font-weight: 700; // layout-constrained micro element inside 16x16 dot
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 3px;
-  border: 1.5px solid var(--surface-light);
+  padding: 0 3px; // structural — minimal side padding inside 16px badge
+  border: 1.5px solid var(--background-base-white); // halo ring — separates badge from icon background
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 32px;  // avatar circle dimension — not a spacing token; keep hardcoded
+  height: 32px; // avatar circle dimension — not a spacing token; keep hardcoded
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid transparent;
@@ -169,8 +170,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
+  @include mixins.label-sm;
+  font-weight: var(--font-weight-semibold);
   color: var(--foreground-brand-primary);
 
   &:hover { border-color: var(--foreground-brand-primary); }
@@ -182,8 +183,8 @@
   display: none;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 36px;  // icon button touch target — not a spacing token; keep hardcoded
+  height: 36px; // icon button touch target — not a spacing token; keep hardcoded
   border-radius: var(--radius-md);
   border: none;
   background: transparent;

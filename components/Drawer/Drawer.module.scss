@@ -1,3 +1,5 @@
+@use '../../styles/mixins';
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -31,7 +33,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(14, 15, 17, 0.5);
+  background: var(--transparent-dark-50);
   z-index: var(--z-overlay);
 
   &[data-state='open'] {
@@ -47,7 +49,7 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  background: var(--surface-light);
+  background: var(--background-base-white);
   display: flex;
   flex-direction: column;
   z-index: var(--z-modal);
@@ -81,9 +83,9 @@
   }
 }
 
-.content.sm { width: 360px; }
-.content.md { width: 480px; }
-.content.lg { width: 640px; }
+.content.sm   { width: 360px; }  // drawer layout dimension — not a spacing token; keep hardcoded
+.content.md   { width: 480px; }  // drawer layout dimension — not a spacing token; keep hardcoded
+.content.lg   { width: 640px; }  // drawer layout dimension — not a spacing token; keep hardcoded
 .content.full { width: 100vw; }
 
 .header {
@@ -96,8 +98,8 @@
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 600;
+  @include mixins.label-lg;
+  font-weight: var(--font-weight-semibold);
   color: var(--foreground-neutral-primary);
 }
 
@@ -105,8 +107,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 32px;  // icon button touch target — not a spacing token; keep hardcoded
+  height: 32px; // icon button touch target — not a spacing token; keep hardcoded
   border-radius: var(--radius-md);
   border: none;
   background: transparent;
