@@ -1,8 +1,10 @@
+@use '../../styles/mixins';
+
 .group {
   display: flex;
   align-items: stretch;
-  background: var(--surface-light);
-  border: 1px solid var(--transparent-brand-12, rgba(27,77,255,0.12));
+  background: var(--background-base-white);
+  border: 1px solid var(--transparent-brand-12);
   border-radius: var(--radius-xl);
   overflow: hidden;
 
@@ -33,7 +35,7 @@
     top: var(--spacing-md);
     bottom: var(--spacing-md);
     width: 1px;
-    background: var(--transparent-brand-12, rgba(27,77,255,0.12));
+    background: var(--transparent-brand-12);
   }
 
   &:hover { background: var(--background-neutral-subtle); }
@@ -51,8 +53,8 @@
 }
 
 .iconWrapper {
-  width: 36px;
-  height: 36px;
+  width: 36px;  // icon container — layout dimension; keep hardcoded
+  height: 36px; // icon container — layout dimension; keep hardcoded
   border-radius: var(--radius-md);
   background: var(--background-neutral-subtle);
   display: flex;
@@ -60,27 +62,26 @@
   justify-content: center;
   flex-shrink: 0;
   color: var(--foreground-brand-primary);
-  font-size: 18px;
+  font-size: 18px; // icon render size — not typography; keep hardcoded
 }
 
 .content { flex: 1; min-width: 0; }
 
 .title {
-  font-size: 15px;
-  font-weight: 600;
+  @include mixins.label-md;
+  font-weight: var(--font-weight-semibold); // CTA title — primary action label, anchors card hierarchy
   color: var(--foreground-neutral-primary);
-  line-height: 20px;
 }
 
 .description {
-  font-size: 13px;
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-regular); // description — override mixin's 500 to 400
   color: var(--foreground-neutral-tertiary);
-  line-height: 18px;
-  margin-top: 2px;
+  margin-top: 2px; // sub-scale gap — structural; no token equivalent
 }
 
 .arrow {
   color: var(--foreground-neutral-tertiary);
   flex-shrink: 0;
-  font-size: 18px;
+  font-size: 18px; // icon render size — not typography; keep hardcoded
 }
