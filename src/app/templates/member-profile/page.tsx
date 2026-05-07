@@ -1,4 +1,4 @@
-import { MemberProfileMockup } from '@components/page/member-profile';
+import { MemberProfileMockup } from '@mockups/member-profile';
 
 export default function MemberProfilePage() {
   return (

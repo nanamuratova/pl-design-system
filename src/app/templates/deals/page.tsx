@@ -1,4 +1,4 @@
-import { DealsMockup } from '@components/page/deals';
+import { DealsMockup } from '@mockups/deals';
 
 export default function DealsTemplatePage() {
   return <DealsMockup />;

@@ -26,6 +26,9 @@
       "@components/*": [
         "./components/*"
       ],
+      "@mockups/*": [
+        "./mockups/*"
+      ],
       "@styles/*": [
         "./styles/*"
       ]

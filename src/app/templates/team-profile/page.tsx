@@ -1,4 +1,4 @@
-import { TeamProfileMockup } from '@components/page/team-profile';
+import { TeamProfileMockup } from '@mockups/team-profile';
 
 export default function TeamProfilePage() {
   return (
