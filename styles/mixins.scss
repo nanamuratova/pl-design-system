@@ -1,7 +1,10 @@
 // PL Design System — Shared SCSS Layout & Utility Mixins
-// Typography mixins live in tokens/typography.scss
+// Typography mixins live in tokens/_typography-mixins.scss (mixin-only
+// partial — no :root {} CSS output, safe to forward into CSS Modules).
+// Typography custom properties (:root {}) are in tokens/typography.scss,
+// loaded globally via styles/globals.scss.
 @use 'media';
-@forward '../tokens/typography';
+@forward '../tokens/typography-mixins';
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
 

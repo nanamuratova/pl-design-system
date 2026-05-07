@@ -50,3 +50,28 @@ $breakpoints: (
     @content;
   }
 }
+
+// ─── Aliases ─────────────────────────────────────────────────────────────────
+// Named aliases used in page mockup components. Kept as explicit mixins
+// (not @forward of the canonical names) so callers are self-documenting.
+
+// Alias for tablet (min-width: 768px) — portrait tablet and up
+@mixin tablet-portrait {
+  @media (min-width: map-get($breakpoints, 'tablet')) {
+    @content;
+  }
+}
+
+// Alias for mobile-only (max-width: 767px) — below tablet breakpoint
+@mixin tablet-below {
+  @media (max-width: #{map-get($breakpoints, 'tablet') - 1px}) {
+    @content;
+  }
+}
+
+// Alias for tablet-landscape (min-width: 1024px) — explicit pixel callout
+@mixin breakpoint-1024 {
+  @media (min-width: map-get($breakpoints, 'tablet-landscape')) {
+    @content;
+  }
+}

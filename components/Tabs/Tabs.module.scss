@@ -20,15 +20,14 @@
 .trigger-line {
   position: relative;
   padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 14px;
-  font-weight: 500;
+  @include mixins.label-sm;
   color: var(--foreground-neutral-secondary);
   background: transparent;
   cursor: pointer;
   outline: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
+  border-bottom: 2px solid transparent; // reserves indicator height; must match active state thickness
+  margin-bottom: -1px;                  // pulls trigger 1px down so active underline overlaps the list border
   transition:
     color 120ms,
     border-color 120ms;
@@ -52,15 +51,14 @@
 .list-enclosed {
   background: var(--background-neutral-subtle);
   border-radius: var(--radius-md);
-  padding: 4px;
-  gap: 4px;
+  padding: var(--spacing-4xs);
+  gap: var(--spacing-4xs);
 }
 
 .trigger-enclosed {
-  padding: var(--spacing-xs, 8px) var(--spacing-md);
-  border-radius: var(--radius-sm, 6px);
-  font-size: 14px;
-  font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  @include mixins.label-sm;
   color: var(--foreground-neutral-secondary);
   background: transparent;
   cursor: pointer;
@@ -69,11 +67,11 @@
   transition: all 120ms;
 
   &:hover {
-    background: var(--surface-light);
+    background: var(--background-base-white);
   }
 
   &[data-state='active'] {
-    background: var(--surface-light);
+    background: var(--background-base-white);
     color: var(--foreground-neutral-primary);
     box-shadow: var(--shadow-sm);
   }
@@ -87,16 +85,15 @@
 // ── Pill variant ───────────────────────────────────────────────────────────
 .list-pill {
   background: var(--background-neutral-subtle);
-  border-radius: 9999px;
-  padding: 4px;
-  gap: 4px;
+  border-radius: var(--radius-full);
+  padding: var(--spacing-4xs);
+  gap: var(--spacing-4xs);
 }
 
 .trigger-pill {
-  padding: var(--spacing-xs, 8px) var(--spacing-md);
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  @include mixins.label-sm;
   color: var(--foreground-neutral-secondary);
   background: transparent;
   cursor: pointer;
@@ -105,12 +102,12 @@
   transition: all 120ms;
 
   &:hover {
-    background: var(--surface-light);
+    background: var(--background-base-white);
   }
 
   &[data-state='active'] {
     background: var(--action-bg-brand-normal);
-    color: #fff;
+    color: var(--foreground-light-primary);         // white text on brand-blue background
     box-shadow: var(--shadow-sm);
   }
 
@@ -122,13 +119,13 @@
 
 // ── Size modifiers ─────────────────────────────────────────────────────────
 .size-sm {
-  font-size: 12px;
+  font-size: var(--type-label-xs-strong-font-size); // 12px — host-element override for non-trigger children
 
   &.trigger-line,
   &.trigger-enclosed,
   &.trigger-pill {
-    padding: 6px var(--spacing-sm);
-    font-size: 12px;
+    padding: var(--spacing-3xs) var(--spacing-sm);
+    @include mixins.label-xs;
   }
 }
 
@@ -137,7 +134,7 @@
   &.trigger-enclosed,
   &.trigger-pill {
     padding: var(--spacing-md) var(--spacing-lg);
-    font-size: 15px;
+    @include mixins.label-md;
   }
 }
 
@@ -156,12 +153,11 @@
   align-items: center;
   justify-content: center;
   background: var(--background-neutral-subtle);
-  border-radius: 9999px;
-  padding: 1px 6px;
-  font-size: 11px;
-  font-weight: 500;
+  border-radius: var(--radius-full);
+  padding: 1px var(--spacing-3xs);                  // 1px vertical: intentional — no spacing token at this step
+  @include mixins.label-xs;
   color: var(--foreground-neutral-secondary);
-  margin-left: 6px;
+  margin-left: var(--spacing-3xs);
   line-height: 1.4;
 }
 
@@ -169,5 +165,5 @@
 .triggerInner {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2xs, 4px);
+  gap: var(--spacing-2xs);
 }
