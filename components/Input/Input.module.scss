@@ -21,9 +21,7 @@
 // ─── Label ────────────────────────────────────────────────────────────────────
 
 .label {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+  @include mixins.label-sm; // 14px/500/20px — exact match; adds system letter-spacing for labels
   color: var(--foreground-neutral-primary);
 }
 
@@ -41,7 +39,7 @@
   width: 100%;
   border: 1px solid var(--border-neutral-subtle);
   border-radius: var(--radius-md);
-  background: var(--surface-light);
+  background: var(--background-base-white);
   color: var(--foreground-neutral-primary);
   font-family: var(--font-family-primary);
   outline: none;
@@ -64,7 +62,7 @@
     border-color: var(--action-border-error-focus);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba(255, 56, 56, 0.12);
+      box-shadow: 0 0 0 3px var(--transparent-error-12);
     }
   }
 
@@ -76,32 +74,34 @@
 }
 
 // ─── Sizes ────────────────────────────────────────────────────────────────────
+// Font-size via direct tokens (not mixin): mixin adds letter-spacing and
+// line-height that interfere with native <input> rendering.
 
 .size-sm {
-  height: 36px;
-  padding: 0 12px;
-  font-size: 14px;
+  height: 36px; // input height — not a spacing token; keep hardcoded
+  padding: 0 var(--spacing-sm);
+  font-size: var(--type-label-sm-strong-font-size);
 
-  &.hasLeftIcon { padding-left: 36px; }
-  &.hasRightIcon { padding-right: 36px; }
+  &.hasLeftIcon  { padding-left: 36px; }  // icon slot offset — tied to icon size; keep hardcoded
+  &.hasRightIcon { padding-right: 36px; } // icon slot offset — tied to icon size; keep hardcoded
 }
 
 .size-md {
-  height: 40px;
+  height: 40px; // input height — not a spacing token; keep hardcoded
   padding: 0 var(--spacing-md);
-  font-size: 14px;
+  font-size: var(--type-label-sm-strong-font-size);
 
-  &.hasLeftIcon { padding-left: 40px; }
-  &.hasRightIcon { padding-right: 40px; }
+  &.hasLeftIcon  { padding-left: 40px; }  // icon slot offset — keep hardcoded
+  &.hasRightIcon { padding-right: 40px; } // icon slot offset — keep hardcoded
 }
 
 .size-lg {
-  height: 48px;
+  height: 48px; // input height — not a spacing token; keep hardcoded
   padding: 0 var(--spacing-lg);
-  font-size: 16px;
+  font-size: var(--type-label-md-strong-font-size);
 
-  &.hasLeftIcon { padding-left: 44px; }
-  &.hasRightIcon { padding-right: 44px; }
+  &.hasLeftIcon  { padding-left: 44px; }  // icon slot offset — keep hardcoded
+  &.hasRightIcon { padding-right: 44px; } // icon slot offset — keep hardcoded
 }
 
 // ─── Icon slots ───────────────────────────────────────────────────────────────
@@ -116,30 +116,25 @@
   justify-content: center;
   color: var(--foreground-neutral-tertiary);
   pointer-events: none;
-  width: 16px;
-  height: 16px;
+  width: 16px;  // icon size — not a spacing token; keep hardcoded
+  height: 16px; // icon size — not a spacing token; keep hardcoded
 }
 
-.iconLeft {
-  left: 12px;
-}
-
-.iconRight {
-  right: 12px;
-}
+.iconLeft  { left: var(--spacing-sm); }
+.iconRight { right: var(--spacing-sm); }
 
 // ─── Hint & Error ─────────────────────────────────────────────────────────────
 
 .hint {
-  font-size: 12px;
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-regular); // hint text is unstyled — override mixin's 500 to 400
   color: var(--foreground-neutral-tertiary);
   margin-top: var(--spacing-2xs);
-  line-height: 16px;
 }
 
 .errorMessage {
-  font-size: 12px;
-  color: var(--background-error-normal);
+  @include mixins.label-xs;
+  font-weight: var(--font-weight-regular); // error message text is unstyled — override mixin's 500 to 400
+  color: var(--foreground-error-secondary); // semantic-error-500 — proper text-colour token (was --background-error-normal, same value)
   margin-top: var(--spacing-2xs);
-  line-height: 16px;
 }

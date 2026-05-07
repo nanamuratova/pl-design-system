@@ -537,7 +537,7 @@
   --background-base-white:            var(--semantic-base-00);
   --background-brand-default:         var(--semantic-brand-500);
   --background-brand-soft-surface:    var(--semantic-brand-25);
-  --background-brand-light-normal:    #1b4dff0a;  // ⚠ transparent brand 4% — no semantic equivalent
+  --background-brand-light-normal:    var(--transparent-brand-4);
   --background-brand-light-hover:     var(--semantic-brand-50);
   --background-brand-active:          var(--semantic-brand-500);
   --background-neutral-soft-surface:  var(--semantic-neutral-25);
@@ -545,8 +545,11 @@
   --background-neutral-soft-muted:    var(--semantic-neutral-100); // Figma: background/neutral/soft-muted
   --background-neutral-normal:        var(--semantic-neutral-800);
   --background-neutral-hover:         var(--semantic-neutral-700);
-  --background-neutral-light:         #0e0f110a;  // ⚠ transparent dark 4% — no semantic equivalent
+  --background-neutral-light:         var(--transparent-dark-4);
   --background-error-normal:          var(--semantic-error-500);
+  --background-error-soft-surface:    #ff383814;  // 8% error-500 (rgba(255,56,56,0.08)) — used in error-light button bg
+  --background-warning-normal:        var(--semantic-warning-500);
+  --background-success-normal:        var(--semantic-success-500);
 
   // ─── Foreground ──────────────────────────────────────────────────────────
   --foreground-brand-primary:           var(--semantic-brand-500);
@@ -560,6 +563,10 @@
   --foreground-light-primary-inv:       var(--semantic-base-00);
   --foreground-light-secondary-inv:     #ffffffcc;  // ⚠ transparent white 80% — no semantic equivalent
   --foreground-error-secondary:         var(--semantic-error-500);
+  --foreground-warning-primary:         var(--semantic-warning-700);
+  --foreground-warning-secondary:       var(--semantic-warning-600);
+  --foreground-success-primary:         var(--semantic-success-600);
+  --foreground-success-secondary:       var(--semantic-success-500);
 
   // ─── Border ──────────────────────────────────────────────────────────────
   --border-base-white:                  var(--semantic-base-00);
@@ -568,17 +575,26 @@
   --border-neutral-subtle:              #1b38601f;  // ⚠ transparent blue-tinted 12% — no semantic equivalent
   --border-neutral-muted:               #1b38603d;  // ⚠ transparent blue-tinted 24% — no semantic equivalent
   --border-neutral-xsubtle:             #1b38600f;  // ⚠ transparent blue-tinted 6% — no semantic equivalent
+  --border-error-default:               var(--semantic-error-500);
+  --border-warning-default:             var(--semantic-warning-500);
+  --border-success-default:             var(--semantic-success-500);
 
   // ─── Action / Interactive ────────────────────────────────────────────────
   --action-bg-base-white:               var(--semantic-base-00);
   --action-bg-brand-normal:             var(--semantic-brand-500);
-  --action-bg-brand-active:             var(--semantic-brand-500);
-  --action-bg-brand-light:              #1b4dff0a;  // ⚠ transparent brand 4% — no semantic equivalent
+  --action-bg-brand-hover:              var(--semantic-brand-600);    // #0f3cd9 — Figma canonical (was #2657ff in Button, now corrected)
+  --action-bg-brand-active:             var(--semantic-brand-500);    // same as normal; active effect is via box-shadow removal
+  --action-bg-brand-light:              var(--transparent-brand-4);
   --action-bg-brand-light-hover:        var(--semantic-brand-50);
   --action-bg-neutral-normal:           var(--semantic-neutral-800);
   --action-bg-neutral-hover:            var(--semantic-neutral-700);
-  --action-bg-neutral-light:            #0e0f110a;  // ⚠ transparent dark 4% — no semantic equivalent
+  --action-bg-neutral-light:            var(--transparent-dark-4);
   --action-bg-error-normal:             var(--semantic-error-500);
+  --action-bg-error-hover:              var(--semantic-error-600);    // #e92215 — Figma canonical hover
+  --action-bg-warning-normal:           var(--semantic-warning-500);  // #f59e0b
+  --action-bg-warning-hover:            var(--semantic-warning-600);  // #d97706
+  --action-bg-success-normal:           var(--semantic-success-500);  // #11a75c — PL canonical (Button was #22c55e, Tailwind drift)
+  --action-bg-success-hover:            var(--semantic-success-600);  // #0a9952 — PL canonical (Button was #16a34a, Tailwind drift)
   --action-fg-brand-normal:             var(--semantic-brand-500);
   --action-fg-brand-inv-normal:         var(--semantic-brand-500);
   --action-fg-brand-inv-active:         var(--semantic-brand-500);
@@ -601,6 +617,13 @@
   //   light = #ffffff (white)
   //   brand = #1b4dff (Protocol blue)
   // No semantic layer yet — use these primitives directly in component tokens.
+
+  // Semantic transparent scales (not in Figma exports — system additions for named-token consistency)
+  // Figma only defines brand/dark/light transparent scales. Success/warning/error steps added on demand.
+  --transparent-success-8:  rgba(17, 167, 92, 0.08);   // success-500 (#11a75c) base — badge light-green bg
+  --transparent-warning-8:  rgba(245, 158, 11, 0.08);  // warning-500 (#f59e0b) base — badge light-yellow bg
+  --transparent-error-8:    rgba(255, 56, 56, 0.08);   // error-500 (#ff3838) base — badge light-red bg
+  --transparent-error-12:   rgba(255, 56, 56, 0.12);   // error-500 (#ff3838) base — input error focus ring shadow
 
   // Dark scale
   --transparent-dark-2:    #0e0f1105;
