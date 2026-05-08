@@ -1,11 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import '../../styles/globals.scss';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-family-primary',
+const inter = localFont({
+  src: [
+    {
+      path: '../../public/fonts/InterVariable.woff2',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-inter',
   display: 'swap',
+  fallback: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
 });
 
 export const metadata: Metadata = {

@@ -170,26 +170,33 @@ border-radius: var(--radius-md);
 ```
 pl-design-system/
 ├── CLAUDE.md                   # This file
+├── DESIGN.md                   # Design intent, principles, component guidelines
+├── DESIGNER_REVIEW.md          # Open items requiring designer sign-off
 ├── tokens/                     # Design tokens (source of truth from Figma)
 │   ├── colors.scss
 │   ├── typography.scss
 │   ├── spacing.scss
 │   └── index.scss
 ├── styles/                     # Shared SCSS utilities
-│   ├── globals.scss            # Global reset + token import
+│   ├── globals.scss            # Global reset + token import + @font-face
 │   ├── media.scss              # Responsive breakpoint mixins
 │   └── mixins.scss             # Layout/typography helpers
-├── components/                 # Design system components
-│   ├── Button/
-│   ├── Input/
-│   ├── Badge/
-│   └── Card/
+├── components/                 # Design system components (33 components)
+├── mockups/                    # Page-level reference compositions (not reusable)
+├── assets/
+│   ├── logos/                  # pl-mark.svg, pl-wordmark.svg (currentColor, transparent)
+│   └── icons/                  # 32 Phosphor SVGs (regular weight, standalone)
+├── public/
+│   └── fonts/                  # Self-hosted Inter variable font
+│       ├── InterVariable.woff2
+│       └── Inter-VariableFont_opsz_wght.ttf
+├── scripts/
+│   └── extract-icons.mjs       # Regenerates assets/icons/ from @phosphor-icons/react
 ├── src/
 │   └── app/                    # Next.js App Router showcase
-│       ├── layout.tsx
+│       ├── layout.tsx          # next/font/local loads InterVariable.woff2
 │       ├── page.tsx            # Component gallery index
-│       └── [component]/page.tsx
-├── public/
+│       └── templates/          # Showcase page templates
 ├── next.config.mjs
 ├── tsconfig.json
 └── package.json
@@ -210,3 +217,43 @@ pl-design-system/
 | `@radix-ui/react-checkbox` | Checkbox primitive |
 | `@radix-ui/react-switch` | Toggle switch primitive |
 | `framer-motion` | Animations |
+| `@phosphor-icons/react` | Icon library — use `Ph<IconName>` imports, e.g. `import { PhBell } from '@phosphor-icons/react'` |
+
+---
+
+## Static Assets
+
+### Font
+Inter variable font is **self-hosted** in `public/fonts/`. Do **not** import from Google Fonts CDN.
+
+| File | Note |
+|---|---|
+| `public/fonts/InterVariable.woff2` | Primary web font (loaded via `next/font/local`) |
+| `public/fonts/Inter-VariableFont_opsz_wght.ttf` | Fallback for Storybook / non-browser envs |
+
+`src/app/layout.tsx` loads the woff2 via `next/font/local` and exposes `--font-inter`.
+`styles/globals.scss` declares a `@font-face` fallback covering both files.
+`tokens/typography.scss` references `var(--font-inter, 'Inter', ...)` so both paths work.
+
+### Icons
+Import from `@phosphor-icons/react`:
+
+```tsx
+import { PhMagnifyingGlass, PhBell, PhCaretDown } from '@phosphor-icons/react';
+
+<PhBell size={16} />               // regular weight (default)
+<PhBell size={16} weight="fill" /> // filled
+```
+
+A standalone SVG subset (32 icons, regular weight) is exported to `assets/icons/` for non-React contexts.
+Run `node scripts/extract-icons.mjs` to regenerate after upgrading `@phosphor-icons/react`.
+
+### Logos
+Placeholder SVG files are in `assets/logos/`. Replace path data with official assets from Figma before production use.
+
+| File | ViewBox | Use case |
+|---|---|---|
+| `assets/logos/pl-mark.svg` | 48×48 | Icon-only (favicon, compact NavBar) |
+| `assets/logos/pl-wordmark.svg` | 172×40 | Full lockup |
+
+Both use `currentColor` and transparent backgrounds.
