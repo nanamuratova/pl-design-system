@@ -50,55 +50,6 @@
   color: var(--foreground-brand-primary);
 }
 
-// ─── Availability badge ───────────────────────────────────────────────────────
-
-.availability {
-  position: absolute;
-  bottom: 2px; // pixel-precise badge positioning over avatar edge — structural
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4xs);
-  padding: 2px var(--spacing-2xs); // 2px vertical — sub-scale; structural
-  border-radius: var(--radius-full);
-  @include mixins.label-2xs;
-  font-weight: var(--font-weight-regular); // Figma: w400 — code had w600, corrected
-  letter-spacing: 0.01em; // slight tracking for legibility at 10px — overrides mixin tracking
-  border: 1.5px solid var(--background-base-white); // halo border separates badge from avatar
-}
-
-// J3a: available → brand-blue per Figma canonical (was Tailwind green — non-canonical)
-.availability.available {
-  background: var(--transparent-brand-6);
-  border-color: var(--border-brand-subtle);
-  color: var(--foreground-brand-primary);
-}
-
-// J4a: booked background rounded to --transparent-warning-8 (8%, was 10% off-scale)
-.availability.booked {
-  background: var(--transparent-warning-8);
-  color: var(--foreground-warning-secondary);
-}
-
-.availability.unavailable {
-  background: var(--background-neutral-subtle);
-  color: var(--foreground-neutral-tertiary);
-}
-
-.availabilityDot {
-  width: 6px;  // dot size — structural; no token equivalent
-  height: 6px; // dot size — structural; no token equivalent
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-// J5: corrected from Tailwind #22c55e to PL canonical success-500
-.available .availabilityDot   { background: var(--background-success-normal); }
-.booked .availabilityDot      { background: var(--action-bg-warning-normal); }
-.unavailable .availabilityDot { background: var(--foreground-neutral-tertiary); }
-
 // ─── Text content ─────────────────────────────────────────────────────────────
 
 .name {

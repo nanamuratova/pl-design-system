@@ -143,12 +143,12 @@ export default function AvatarPreviewPage() {
           <Cell label="topBadge (verified)">
             <Avatar name="Alex Chen" src={PHOTO_URL} size="2xl" topBadge={<VerifiedBadge />} />
           </Cell>
-          <Cell label="bottomBadge (OH pill)" tall>
+          <Cell label="bottomBadge (custom)" tall>
             <Avatar
               name="Alex Chen"
               src={PHOTO_URL}
               size="3xl"
-              bottomBadge={<AvailabilityPill label="Available to connect" />}
+              bottomBadge={<CustomPill label="Custom badge" />}
             />
           </Cell>
           <Cell label="status + bottomBadge" tall>
@@ -157,7 +157,7 @@ export default function AvatarPreviewPage() {
               src={PHOTO_URL}
               size="3xl"
               status="active"
-              bottomBadge={<AvailabilityPill label="Available to connect" />}
+              bottomBadge={<CustomPill label="Custom badge" />}
             />
           </Cell>
           <Cell label="topBadge + status">
@@ -193,7 +193,6 @@ export default function AvatarPreviewPage() {
                 size="3xl"
                 decorativeRing
                 status="active"
-                bottomBadge={<AvailabilityPill label="Available to connect" />}
               />
             </div>
           </Cell>
@@ -205,11 +204,11 @@ export default function AvatarPreviewPage() {
         </div>
       </Section>
 
-      {/* ── 7. MemberCard context replica ────────────────────────────────── */}
+      {/* ── 7. MemberCard gradient context replica ───────────────────────── */}
       <Section title="7 — MemberCard gradient context (visual reference)">
         <p className={styles.note}>
-          Replicates the card gradient header. Avatar at 3xl, rings on, status dot active,
-          OH pill via <code>bottomBadge</code>. Pill bridges gradient ↔ card body.
+          MemberCard no longer shows availability status.
+          Avatar at 3xl, rings on, presence dot at bottom-right.
         </p>
         <div className={styles.cardContext}>
           <div className={styles.cardGradient}>
@@ -220,7 +219,6 @@ export default function AvatarPreviewPage() {
                 size="3xl"
                 decorativeRing
                 status="active"
-                bottomBadge={<AvailabilityPill label="Available to connect" />}
               />
             </div>
           </div>
@@ -325,31 +323,24 @@ function VerifiedBadge() {
   );
 }
 
-function AvailabilityPill({ label }: { label: string }) {
+function CustomPill({ label }: { label: string }) {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
         height: 16,
-        padding: '0 4px',
+        padding: '0 6px',
         borderRadius: 9999,
-        background: '#f2f5ff',
-        border: '1px solid #aebfff',
+        background: 'var(--background-neutral-subtle)',
+        border: '1px solid var(--border-neutral-subtle)',
         fontSize: 10,
         fontFamily: 'var(--font-family-primary)',
         fontWeight: 400,
-        color: '#1b4dff',
+        color: 'var(--foreground-neutral-secondary)',
         whiteSpace: 'nowrap',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <line x1="16" y1="2" x2="16" y2="6" />
-        <line x1="8" y1="2" x2="8" y2="6" />
-        <line x1="3" y1="10" x2="21" y2="10" />
-      </svg>
       {label}
     </div>
   );

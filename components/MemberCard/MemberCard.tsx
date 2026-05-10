@@ -9,13 +9,7 @@ const LocationIcon = () => (
   </svg>
 );
 
-const availabilityLabel: Record<string, string> = {
-  available: 'Available to connect',
-  booked: 'Frequently Booked',
-  unavailable: 'Not available',
-};
-
-export function MemberCard({ avatar, name, role, company, location, availability, tags, href, compact = false, className, ...props }: MemberCardProps) {
+export function MemberCard({ avatar, name, role, company, location, tags, href, compact = false, className, ...props }: MemberCardProps) {
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const Tag = href ? 'a' : 'div';
 
@@ -26,12 +20,6 @@ export function MemberCard({ avatar, name, role, company, location, availability
           <img src={avatar} alt={name} className={styles.avatar} />
         ) : (
           <div className={styles.avatarFallback}>{initials}</div>
-        )}
-        {availability && (
-          <span className={clsx(styles.availability, styles[availability])}>
-            <span className={styles.availabilityDot} />
-            {availabilityLabel[availability]}
-          </span>
         )}
       </div>
 
