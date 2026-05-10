@@ -1,2 +1,2 @@
 export { MemberCard } from './MemberCard';
-export type { MemberCardProps } from './MemberCard.types';
+export type { MemberCardProps, AvailabilityStatus } from './MemberCard.types';

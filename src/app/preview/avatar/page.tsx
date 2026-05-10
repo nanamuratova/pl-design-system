@@ -1,8 +1,9 @@
 // /preview/avatar — Avatar + AvatarStack visual verification (v2)
-// Rewritten against canonical Figma Avatar component (node 10:1763).
+// Canonical Figma source: Avatar (10:1763). Presence dot removed; MemberCard pill restored.
 
 import { Avatar, AvatarStack } from '@components/Avatar';
-import type { AvatarSize, AvatarShape, AvatarType, AvatarPresenceStatus } from '@components/Avatar';
+import type { AvatarSize, AvatarShape, AvatarType } from '@components/Avatar';
+import { MemberCard } from '@components/MemberCard';
 import styles from './page.module.scss';
 
 const PHOTO_URL = 'https://i.pravatar.cc/300?img=11';
@@ -17,7 +18,7 @@ export default function AvatarPreviewPage() {
         <h1>Avatar</h1>
         <p>
           Canonical Figma source: <code>❖ Avatars canvas → "Avatar" (10:1763)</code>.
-          Rewritten v2 — corrected sizes, canonical types, presence dot, badge slots.
+          Rewritten v2 — corrected sizes, canonical types, badge slots.
         </p>
       </header>
 
@@ -91,52 +92,11 @@ export default function AvatarPreviewPage() {
         </p>
       </Section>
 
-      {/* ── 4. Presence status dot ────────────────────────────────────────── */}
-      <Section title="4 — Presence status dot (Figma AvatarStatusBottom, 10:1571)">
-        <p className={styles.note}>
-          Dot renders at bottom-right corner, scaled to avatar size.
-          <strong> This is NOT the MemberCard OH pill</strong> — that is a card-level badge (Decision B).
-        </p>
-        <Row>
-          {(['active', 'dont-disturb', 'invisible'] as AvatarPresenceStatus[]).map((s) => (
-            <Cell key={s} label={s}>
-              <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" status={s} />
-            </Cell>
-          ))}
-          <Cell label="no border">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" status="active" showStatusBorder={false} />
-          </Cell>
-        </Row>
-        <Row>
-          <Cell label="status at xs">
-            <Avatar name="AC" size="xs" status="active" />
-          </Cell>
-          <Cell label="status at sm">
-            <Avatar name="AC" size="sm" status="active" />
-          </Cell>
-          <Cell label="status at md">
-            <Avatar name="AC" size="md" status="dont-disturb" />
-          </Cell>
-          <Cell label="status at lg">
-            <Avatar name="AC" size="lg" status="invisible" />
-          </Cell>
-          <Cell label="status at xl">
-            <Avatar name="AC" size="xl" status="active" />
-          </Cell>
-          <Cell label="status at 2xl">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="2xl" status="dont-disturb" />
-          </Cell>
-          <Cell label="status at 3xl">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" status="active" />
-          </Cell>
-        </Row>
-      </Section>
-
-      {/* ── 5. Badge slots (Decision B) ───────────────────────────────────── */}
-      <Section title="5 — Badge slots: topBadge + bottomBadge (Decision B)">
+      {/* ── 4. Badge slots ────────────────────────────────────────────────── */}
+      <Section title="4 — Badge slots: topBadge + bottomBadge">
         <p className={styles.note}>
           <code>topBadge</code> renders at top-right (Verified, Logo, etc.).{' '}
-          <code>bottomBadge</code> renders at bottom-center — used by MemberCard for the OH availability pill.
+          <code>bottomBadge</code> renders at bottom-center — for card-level badges.
           Consumers own the badge content and styling.
         </p>
         <Row>
@@ -148,32 +108,25 @@ export default function AvatarPreviewPage() {
               name="Alex Chen"
               src={PHOTO_URL}
               size="3xl"
-              bottomBadge={<CustomPill label="Custom badge" />}
-            />
-          </Cell>
-          <Cell label="status + bottomBadge" tall>
-            <Avatar
-              name="Alex Chen"
-              src={PHOTO_URL}
-              size="3xl"
-              status="active"
-              bottomBadge={<CustomPill label="Custom badge" />}
-            />
-          </Cell>
-          <Cell label="topBadge + status">
-            <Avatar
-              name="Alex Chen"
-              src={PHOTO_URL}
-              size="2xl"
-              status="active"
-              topBadge={<VerifiedBadge />}
+              bottomBadge={
+                <div style={{
+                  height: 16, padding: '0 6px', borderRadius: 9999,
+                  background: 'var(--background-neutral-subtle)',
+                  border: '1px solid var(--border-neutral-subtle)',
+                  fontSize: 10, fontFamily: 'var(--font-family-primary)',
+                  fontWeight: 400, color: 'var(--foreground-neutral-secondary)',
+                  whiteSpace: 'nowrap', display: 'flex', alignItems: 'center',
+                }}>
+                  Custom badge
+                </div>
+              }
             />
           </Cell>
         </Row>
       </Section>
 
-      {/* ── 6. 3xl hero + decorative rings ───────────────────────────────── */}
-      <Section title="6 — 3xl hero: decorative rings (rings off / on / on + badge)">
+      {/* ── 5. 3xl hero + decorative rings ───────────────────────────────── */}
+      <Section title="5 — 3xl hero: decorative rings (rings off / on)">
         <div className={styles.heroRow}>
           <Cell label="3xl — no rings">
             <div className={styles.heroContainer}>
@@ -185,18 +138,7 @@ export default function AvatarPreviewPage() {
               <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" decorativeRing />
             </div>
           </Cell>
-          <Cell label="rings + status + badge" tall>
-            <div className={styles.heroContainer}>
-              <Avatar
-                name="Alex Chen"
-                src={PHOTO_URL}
-                size="3xl"
-                decorativeRing
-                status="active"
-              />
-            </div>
-          </Cell>
-          <Cell label="rings + initials" >
+          <Cell label="rings + initials">
             <div className={styles.heroContainer}>
               <Avatar name="Alex Chen" size="3xl" decorativeRing />
             </div>
@@ -204,33 +146,44 @@ export default function AvatarPreviewPage() {
         </div>
       </Section>
 
-      {/* ── 7. MemberCard gradient context replica ───────────────────────── */}
-      <Section title="7 — MemberCard gradient context (visual reference)">
+      {/* ── 6. MemberCard context ─────────────────────────────────────────── */}
+      <Section title="6 — MemberCard availability pill (restored)">
         <p className={styles.note}>
-          MemberCard no longer shows availability status.
-          Avatar at 3xl, rings on, presence dot at bottom-right.
+          The pill is a card-level badge rendered inline by <code>MemberCard</code>, not routed through Avatar.
+          Routing it through <code>Avatar.status</code> is deferred to Phase 2.2.
         </p>
-        <div className={styles.cardContext}>
-          <div className={styles.cardGradient}>
-            <div className={styles.cardAvatarWrap}>
-              <Avatar
-                name="Alex Chen"
-                src={PHOTO_URL}
-                size="3xl"
-                decorativeRing
-                status="active"
-              />
-            </div>
-          </div>
-          <div className={styles.cardContent}>
-            <p className={styles.cardName}>Alex Chen</p>
-            <p className={styles.cardRole}>Ripple · Senior Engineer</p>
-          </div>
-        </div>
+        <Row>
+          <Cell label='availability="available"' tall>
+            <MemberCard
+              name="Alex Chen"
+              role="Senior Engineer"
+              company="Ripple"
+              avatar={PHOTO_URL}
+              availability="available"
+            />
+          </Cell>
+          <Cell label='availability="booked"' tall>
+            <MemberCard
+              name="Sam Rivera"
+              role="Protocol Engineer"
+              company="Protocol Labs"
+              avatar={PHOTO_URL_2}
+              availability="booked"
+            />
+          </Cell>
+          <Cell label="no availability" tall>
+            <MemberCard
+              name="Jordan Kim"
+              role="Research Scientist"
+              company="Filecoin Foundation"
+              avatar={PHOTO_URL_3}
+            />
+          </Cell>
+        </Row>
       </Section>
 
-      {/* ── 8. AvatarStack ───────────────────────────────────────────────── */}
-      <Section title="8 — AvatarStack (gap=auto, circle + photo)">
+      {/* ── 7. AvatarStack ───────────────────────────────────────────────── */}
+      <Section title="7 — AvatarStack (gap=auto, circle + photo)">
         <Row>
           {(['xs', 'sm', 'md', 'lg', 'xl'] as AvatarSize[]).map((size) => (
             <Cell key={size} label={`size=${size}`}>
@@ -244,8 +197,8 @@ export default function AvatarPreviewPage() {
         </Row>
       </Section>
 
-      {/* ── 9. AvatarStack shapes ─────────────────────────────────────────── */}
-      <Section title="9 — AvatarStack shapes (lg)">
+      {/* ── 8. AvatarStack shapes ─────────────────────────────────────────── */}
+      <Section title="8 — AvatarStack shapes (lg)">
         <Row>
           {(['circle', 'rounded'] as AvatarShape[]).map((shape) => (
             <Cell key={shape} label={`shape=${shape}`}>
@@ -259,8 +212,8 @@ export default function AvatarPreviewPage() {
         </Row>
       </Section>
 
-      {/* ── 10. AvatarStack overflow + gap ───────────────────────────────── */}
-      <Section title="10 — AvatarStack overflow pill + gap overrides (md)">
+      {/* ── 9. AvatarStack overflow + gap ────────────────────────────────── */}
+      <Section title="9 — AvatarStack overflow pill + gap overrides (md)">
         <Row>
           <Cell label="5 avatars, maxVisible=3">
             <AvatarStack size="md" maxVisible={3}>
@@ -299,8 +252,6 @@ export default function AvatarPreviewPage() {
 }
 
 // ─── Mock badge sub-components ────────────────────────────────────────────────
-// These are placeholder renderers used only in the preview to test the badge slots.
-// Production implementations belong in their own components.
 
 function VerifiedBadge() {
   return (
@@ -319,29 +270,6 @@ function VerifiedBadge() {
       <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
         <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
-    </div>
-  );
-}
-
-function CustomPill({ label }: { label: string }) {
-  return (
-    <div
-      style={{
-        height: 16,
-        padding: '0 6px',
-        borderRadius: 9999,
-        background: 'var(--background-neutral-subtle)',
-        border: '1px solid var(--border-neutral-subtle)',
-        fontSize: 10,
-        fontFamily: 'var(--font-family-primary)',
-        fontWeight: 400,
-        color: 'var(--foreground-neutral-secondary)',
-        whiteSpace: 'nowrap',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      {label}
     </div>
   );
 }

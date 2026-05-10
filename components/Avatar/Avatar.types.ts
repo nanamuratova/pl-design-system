@@ -35,16 +35,9 @@ export type AvatarType =
   | 'emoji'          // emoji image — provide via `icon` prop
   | 'flag';          // country flag — provide via `icon` prop
 
-// ─── Status (bottom-right dot) ────────────────────────────────────────────────
-// Figma "AvatarStatusBottom" (10:1571) — presence indicator, bottom-right corner.
-// NOT the MemberCard OH pill — that is a card-level badge (Decision B).
-//
-// active       — green dot  (#249F58, Figma-verified)
-// dont-disturb — red dot + horizontal minus line
-// invisible    — grey dot
-export type AvatarPresenceStatus = 'active' | 'dont-disturb' | 'invisible';
-
 // ─── Props ────────────────────────────────────────────────────────────────────
+// NOTE: presence dot (AvatarPresenceStatus / online-status dot) was removed.
+// Routing availability status through Avatar is tracked as a future Phase 2.2 commit.
 
 export interface AvatarProps {
   /** Full name — used for initials (first + last initial) and default aria-label */
@@ -61,23 +54,13 @@ export interface AvatarProps {
   size?: AvatarSize;
   shape?: AvatarShape;
   /**
-   * Presence status dot — Figma canonical (10:1571).
-   * Renders at bottom-right corner, scaled to avatar size.
-   */
-  status?: AvatarPresenceStatus;
-  /** Show white border ring around the status dot. Default true. */
-  showStatusBorder?: boolean;
-  /**
    * Top-right badge slot — for Verified, Logo, Notification indicators.
    * Positioned at top: -4px; right: -4px (matches Figma AvatarStatusTop).
-   * Decision B: avatar supports both presence dot and badge slots.
    */
   topBadge?: React.ReactNode;
   /**
-   * Bottom-center badge slot — for card-level badges like the MemberCard OH pill.
+   * Bottom-center badge slot — for card-level badges.
    * Positioned at top: 100%; left: 50%; transform: translateX(-50%).
-   * Decision B: allows card components to attach contextual badges without leaving
-   * the Avatar as a positioning anchor.
    */
   bottomBadge?: React.ReactNode;
   /**

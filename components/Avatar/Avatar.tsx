@@ -97,39 +97,6 @@ function RingOuter() {
   );
 }
 
-// ─── Status dot ───────────────────────────────────────────────────────────────
-// Figma "AvatarStatusBottom" (10:1571): dot at bottom-right corner.
-// Status dot sizes scale with avatar size — see SCSS for container sizing.
-// Active: #249F58 (Figma-verified green from "avatar/custom background" style note).
-// Don't disturb: error-primary red with white minus rule.
-// Invisible: neutral grey.
-
-function StatusDot({
-  status,
-  size,
-  showBorder,
-}: {
-  status: NonNullable<AvatarProps['status']>;
-  size: AvatarSize;
-  showBorder: boolean;
-}) {
-  return (
-    <div
-      className={[
-        styles.statusDot,
-        styles[`statusDot-${size}`],
-        styles[`statusDot-status-${status}`],
-        showBorder ? styles.statusDotBorder : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      aria-hidden="true"
-    >
-      {status === 'dont-disturb' && <span className={styles.dndLine} aria-hidden="true" />}
-    </div>
-  );
-}
-
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 
 export function Avatar({
@@ -139,8 +106,6 @@ export function Avatar({
   icon,
   size = 'md',
   shape = 'circle',
-  status,
-  showStatusBorder = true,
   topBadge,
   bottomBadge,
   decorativeRing = false,
@@ -205,11 +170,6 @@ export function Avatar({
             </span>
           )}
       </div>
-
-      {/* ── Presence status dot (bottom-right) ── */}
-      {status && (
-        <StatusDot status={status} size={size} showBorder={showStatusBorder} />
-      )}
 
       {/* ── Top-right badge slot (Verified, Logo, Notification…) ── */}
       {topBadge && <div className={styles.topBadgeSlot}>{topBadge}</div>}

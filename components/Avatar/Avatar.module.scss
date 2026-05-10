@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  // overflow: visible (browser default) — status dot + rings extend beyond bounds
+  // overflow: visible (browser default) — rings + badge slots extend beyond bounds
 }
 
 // ─── Size scale ───────────────────────────────────────────────────────────────
@@ -124,117 +124,8 @@
   }
 }
 
-// ─── Status dot (bottom-right corner) ────────────────────────────────────────
-// Figma "AvatarStatusBottom" (10:1571).
-// The dot is positioned at bottom-right, partially outside the avatar bounds.
-// Sizing mirrors Figma's named indicator sizes mapped to our avatar size tokens:
-//   xs, sm → Figma "Small"       container 12px / dot 6px
-//   md     → Figma "Medium"      container 16px / dot 8px
-//   lg     → Figma "Large"       container 20px / dot 10px
-//   xl     → Figma "Extra Large" container 24px / dot 12px
-//   2xl,3xl→ Figma "Big"         container 32px / dot 14px
-
-.statusDot {
-  position: absolute;
-  border-radius: 50%;
-  // White gap between dot and avatar surface — background acts as the ring.
-  // Using background + inset box-shadow keeps the white ring inside the element.
-  background-color: var(--background-base-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-// border = white ring visible only when showStatusBorder=true (default)
-.statusDotBorder {
-  background-color: var(--background-base-white);
-}
-
-// dot fill — the colored circle inside the white-bg container
-.statusDot::after {
-  content: '';
-  border-radius: 50%;
-  display: block;
-}
-
-// ── Size-specific dot container dimensions and positioning ──
-// Position: bottom-right corner, roughly half outside the avatar.
-
-.statusDot-xs,
-.statusDot-sm {
-  width: 12px;
-  height: 12px;
-  bottom: -3px;
-  right: -3px;
-
-  &::after { width: 6px; height: 6px; }
-  .dndLine { width: 4px; }
-}
-
-.statusDot-md {
-  width: 16px;
-  height: 16px;
-  bottom: -4px;
-  right: -4px;
-
-  &::after { width: 8px; height: 8px; }
-  .dndLine { width: 5px; }
-}
-
-.statusDot-lg {
-  width: 20px;
-  height: 20px;
-  bottom: -4px;
-  right: -4px;
-
-  &::after { width: 10px; height: 10px; }
-  .dndLine { width: 6px; }
-}
-
-.statusDot-xl {
-  width: 24px;
-  height: 24px;
-  bottom: -4px;
-  right: -4px;
-
-  &::after { width: 12px; height: 12px; }
-  .dndLine { width: 7px; }
-}
-
-.statusDot-2xl,
-.statusDot-3xl {
-  width: 32px;
-  height: 32px;
-  bottom: -4px;
-  right: -4px;
-
-  &::after { width: 14px; height: 14px; }
-  .dndLine { width: 9px; }
-}
-
-// ── Status colors ──
-// active:       #249F58  (Figma-verified: "Green" in design styles metadata)
-// dont-disturb: error red + white minus rule
-// invisible:    neutral tertiary grey
-
-.statusDot-status-active::after         { background-color: #249f58; }
-.statusDot-status-dont-disturb::after   { background-color: var(--background-error-normal, #e53935); }
-.statusDot-status-invisible::after      { background-color: var(--foreground-neutral-tertiary); }
-
-// ── Don't disturb minus rule ──
-// White horizontal line centered in the dot.
-
-.dndLine {
-  position: absolute;
-  height: 1.5px;
-  background-color: var(--background-base-white);
-  border-radius: 1px;
-  z-index: 1;
-}
-
 // ─── Badge slots ──────────────────────────────────────────────────────────────
-// Decision B: avatar supports presence dots + arbitrary badge slots.
-// Consumers are responsible for the content/styling of the badge.
+// Consumers are responsible for the content/styling of any badge.
 
 // Top-right — matches Figma AvatarStatusTop positioning
 .topBadgeSlot {
