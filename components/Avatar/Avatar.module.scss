@@ -3,38 +3,37 @@
 // ─── Root container ───────────────────────────────────────────────────────────
 
 .root {
-  // Structural baseline — all other classes build on this
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  // overflow: visible — status pill and decorative rings extend beyond bounds
+  // overflow: visible (browser default) — status dot + rings extend beyond bounds
 }
 
 // ─── Size scale ───────────────────────────────────────────────────────────────
-// 3xl=80px is Figma-verified for MemberCard hero.
-// sm=28px deviates from nearest Figma step (md=32). Tracked in DESIGNER_REVIEW.md.
+// Corrected from first implementation — Figma canonical values from node 10:1763.
+// Previous xl=48 (should be 64) and 3xl=80 (should be 96) are now fixed.
+// 28px had no Figma equivalent; see DESIGNER_REVIEW.md for ForumPostCard deviation.
 
 .size-xs  { width: 20px; height: 20px; }
-.size-sm  { width: 28px; height: 28px; }
+.size-sm  { width: 24px; height: 24px; }
 .size-md  { width: 32px; height: 32px; }
 .size-lg  { width: 40px; height: 40px; }
-.size-xl  { width: 48px; height: 48px; }
-.size-2xl { width: 56px; height: 56px; }
-.size-3xl { width: 80px; height: 80px; }
+.size-xl  { width: 56px; height: 56px; }
+.size-2xl { width: 64px; height: 64px; }
+.size-3xl { width: 96px; height: 96px; }
 
 // ─── Shape variants ───────────────────────────────────────────────────────────
-// .shape-circle  → full-round (member photos, profiles)
-// .shape-rounded → radius-xl 12px (team/org logos)
-// .shape-square  → radius-xsm 4px (FocusAreaCard stacks — Figma-verified: `rounded-[var(--corner-radius/xsm,4px)]`)
+// Figma "Avatar" (10:1763) has exactly two shapes — see Avatar.types.ts for rationale.
+// 'rounded' = radius-xsm (4px) — Figma "Rounded"
+// 'circle'  = radius-full     — Figma "Circle"
 
 .shape-circle  { border-radius: var(--radius-full); }
-.shape-rounded { border-radius: var(--radius-xl); }
-.shape-square  { border-radius: var(--radius-xsm); }
+.shape-rounded { border-radius: var(--radius-xsm); }
 
-// ─── Surface (clip container for photo + tint) ────────────────────────────────
-// Separate from .root so rings can be positioned outside the clipping context.
+// ─── Surface ──────────────────────────────────────────────────────────────────
+// Separate from root so decorative rings can render outside the clipping context.
 
 .surface {
   position: absolute;
@@ -44,9 +43,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  // Default background — overridden by type-specific rules below.
+  background-color: var(--background-neutral-subtle);
 }
 
-// ─── Photo ────────────────────────────────────────────────────────────────────
+// ─── Type: image ──────────────────────────────────────────────────────────────
 
 .photo {
   position: absolute;
@@ -56,124 +58,204 @@
   object-fit: cover;
 }
 
-// ─── Initials ─────────────────────────────────────────────────────────────────
-// Typography scales with avatar size via font-size: inherit.
-// Each size class sets --avatar-font-size; .initials picks it up.
+// ─── Type: letter-of-name ─────────────────────────────────────────────────────
+// Figma: solid brand-primary blue background (#1b4dff) with white initials.
+// Previous impl used a 6-tint bgTint system — removed; Figma has no tint system.
 
-.root { --avatar-font-size: 10px; } // xs default
-
-.size-xs  { --avatar-font-size: 9px; }
-.size-sm  { --avatar-font-size: 11px; }
-.size-md  { --avatar-font-size: 12px; }
-.size-lg  { --avatar-font-size: 14px; }
-.size-xl  { --avatar-font-size: 16px; }
-.size-2xl { --avatar-font-size: 20px; }
-.size-3xl { --avatar-font-size: 24px; }
-
-.initials {
-  font-family: var(--font-family-primary);
-  font-size: var(--avatar-font-size);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.02em;
-  color: var(--foreground-brand-primary);
-  line-height: 1;
-  user-select: none;
+.surface:has(.initials) {
+  background-color: var(--foreground-brand-primary); // #1b4dff
 }
 
-// ─── Background tints ─────────────────────────────────────────────────────────
-// lavender (#C6CAFF) — Figma MemberCard hero avatar bg (node 36:21633)
-// slate    (#AFBACA) — Figma FocusAreaCard team avatar bg (node 46:137)
-// Other tints complete the palette for auto-assignment variety.
+.initials {
+  color: var(--background-base-white);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  user-select: none;
 
-.tint-lavender { background-color: #c6caff; }
-.tint-mint     { background-color: #b2f0e8; }
-.tint-peach    { background-color: #ffd4b8; }
-.tint-sky      { background-color: #b8d8ff; }
-.tint-rose     { background-color: #ffb8cc; }
-.tint-slate    { background-color: #afbaca; }
+  // Scale with avatar size
+  .size-xs  & { font-size: 8px;  }
+  .size-sm  & { font-size: 9px;  }
+  .size-md  & { font-size: 12px; }
+  .size-lg  & { font-size: 14px; }
+  .size-xl  & { font-size: 20px; }
+  .size-2xl & { font-size: 24px; }
+  .size-3xl & { font-size: 32px; }
+}
 
-// ─── Status pill ─────────────────────────────────────────────────────────────
-// Figma-verified geometry (Badge OH, node 36:21661):
-//   height: 16px, padding-x: 4px (--spacing-4xs), border-radius: full
-//   font: 10px / Label/2xsmall/default — inter regular, lh: 14px, ls: -0.2px
-//
-// Positioning: pill top aligns with avatar bottom (top: 100%), then pulled
-// up 2px so it slightly overlaps the avatar edge for visual anchoring.
-// In MemberCard this creates the section-boundary bridge effect.
-//
-// Color encoding:
-//   available, booked, frequently-booked — Figma-confirmed: brand-blue CalendarBlank
-//   booked      — no Figma variant; warning style carried from MemberCard implementation
-//   unavailable — no Figma variant; neutral style carried from MemberCard implementation
+// ─── Type: placeholder ────────────────────────────────────────────────────────
+// Figma: same brand-primary blue bg (#1b4dff) + white person silhouette icon.
 
-.pill {
+.surface:has(.placeholderIcon) {
+  background-color: var(--foreground-brand-primary);
+}
+
+.placeholderIcon {
+  color: var(--background-base-white);
+  // Icon fills ~60% of the avatar
+  .size-xs  & { width: 12px;  height: 12px;  }
+  .size-sm  & { width: 14px;  height: 14px;  }
+  .size-md  & { width: 20px;  height: 20px;  }
+  .size-lg  & { width: 24px;  height: 24px;  }
+  .size-xl  & { width: 34px;  height: 34px;  }
+  .size-2xl & { width: 38px;  height: 38px;  }
+  .size-3xl & { width: 58px;  height: 58px;  }
+}
+
+// ─── Type: brand-logo / emoji / flag ─────────────────────────────────────────
+// Consumers pass content via the `icon` prop. White bg (image default in Figma).
+
+.surface:has(.iconContent) {
+  background-color: var(--background-base-white);
+}
+
+.iconContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 60%;
+
+  > * {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+// ─── Status dot (bottom-right corner) ────────────────────────────────────────
+// Figma "AvatarStatusBottom" (10:1571).
+// The dot is positioned at bottom-right, partially outside the avatar bounds.
+// Sizing mirrors Figma's named indicator sizes mapped to our avatar size tokens:
+//   xs, sm → Figma "Small"       container 12px / dot 6px
+//   md     → Figma "Medium"      container 16px / dot 8px
+//   lg     → Figma "Large"       container 20px / dot 10px
+//   xl     → Figma "Extra Large" container 24px / dot 12px
+//   2xl,3xl→ Figma "Big"         container 32px / dot 14px
+
+.statusDot {
+  position: absolute;
+  border-radius: 50%;
+  // White gap between dot and avatar surface — background acts as the ring.
+  // Using background + inset box-shadow keeps the white ring inside the element.
+  background-color: var(--background-base-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// border = white ring visible only when showStatusBorder=true (default)
+.statusDotBorder {
+  background-color: var(--background-base-white);
+}
+
+// dot fill — the colored circle inside the white-bg container
+.statusDot::after {
+  content: '';
+  border-radius: 50%;
+  display: block;
+}
+
+// ── Size-specific dot container dimensions and positioning ──
+// Position: bottom-right corner, roughly half outside the avatar.
+
+.statusDot-xs,
+.statusDot-sm {
+  width: 12px;
+  height: 12px;
+  bottom: -3px;
+  right: -3px;
+
+  &::after { width: 6px; height: 6px; }
+  .dndLine { width: 4px; }
+}
+
+.statusDot-md {
+  width: 16px;
+  height: 16px;
+  bottom: -4px;
+  right: -4px;
+
+  &::after { width: 8px; height: 8px; }
+  .dndLine { width: 5px; }
+}
+
+.statusDot-lg {
+  width: 20px;
+  height: 20px;
+  bottom: -4px;
+  right: -4px;
+
+  &::after { width: 10px; height: 10px; }
+  .dndLine { width: 6px; }
+}
+
+.statusDot-xl {
+  width: 24px;
+  height: 24px;
+  bottom: -4px;
+  right: -4px;
+
+  &::after { width: 12px; height: 12px; }
+  .dndLine { width: 7px; }
+}
+
+.statusDot-2xl,
+.statusDot-3xl {
+  width: 32px;
+  height: 32px;
+  bottom: -4px;
+  right: -4px;
+
+  &::after { width: 14px; height: 14px; }
+  .dndLine { width: 9px; }
+}
+
+// ── Status colors ──
+// active:       #249F58  (Figma-verified: "Green" in design styles metadata)
+// dont-disturb: error red + white minus rule
+// invisible:    neutral tertiary grey
+
+.statusDot-status-active::after         { background-color: #249f58; }
+.statusDot-status-dont-disturb::after   { background-color: var(--background-error-normal, #e53935); }
+.statusDot-status-invisible::after      { background-color: var(--foreground-neutral-tertiary); }
+
+// ── Don't disturb minus rule ──
+// White horizontal line centered in the dot.
+
+.dndLine {
+  position: absolute;
+  height: 1.5px;
+  background-color: var(--background-base-white);
+  border-radius: 1px;
+  z-index: 1;
+}
+
+// ─── Badge slots ──────────────────────────────────────────────────────────────
+// Decision B: avatar supports presence dots + arbitrary badge slots.
+// Consumers are responsible for the content/styling of the badge.
+
+// Top-right — matches Figma AvatarStatusTop positioning
+.topBadgeSlot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+// Bottom-center — for OH availability pill in MemberCard
+.bottomBadgeSlot {
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: -2px; // slight anchor overlap
-
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 16px;
-  padding: 0 var(--spacing-4xs);
-  border-radius: var(--radius-full);
-  white-space: nowrap;
-
-  @include mixins.label-2xs;
-  font-weight: var(--font-weight-regular);
-  letter-spacing: -0.02em;
-}
-
-.pillIcon {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-
-// Figma "Status=Available to connect" (36:21661): #f2f5ff bg, --border-brand-subtle border
-.pill-available {
-  background: var(--global-color-blue-25); // #f2f5ff — Figma-verified
-  border: 1px solid var(--border-brand-subtle); // --global-color-blue-100 = #aebfff
-  color: var(--foreground-brand-primary);
-}
-
-// Figma "Status=Frequently Booked" (36:21665): identical visual to Available
-.pill-frequently-booked {
-  background: var(--global-color-blue-25);
-  border: 1px solid var(--border-brand-subtle);
-  color: var(--foreground-brand-primary);
-}
-
-// No Figma canonical for "booked" — using warning style from MemberCard implementation.
-// TODO: Confirm desired style with design during review of booked vs. frequently-booked.
-.pill-booked {
-  background: var(--transparent-warning-8);
-  border: 1px solid transparent;
-  color: var(--foreground-warning-secondary);
-}
-
-// No Figma canonical for "unavailable" — neutral style from MemberCard implementation.
-.pill-unavailable {
-  background: var(--background-neutral-subtle);
-  border: 1px solid transparent;
-  color: var(--foreground-neutral-tertiary);
+  margin-top: -2px; // slight anchor overlap for visual grounding
 }
 
 // ─── Decorative rings ─────────────────────────────────────────────────────────
-// Source: Figma inner-circle.svg fill (36:21634) and outer-circle.svg fill (36:21636)
-// Canonical sizes from Figma (3xl / 80px avatar):
-//   Inner ring: 106×106px — extends 13px beyond avatar on each side
-//   Outer ring: ~150×150px — extends 35px beyond avatar on each side
-// Positioning: centered on avatar with Figma's subpixel offset (~0.5px) ignored for clarity.
-//
-// Rings are absolutely positioned and do not affect layout flow.
-// Parent container should account for ring overflow when using decorativeRing.
-//
-// TODO: The SVG paths below are preserved from the Figma localhost export.
-// Replace with production-hosted assets when available in the design handoff.
-// The decorativeRing prop API will not change.
+// Originally designed for 80px; now centered on 96px (3xl).
+// Inner (106px) extends 5px beyond each side; outer (~150px) extends 27px.
+// Rings are purely decorative — pointer-events: none; z-index below surface.
 
 .ringInner,
 .ringOuter {
@@ -205,15 +287,14 @@
 
 .stackItem {
   position: relative;
-  // White ring separates overlapping avatars — 2px matches MemberCard halo treatment
+  // White ring separates overlapping avatars
   > * {
     outline: 2px solid var(--background-base-white);
     outline-offset: 0;
   }
 }
 
-// Overflow pill inherits the size-* and shape-* classes from .root equivalents.
-// Reuses size-* / shape-* rules already defined above.
+// Overflow pill — inherits size-* / shape-* rules already defined above.
 .stackOverflow {
   display: inline-flex;
   align-items: center;
@@ -221,10 +302,18 @@
   background: var(--background-neutral-subtle);
   color: var(--foreground-neutral-secondary);
   font-family: var(--font-family-primary);
-  font-size: var(--avatar-font-size);
   font-weight: var(--font-weight-medium);
   line-height: 1;
   outline: 2px solid var(--background-base-white);
   outline-offset: 0;
   flex-shrink: 0;
+
+  // Font sizes matching initials scale
+  &.size-xs  { font-size: 8px;  }
+  &.size-sm  { font-size: 9px;  }
+  &.size-md  { font-size: 12px; }
+  &.size-lg  { font-size: 14px; }
+  &.size-xl  { font-size: 20px; }
+  &.size-2xl { font-size: 24px; }
+  &.size-3xl { font-size: 32px; }
 }

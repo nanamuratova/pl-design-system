@@ -1,36 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CalendarBlank } from '@phosphor-icons/react';
+import { User } from '@phosphor-icons/react';
 import styles from './Avatar.module.scss';
-import type { AvatarProps, AvatarStackProps, AvatarSize, AvatarBgTint, AvatarShape } from './Avatar.types';
+import type {
+  AvatarProps,
+  AvatarStackProps,
+  AvatarSize,
+  AvatarShape,
+  AvatarType,
+} from './Avatar.types';
 
-// ─── Size lookup ─────────────────────────────────────────────────────────────
+// ─── Size lookup ──────────────────────────────────────────────────────────────
+// Figma-canonical pixel values from node 10:1763.
 
 const SIZE_PX: Record<AvatarSize, number> = {
   xs: 20,
-  sm: 28,
+  sm: 24,
   md: 32,
   lg: 40,
-  xl: 48,
-  '2xl': 56,
-  '3xl': 80,
+  xl: 56,
+  '2xl': 64,
+  '3xl': 96,
 };
-
-// ─── Tint palette ─────────────────────────────────────────────────────────────
-// lavender (#C6CAFF) — Figma-verified: MemberCard hero avatar background
-// slate (#AFBACA)    — Figma-verified: FocusAreaCard stacked team avatars
-
-const TINTS: AvatarBgTint[] = ['lavender', 'mint', 'peach', 'sky', 'rose', 'slate'];
-
-function resolveTint(name: string, tint: AvatarBgTint = 'auto'): AvatarBgTint {
-  if (tint !== 'auto') return tint;
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  }
-  return TINTS[hash % TINTS.length];
-}
 
 // ─── Initials ─────────────────────────────────────────────────────────────────
 
@@ -40,15 +32,21 @@ function getInitials(name: string): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
+// ─── Type resolution ──────────────────────────────────────────────────────────
+
+function resolveType(type: AvatarType | undefined, src: string | undefined): AvatarType {
+  if (type) return type;
+  return src ? 'image' : 'letter-of-name';
+}
+
 // ─── Decorative ring SVGs ─────────────────────────────────────────────────────
-// Source: Figma "Member Card Desktop" (36:21630) — inner (36:21634) + outer (36:21636)
-// Inner: 106×106px, 1px stroke ring, color = --border-neutral-subtle @ path opacity 0.4
-// Outer: ~150×150px, 1px stroke ring (#D8DEEC) + 4 decorative dot accents
+// Source: Figma "Member Card Desktop" (36:21630) — inner (36:21634) + outer (36:21636).
+// Designed for 80px avatar; at 3xl=96px they scale proportionally via CSS width/height.
+// Inner: 106px ring, stroke color = --border-neutral-subtle @ 40% path opacity.
+// Outer: ~150px ring, #D8DEEC stroke @ 40% + 4 decorative accent dots.
 //
-// TODO: These SVGs are approximated with preserved paths from Figma localhost export.
-// When the production SVG assets are available in the design handoff, replace the
-// inline path data below with the canonical files. Component API (decorativeRing prop)
-// will not change between approximation and final SVG.
+// TODO: Replace inline path data with production-hosted SVG assets when available
+// in the Figma design handoff. Component API (decorativeRing prop) will not change.
 
 function RingInner() {
   return (
@@ -99,50 +97,76 @@ function RingOuter() {
   );
 }
 
-// ─── Status pill label map ─────────────────────────────────────────────────────
+// ─── Status dot ───────────────────────────────────────────────────────────────
+// Figma "AvatarStatusBottom" (10:1571): dot at bottom-right corner.
+// Status dot sizes scale with avatar size — see SCSS for container sizing.
+// Active: #249F58 (Figma-verified green from "avatar/custom background" style note).
+// Don't disturb: error-primary red with white minus rule.
+// Invisible: neutral grey.
 
-const STATUS_LABEL: Record<NonNullable<AvatarProps['status']>, string> = {
-  available: 'Available to connect',
-  booked: 'Booked',
-  'frequently-booked': 'Frequently Booked',
-  unavailable: 'Unavailable',
-};
+function StatusDot({
+  status,
+  size,
+  showBorder,
+}: {
+  status: NonNullable<AvatarProps['status']>;
+  size: AvatarSize;
+  showBorder: boolean;
+}) {
+  return (
+    <div
+      className={[
+        styles.statusDot,
+        styles[`statusDot-${size}`],
+        styles[`statusDot-status-${status}`],
+        showBorder ? styles.statusDotBorder : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      aria-hidden="true"
+    >
+      {status === 'dont-disturb' && <span className={styles.dndLine} aria-hidden="true" />}
+    </div>
+  );
+}
 
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 
 export function Avatar({
   name,
   src,
+  type,
+  icon,
   size = 'md',
   shape = 'circle',
   status,
-  bgTint = 'auto',
+  showStatusBorder = true,
+  topBadge,
+  bottomBadge,
   decorativeRing = false,
   className,
   'aria-label': ariaLabel,
 }: AvatarProps) {
   const [imgError, setImgError] = useState(false);
-  const showPhoto = Boolean(src) && !imgError;
-  const resolvedTint = resolveTint(name, bgTint);
-  const initials = getInitials(name);
+
+  const resolved = resolveType(type, src);
+  // Image falls back to letter-of-name on load error
+  const effectiveType: AvatarType =
+    resolved === 'image' && imgError ? 'letter-of-name' : resolved;
+
   const showRings = decorativeRing && size === '3xl';
 
   const rootClasses = [
     styles.root,
     styles[`size-${size}`],
     styles[`shape-${shape}`],
-    showRings ? styles.hasRings : '',
     className ?? '',
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div
-      className={rootClasses}
-      role="img"
-      aria-label={ariaLabel ?? name}
-    >
+    <div className={rootClasses} role="img" aria-label={ariaLabel ?? name}>
       {showRings && (
         <>
           <RingOuter />
@@ -150,9 +174,9 @@ export function Avatar({
         </>
       )}
 
-      {/* Background tint surface — always rendered as the fallback layer */}
-      <div className={`${styles.surface} ${styles[`tint-${resolvedTint}`]}`}>
-        {showPhoto ? (
+      {/* ── Surface (clip container) ── */}
+      <div className={styles.surface}>
+        {effectiveType === 'image' && src && (
           <img
             src={src}
             alt=""
@@ -160,30 +184,43 @@ export function Avatar({
             onError={() => setImgError(true)}
             aria-hidden="true"
           />
-        ) : (
+        )}
+
+        {effectiveType === 'letter-of-name' && (
           <span className={styles.initials} aria-hidden="true">
-            {initials}
+            {getInitials(name)}
           </span>
         )}
+
+        {effectiveType === 'placeholder' && (
+          <User weight="fill" className={styles.placeholderIcon} aria-hidden="true" />
+        )}
+
+        {(effectiveType === 'brand-logo' ||
+          effectiveType === 'emoji' ||
+          effectiveType === 'flag') &&
+          icon && (
+            <span className={styles.iconContent} aria-hidden="true">
+              {icon}
+            </span>
+          )}
       </div>
 
+      {/* ── Presence status dot (bottom-right) ── */}
       {status && (
-        <div className={`${styles.pill} ${styles[`pill-${status}`]}`}>
-          {status !== 'unavailable' && (
-            <CalendarBlank
-              weight="regular"
-              className={styles.pillIcon}
-              aria-hidden="true"
-            />
-          )}
-          <span>{STATUS_LABEL[status]}</span>
-        </div>
+        <StatusDot status={status} size={size} showBorder={showStatusBorder} />
       )}
+
+      {/* ── Top-right badge slot (Verified, Logo, Notification…) ── */}
+      {topBadge && <div className={styles.topBadgeSlot}>{topBadge}</div>}
+
+      {/* ── Bottom-center badge slot (MemberCard OH pill, etc.) ── */}
+      {bottomBadge && <div className={styles.bottomBadgeSlot}>{bottomBadge}</div>}
     </div>
   );
 }
 
-// ─── AvatarStack ──────────────────────────────────────────────────────────────
+// ─── AvatarStack ─────────────────────────────────────────────────────────────
 
 export function AvatarStack({
   children,

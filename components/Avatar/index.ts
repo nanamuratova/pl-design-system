@@ -4,6 +4,6 @@ export type {
   AvatarStackProps,
   AvatarSize,
   AvatarShape,
-  AvatarStatus,
-  AvatarBgTint,
+  AvatarType,
+  AvatarPresenceStatus,
 } from './Avatar.types';

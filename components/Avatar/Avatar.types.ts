@@ -1,45 +1,89 @@
 // Avatar component types
-// Figma source: Cards canvas — "Member Card Desktop" (36:21630), "Badge OH" (36:21660)
+// Figma source: Design System Icons canvas — "Avatar" (10:1763)
+// File: apsV3GKbIbOSpZYGvhdKqU
 
-// Size scale: xs=20 sm=28 md=32 lg=40 xl=48 2xl=56 3xl=80
-// 3xl is the canonical MemberCard hero size (Figma-verified).
-// sm=28 is used for ForumPostCard — deviates from nearest Figma step (md=32).
-// This deviation is tracked in DESIGNER_REVIEW.md until design clarification.
+// ─── Size ─────────────────────────────────────────────────────────────────────
+// Token-style names, corrected pixel values from Figma "Avatar" component frame.
+// Previous impl had xl=48 (Figma XL=64) and 3xl=80 (Figma Big=96) — both wrong.
+// 28px never existed in Figma; ForumPostCard deviation tracked in DESIGNER_REVIEW.md.
+//
+// xs  = 20px  Figma "Tiny"
+// sm  = 24px  Figma "Extra Small"
+// md  = 32px  Figma "Small"
+// lg  = 40px  Figma "Medium"
+// xl  = 56px  Figma "Large"
+// 2xl = 64px  Figma "Extra Large"
+// 3xl = 96px  Figma "Big"
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 
-// circle  = border-radius: 50%         — member photos, profiles
-// rounded = border-radius: var(--radius-xl, 12px) — team/org logos
-// square  = border-radius: var(--radius-xsm, 4px) — FocusAreaCard stacks (Figma-verified)
-export type AvatarShape = 'circle' | 'rounded' | 'square';
+// ─── Shape ────────────────────────────────────────────────────────────────────
+// Figma "Avatar" component has exactly two shapes.
+// 'rounded' = border-radius: var(--radius-xsm, 4px) — Figma calls this "Rounded"
+// 'circle'  = border-radius: 50%                    — Figma calls this "Circle"
+// Previous impl had a spurious third shape at radius-xl (12px) — removed.
+export type AvatarShape = 'circle' | 'rounded';
 
-// available, frequently-booked — Figma-confirmed: brand-blue CalendarBlank badge
-// booked     — no Figma variant; carried from MemberCard implementation (warning style)
-// unavailable — no Figma variant; carried from MemberCard implementation (neutral style)
-export type AvatarStatus = 'available' | 'booked' | 'frequently-booked' | 'unavailable';
+// ─── Type ─────────────────────────────────────────────────────────────────────
+// Figma's six content types (node 10:1763 symbols).
+// Default inference: src present → 'image'; no src → 'letter-of-name'.
+// On image load error, 'image' falls back to 'letter-of-name' automatically.
+export type AvatarType =
+  | 'image'          // actual photo; falls back to letter-of-name on error
+  | 'placeholder'    // brand-blue bg + white person silhouette
+  | 'letter-of-name' // brand-blue bg + white initials (first + last initial)
+  | 'brand-logo'     // org/company icon — provide via `icon` prop
+  | 'emoji'          // emoji image — provide via `icon` prop
+  | 'flag';          // country flag — provide via `icon` prop
 
-// Explicit tints or 'auto' (deterministic hash from name)
-// lavender (#C6CAFF) and slate (#AFBACA) are Figma-verified from MemberCard + FocusAreaCard
-export type AvatarBgTint =
-  | 'lavender'
-  | 'mint'
-  | 'peach'
-  | 'sky'
-  | 'rose'
-  | 'slate'
-  | 'auto';
+// ─── Status (bottom-right dot) ────────────────────────────────────────────────
+// Figma "AvatarStatusBottom" (10:1571) — presence indicator, bottom-right corner.
+// NOT the MemberCard OH pill — that is a card-level badge (Decision B).
+//
+// active       — green dot  (#249F58, Figma-verified)
+// dont-disturb — red dot + horizontal minus line
+// invisible    — grey dot
+export type AvatarPresenceStatus = 'active' | 'dont-disturb' | 'invisible';
+
+// ─── Props ────────────────────────────────────────────────────────────────────
 
 export interface AvatarProps {
-  /** Full name used for initials fallback and aria-label when no explicit label given */
+  /** Full name — used for initials (first + last initial) and default aria-label */
   name: string;
-  /** Photo URL — on load error falls back to initials */
+  /** Photo URL. When provided, type defaults to 'image'. Falls back to 'letter-of-name' on error. */
   src?: string;
+  /**
+   * Content type. If omitted: 'image' when src is present, 'letter-of-name' otherwise.
+   * For 'brand-logo' | 'emoji' | 'flag', pass content via the `icon` prop.
+   */
+  type?: AvatarType;
+  /** Custom content for brand-logo, emoji, flag types */
+  icon?: React.ReactNode;
   size?: AvatarSize;
   shape?: AvatarShape;
-  /** Availability/calendar status pill rendered below the avatar */
-  status?: AvatarStatus;
-  /** Background tint for the initials surface. 'auto' picks deterministically from name hash */
-  bgTint?: AvatarBgTint;
-  /** Renders the two-ring decorative halo (inner 106px + outer 150px). Only meaningful at 3xl size. */
+  /**
+   * Presence status dot — Figma canonical (10:1571).
+   * Renders at bottom-right corner, scaled to avatar size.
+   */
+  status?: AvatarPresenceStatus;
+  /** Show white border ring around the status dot. Default true. */
+  showStatusBorder?: boolean;
+  /**
+   * Top-right badge slot — for Verified, Logo, Notification indicators.
+   * Positioned at top: -4px; right: -4px (matches Figma AvatarStatusTop).
+   * Decision B: avatar supports both presence dot and badge slots.
+   */
+  topBadge?: React.ReactNode;
+  /**
+   * Bottom-center badge slot — for card-level badges like the MemberCard OH pill.
+   * Positioned at top: 100%; left: 50%; transform: translateX(-50%).
+   * Decision B: allows card components to attach contextual badges without leaving
+   * the Avatar as a positioning anchor.
+   */
+  bottomBadge?: React.ReactNode;
+  /**
+   * Renders the two decorative concentric rings (inner 106px + outer 150px).
+   * Only meaningful at size='3xl' (96px). Rings are inline SVGs from Figma export.
+   */
   decorativeRing?: boolean;
   className?: string;
   'aria-label'?: string;
@@ -48,19 +92,18 @@ export interface AvatarProps {
 export interface AvatarStackProps {
   children: React.ReactNode;
   /**
-   * Overlap between adjacent avatars in px.
-   * 'auto' (default) computes round(sizePx * 0.3).
-   * Pass a number to override for dense or spacious layouts.
-   * Figma FocusAreaCard uses 8px for xs (20px) avatars — equivalent to 40% of size.
+   * Overlap between adjacent avatars.
+   * 'auto' (default) = round(sizePx × 0.3).
+   * Numeric value overrides in px — use negative values to add spacing instead.
    */
   gap?: number | 'auto';
-  /** Clip to N avatars and show +overflow pill */
+  /** Show only the first N avatars; render overflow pill for the rest */
   maxVisible?: number;
-  /** Explicit overflow count — omit to auto-compute from children.length */
+  /** Explicit overflow count — auto-computed from children.length when omitted */
   overflow?: number;
-  /** Passed through to the overflow pill; should match children's size prop */
+  /** Should match the size prop of the child Avatar components */
   size?: AvatarSize;
-  /** Border-radius of the overflow pill; should match children's shape prop */
+  /** Should match the shape prop of the child Avatar components */
   shape?: AvatarShape;
   className?: string;
 }

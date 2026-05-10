@@ -1,12 +1,13 @@
-// /preview/avatar — Avatar + AvatarStack visual verification page
-// Use this route to verify every variant against Figma before approving the refactor pass.
+// /preview/avatar — Avatar + AvatarStack visual verification (v2)
+// Rewritten against canonical Figma Avatar component (node 10:1763).
 
 import { Avatar, AvatarStack } from '@components/Avatar';
-import type { AvatarSize, AvatarShape, AvatarStatus, AvatarBgTint } from '@components/Avatar';
+import type { AvatarSize, AvatarShape, AvatarType, AvatarPresenceStatus } from '@components/Avatar';
 import styles from './page.module.scss';
 
-// Real photo URL for load/error testing
 const PHOTO_URL = 'https://i.pravatar.cc/300?img=11';
+const PHOTO_URL_2 = 'https://i.pravatar.cc/300?img=32';
+const PHOTO_URL_3 = 'https://i.pravatar.cc/300?img=47';
 const BAD_URL = 'https://not-a-real-domain.example/broken.jpg';
 
 export default function AvatarPreviewPage() {
@@ -15,141 +16,200 @@ export default function AvatarPreviewPage() {
       <header className={styles.header}>
         <h1>Avatar</h1>
         <p>
-          Canonical component — Figma source:{' '}
-          <code>Member Card Desktop (36:21630)</code>,{' '}
-          <code>Badge OH (36:21660)</code>,{' '}
-          <code>FocusAreaCard (46:126)</code>
+          Canonical Figma source: <code>❖ Avatars canvas → "Avatar" (10:1763)</code>.
+          Rewritten v2 — corrected sizes, canonical types, presence dot, badge slots.
         </p>
       </header>
 
       {/* ── 1. Sizes ──────────────────────────────────────────────────────── */}
-      <Section title="1 — Sizes (circle, auto-tint, initials)">
+      <Section title="1 — Sizes (all 7, circle, letter-of-name)">
         <Row>
           {(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'] as AvatarSize[]).map((size) => (
-            <Cell key={size} label={size}>
-              <Avatar name="Alex Chen" size={size} bgTint="lavender" />
+            <Cell key={size} label={`${size}`}>
+              <Avatar name="Alex Chen" size={size} />
             </Cell>
           ))}
         </Row>
-      </Section>
-
-      {/* ── 2. Photo vs Initials vs Error fallback ────────────────────────── */}
-      <Section title="2 — Photo · Initials · Error fallback (md)">
-        <Row>
-          <Cell label="photo">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="md" />
-          </Cell>
-          <Cell label="initials">
-            <Avatar name="Alex Chen" size="md" bgTint="lavender" />
-          </Cell>
-          <Cell label="error → initials">
-            <Avatar name="Alex Chen" src={BAD_URL} size="md" bgTint="lavender" />
-          </Cell>
-          <Cell label="single word">
-            <Avatar name="Ripple" size="md" bgTint="mint" />
-          </Cell>
-        </Row>
-      </Section>
-
-      {/* ── 3. Background tints ───────────────────────────────────────────── */}
-      <Section title="3 — Background tints (lg, initials)">
-        <Row>
-          {(['lavender', 'mint', 'peach', 'sky', 'rose', 'slate', 'auto'] as AvatarBgTint[]).map(
-            (tint) => (
-              <Cell key={tint} label={tint}>
-                <Avatar name={tint === 'auto' ? 'Sam Rivera' : 'Alex Chen'} size="lg" bgTint={tint} />
-              </Cell>
-            ),
-          )}
-        </Row>
         <p className={styles.note}>
-          <code>auto</code> picks tint deterministically from name hash — same name always gets the
-          same color.
+          xs=20 sm=24 md=32 lg=40 xl=56 2xl=64 3xl=96px — corrected from v1 (xl was 48, 3xl was 80).
         </p>
       </Section>
 
-      {/* ── 4. Shapes ─────────────────────────────────────────────────────── */}
-      <Section title="4 — Shapes (xl, lavender)">
+      {/* ── 2. Types ──────────────────────────────────────────────────────── */}
+      <Section title="2 — Types (xl, circle)">
         <Row>
-          {(['circle', 'rounded', 'square'] as AvatarShape[]).map((shape) => (
-            <Cell key={shape} label={shape}>
-              <Avatar name="Alex Chen" size="xl" shape={shape} bgTint="lavender" />
+          <Cell label="image">
+            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" />
+          </Cell>
+          <Cell label="letter-of-name">
+            <Avatar name="Alex Chen" size="xl" type="letter-of-name" />
+          </Cell>
+          <Cell label="placeholder">
+            <Avatar name="Alex Chen" size="xl" type="placeholder" />
+          </Cell>
+          <Cell label="image → fallback">
+            <Avatar name="Alex Chen" src={BAD_URL} size="xl" />
+          </Cell>
+          <Cell label="brand-logo">
+            <Avatar
+              name="Protocol Labs"
+              size="xl"
+              type="brand-logo"
+              icon={
+                <svg viewBox="0 0 24 24" fill="var(--foreground-brand-primary)">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              }
+            />
+          </Cell>
+          <Cell label="emoji">
+            <Avatar name="Happy" size="xl" type="emoji" icon={<span style={{ fontSize: 28 }}>😊</span>} />
+          </Cell>
+        </Row>
+      </Section>
+
+      {/* ── 3. Shapes ─────────────────────────────────────────────────────── */}
+      <Section title="3 — Shapes (xl, photo + initials)">
+        <Row>
+          {(['circle', 'rounded'] as AvatarShape[]).map((shape) => (
+            <>
+              <Cell key={`${shape}-photo`} label={`${shape} + photo`}>
+                <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" shape={shape} />
+              </Cell>
+              <Cell key={`${shape}-initials`} label={`${shape} + initials`}>
+                <Avatar name="Alex Chen" size="xl" shape={shape} />
+              </Cell>
+              <Cell key={`${shape}-placeholder`} label={`${shape} + placeholder`}>
+                <Avatar name="Alex Chen" size="xl" shape={shape} type="placeholder" />
+              </Cell>
+            </>
+          ))}
+        </Row>
+        <p className={styles.note}>
+          Figma has exactly two shapes: circle (50%) and rounded (4px / radius-xsm).
+          Previous impl had a spurious 12px-rounded shape — removed.
+        </p>
+      </Section>
+
+      {/* ── 4. Presence status dot ────────────────────────────────────────── */}
+      <Section title="4 — Presence status dot (Figma AvatarStatusBottom, 10:1571)">
+        <p className={styles.note}>
+          Dot renders at bottom-right corner, scaled to avatar size.
+          <strong> This is NOT the MemberCard OH pill</strong> — that is a card-level badge (Decision B).
+        </p>
+        <Row>
+          {(['active', 'dont-disturb', 'invisible'] as AvatarPresenceStatus[]).map((s) => (
+            <Cell key={s} label={s}>
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" status={s} />
             </Cell>
           ))}
-          <Cell label="circle + photo">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" shape="circle" />
+          <Cell label="no border">
+            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" status="active" showStatusBorder={false} />
           </Cell>
-          <Cell label="rounded + photo">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" shape="rounded" />
+        </Row>
+        <Row>
+          <Cell label="status at xs">
+            <Avatar name="AC" size="xs" status="active" />
           </Cell>
-          <Cell label="square + photo">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="xl" shape="square" />
+          <Cell label="status at sm">
+            <Avatar name="AC" size="sm" status="active" />
+          </Cell>
+          <Cell label="status at md">
+            <Avatar name="AC" size="md" status="dont-disturb" />
+          </Cell>
+          <Cell label="status at lg">
+            <Avatar name="AC" size="lg" status="invisible" />
+          </Cell>
+          <Cell label="status at xl">
+            <Avatar name="AC" size="xl" status="active" />
+          </Cell>
+          <Cell label="status at 2xl">
+            <Avatar name="Alex Chen" src={PHOTO_URL} size="2xl" status="dont-disturb" />
+          </Cell>
+          <Cell label="status at 3xl">
+            <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" status="active" />
           </Cell>
         </Row>
       </Section>
 
-      {/* ── 5. Status pills ───────────────────────────────────────────────── */}
-      <Section title="5 — Status pills (2xl, lavender)">
+      {/* ── 5. Badge slots (Decision B) ───────────────────────────────────── */}
+      <Section title="5 — Badge slots: topBadge + bottomBadge (Decision B)">
         <p className={styles.note}>
-          Figma-confirmed: <code>available</code> and <code>frequently-booked</code> use
-          brand-blue CalendarBlank badge (same visual). <code>booked</code> uses warning
-          style (no Figma canonical — carried from MemberCard). <code>unavailable</code>
-          uses neutral (no Figma canonical).
+          <code>topBadge</code> renders at top-right (Verified, Logo, etc.).{' '}
+          <code>bottomBadge</code> renders at bottom-center — used by MemberCard for the OH availability pill.
+          Consumers own the badge content and styling.
         </p>
         <Row>
-          {(['available', 'frequently-booked', 'booked', 'unavailable'] as AvatarStatus[]).map(
-            (status) => (
-              <Cell key={status} label={status} tall>
-                <Avatar name="Alex Chen" size="2xl" bgTint="lavender" status={status} />
-              </Cell>
-            ),
-          )}
+          <Cell label="topBadge (verified)">
+            <Avatar name="Alex Chen" src={PHOTO_URL} size="2xl" topBadge={<VerifiedBadge />} />
+          </Cell>
+          <Cell label="bottomBadge (OH pill)" tall>
+            <Avatar
+              name="Alex Chen"
+              src={PHOTO_URL}
+              size="3xl"
+              bottomBadge={<AvailabilityPill label="Available to connect" />}
+            />
+          </Cell>
+          <Cell label="status + bottomBadge" tall>
+            <Avatar
+              name="Alex Chen"
+              src={PHOTO_URL}
+              size="3xl"
+              status="active"
+              bottomBadge={<AvailabilityPill label="Available to connect" />}
+            />
+          </Cell>
+          <Cell label="topBadge + status">
+            <Avatar
+              name="Alex Chen"
+              src={PHOTO_URL}
+              size="2xl"
+              status="active"
+              topBadge={<VerifiedBadge />}
+            />
+          </Cell>
         </Row>
       </Section>
 
       {/* ── 6. 3xl hero + decorative rings ───────────────────────────────── */}
-      <Section title="6 — 3xl hero: rings off vs on">
-        <p className={styles.note}>
-          Inner ring: 106×106px stroke circle, <code>--border-neutral-subtle</code> @ 40%
-          opacity. Outer ring: ~150px dashed-dot circle, <code>#D8DEEC</code> @ 40% opacity
-          + 4 accent dots at compass points. SVG paths preserved from Figma localhost export
-          (see TODO in Avatar.tsx).
-        </p>
+      <Section title="6 — 3xl hero: decorative rings (rings off / on / on + badge)">
         <div className={styles.heroRow}>
           <Cell label="3xl — no rings">
-            <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" />
+            <div className={styles.heroContainer}>
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" />
+            </div>
           </Cell>
-          {/* ring container needs extra space so rings aren't clipped */}
-          <Cell label="3xl — decorativeRing">
+          <Cell label="3xl — rings">
             <div className={styles.heroContainer}>
               <Avatar name="Alex Chen" src={PHOTO_URL} size="3xl" decorativeRing />
             </div>
           </Cell>
-          <Cell label="3xl — rings + status">
+          <Cell label="rings + status + badge" tall>
             <div className={styles.heroContainer}>
               <Avatar
                 name="Alex Chen"
                 src={PHOTO_URL}
                 size="3xl"
                 decorativeRing
-                status="available"
+                status="active"
+                bottomBadge={<AvailabilityPill label="Available to connect" />}
               />
             </div>
           </Cell>
-          <Cell label="3xl — initials + rings">
+          <Cell label="rings + initials" >
             <div className={styles.heroContainer}>
-              <Avatar name="Alex Chen" size="3xl" bgTint="lavender" decorativeRing />
+              <Avatar name="Alex Chen" size="3xl" decorativeRing />
             </div>
           </Cell>
         </div>
       </Section>
 
-      {/* ── 7. MemberCard gradient context ───────────────────────────────── */}
-      <Section title="7 — Figma MemberCard gradient context (visual reference)">
+      {/* ── 7. MemberCard context replica ────────────────────────────────── */}
+      <Section title="7 — MemberCard gradient context (visual reference)">
         <p className={styles.note}>
-          Replicates the card gradient header to verify ring + badge placement matches the
-          Figma screenshot. Avatar positioned at 8px from gradient top (96px section, 80px
-          avatar centered).
+          Replicates the card gradient header. Avatar at 3xl, rings on, status dot active,
+          OH pill via <code>bottomBadge</code>. Pill bridges gradient ↔ card body.
         </p>
         <div className={styles.cardContext}>
           <div className={styles.cardGradient}>
@@ -159,7 +219,8 @@ export default function AvatarPreviewPage() {
                 src={PHOTO_URL}
                 size="3xl"
                 decorativeRing
-                status="available"
+                status="active"
+                bottomBadge={<AvailabilityPill label="Available to connect" />}
               />
             </div>
           </div>
@@ -170,101 +231,127 @@ export default function AvatarPreviewPage() {
         </div>
       </Section>
 
-      {/* ── 8. AvatarStack — gap auto ─────────────────────────────────────── */}
-      <Section title="8 — AvatarStack (gap=auto, circle)">
-        <p className={styles.note}>
-          Auto overlap = <code>round(sizePx × 0.3)</code>. Figma FocusAreaCard uses 8px for
-          xs (20px) avatars — equivalent to 40% of size. Auto at xs computes 6px (30%).
-          Documented discrepancy; override with <code>gap=8</code> if needed.
-        </p>
+      {/* ── 8. AvatarStack ───────────────────────────────────────────────── */}
+      <Section title="8 — AvatarStack (gap=auto, circle + photo)">
         <Row>
           {(['xs', 'sm', 'md', 'lg', 'xl'] as AvatarSize[]).map((size) => (
             <Cell key={size} label={`size=${size}`}>
               <AvatarStack size={size}>
-                <Avatar name="Alex Chen" size={size} bgTint="lavender" />
-                <Avatar name="Sam Rivera" size={size} bgTint="mint" />
-                <Avatar name="Jordan Kim" size={size} bgTint="peach" />
+                <Avatar name="Alex Chen" src={PHOTO_URL} size={size} />
+                <Avatar name="Sam Rivera" src={PHOTO_URL_2} size={size} />
+                <Avatar name="Jordan Kim" src={PHOTO_URL_3} size={size} />
               </AvatarStack>
             </Cell>
           ))}
         </Row>
       </Section>
 
-      {/* ── 9. AvatarStack — shapes ───────────────────────────────────────── */}
-      <Section title="9 — AvatarStack shapes (md)">
+      {/* ── 9. AvatarStack shapes ─────────────────────────────────────────── */}
+      <Section title="9 — AvatarStack shapes (lg)">
         <Row>
-          {(['circle', 'rounded', 'square'] as AvatarShape[]).map((shape) => (
+          {(['circle', 'rounded'] as AvatarShape[]).map((shape) => (
             <Cell key={shape} label={`shape=${shape}`}>
-              <AvatarStack size="md" shape={shape}>
-                <Avatar name="Alex Chen" size="md" shape={shape} bgTint="lavender" />
-                <Avatar name="Sam Rivera" size="md" shape={shape} bgTint="mint" />
-                <Avatar name="Jordan Kim" size="md" shape={shape} bgTint="peach" />
+              <AvatarStack size="lg" shape={shape}>
+                <Avatar name="Alex Chen" size="lg" shape={shape} />
+                <Avatar name="Sam Rivera" size="lg" shape={shape} />
+                <Avatar name="Jordan Kim" size="lg" shape={shape} />
               </AvatarStack>
             </Cell>
           ))}
         </Row>
       </Section>
 
-      {/* ── 10. AvatarStack — overflow pill ───────────────────────────────── */}
-      <Section title="10 — AvatarStack overflow pill (maxVisible=3)">
+      {/* ── 10. AvatarStack overflow + gap ───────────────────────────────── */}
+      <Section title="10 — AvatarStack overflow pill + gap overrides (md)">
         <Row>
           <Cell label="5 avatars, maxVisible=3">
             <AvatarStack size="md" maxVisible={3}>
-              <Avatar name="Alex Chen" size="md" bgTint="lavender" />
-              <Avatar name="Sam Rivera" size="md" bgTint="mint" />
-              <Avatar name="Jordan Kim" size="md" bgTint="peach" />
-              <Avatar name="Riley Park" size="md" bgTint="sky" />
-              <Avatar name="Casey Mori" size="md" bgTint="rose" />
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="md" />
+              <Avatar name="Sam Rivera" src={PHOTO_URL_2} size="md" />
+              <Avatar name="Jordan Kim" src={PHOTO_URL_3} size="md" />
+              <Avatar name="Riley Park" size="md" />
+              <Avatar name="Casey Mori" size="md" />
             </AvatarStack>
           </Cell>
-          <Cell label="explicit overflow=12">
-            <AvatarStack size="md" maxVisible={3} overflow={12}>
-              <Avatar name="Alex Chen" size="md" bgTint="lavender" />
-              <Avatar name="Sam Rivera" size="md" bgTint="mint" />
-              <Avatar name="Jordan Kim" size="md" bgTint="peach" />
+          <Cell label="overflow=99">
+            <AvatarStack size="md" maxVisible={3} overflow={99}>
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="md" />
+              <Avatar name="Sam Rivera" src={PHOTO_URL_2} size="md" />
+              <Avatar name="Jordan Kim" size="md" />
             </AvatarStack>
           </Cell>
-          <Cell label="gap override = 2px (dense)">
+          <Cell label="gap=2 (dense)">
             <AvatarStack size="md" gap={2}>
-              <Avatar name="Alex Chen" size="md" bgTint="lavender" />
-              <Avatar name="Sam Rivera" size="md" bgTint="mint" />
-              <Avatar name="Jordan Kim" size="md" bgTint="peach" />
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="md" />
+              <Avatar name="Sam Rivera" src={PHOTO_URL_2} size="md" />
+              <Avatar name="Jordan Kim" size="md" />
             </AvatarStack>
           </Cell>
-          <Cell label="gap override = 12px (spacious)">
-            <AvatarStack size="md" gap={-12}>
-              <Avatar name="Alex Chen" size="md" bgTint="lavender" />
-              <Avatar name="Sam Rivera" size="md" bgTint="mint" />
-              <Avatar name="Jordan Kim" size="md" bgTint="peach" />
-            </AvatarStack>
-          </Cell>
-        </Row>
-      </Section>
-
-      {/* ── 11. Figma FocusAreaCard replica ───────────────────────────────── */}
-      <Section title="11 — FocusAreaCard avatar row replica (xs, square, gap=8)">
-        <p className={styles.note}>
-          Figma uses xs=20px, square (radius-xsm=4px), overlap=8px. AvatarStack
-          auto=6px; use <code>gap=8</code> to match Figma exactly.
-        </p>
-        <Row>
-          <Cell label="auto gap (6px)">
-            <AvatarStack size="xs" shape="square">
-              <Avatar name="A B" size="xs" shape="square" bgTint="slate" src={PHOTO_URL} />
-              <Avatar name="C D" size="xs" shape="square" bgTint="slate" src={PHOTO_URL} />
-              <Avatar name="E F" size="xs" shape="square" bgTint="slate" />
-            </AvatarStack>
-          </Cell>
-          <Cell label="gap=8 (Figma-exact)">
-            <AvatarStack size="xs" shape="square" gap={8}>
-              <Avatar name="A B" size="xs" shape="square" bgTint="slate" src={PHOTO_URL} />
-              <Avatar name="C D" size="xs" shape="square" bgTint="slate" src={PHOTO_URL} />
-              <Avatar name="E F" size="xs" shape="square" bgTint="slate" />
+          <Cell label="gap=−14 (spacious)">
+            <AvatarStack size="md" gap={-14}>
+              <Avatar name="Alex Chen" src={PHOTO_URL} size="md" />
+              <Avatar name="Sam Rivera" src={PHOTO_URL_2} size="md" />
+              <Avatar name="Jordan Kim" size="md" />
             </AvatarStack>
           </Cell>
         </Row>
       </Section>
     </main>
+  );
+}
+
+// ─── Mock badge sub-components ────────────────────────────────────────────────
+// These are placeholder renderers used only in the preview to test the badge slots.
+// Production implementations belong in their own components.
+
+function VerifiedBadge() {
+  return (
+    <div
+      style={{
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        background: '#1b4dff',
+        border: '2px solid white',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+        <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+function AvailabilityPill({ label }: { label: string }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+        height: 16,
+        padding: '0 4px',
+        borderRadius: 9999,
+        background: '#f2f5ff',
+        border: '1px solid #aebfff',
+        fontSize: 10,
+        fontFamily: 'var(--font-family-primary)',
+        fontWeight: 400,
+        color: '#1b4dff',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      {label}
+    </div>
   );
 }
 
@@ -283,15 +370,7 @@ function Row({ children }: { children: React.ReactNode }) {
   return <div className={styles.row}>{children}</div>;
 }
 
-function Cell({
-  label,
-  children,
-  tall,
-}: {
-  label: string;
-  children: React.ReactNode;
-  tall?: boolean;
-}) {
+function Cell({ label, children, tall }: { label: string; children: React.ReactNode; tall?: boolean }) {
   return (
     <div className={`${styles.cell} ${tall ? styles.cellTall : ''}`}>
       <div className={styles.cellContent}>{children}</div>
