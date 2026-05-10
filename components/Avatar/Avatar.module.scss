@@ -1,0 +1,230 @@
+@use '../../styles/mixins';
+
+// ─── Root container ───────────────────────────────────────────────────────────
+
+.root {
+  // Structural baseline — all other classes build on this
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  // overflow: visible — status pill and decorative rings extend beyond bounds
+}
+
+// ─── Size scale ───────────────────────────────────────────────────────────────
+// 3xl=80px is Figma-verified for MemberCard hero.
+// sm=28px deviates from nearest Figma step (md=32). Tracked in DESIGNER_REVIEW.md.
+
+.size-xs  { width: 20px; height: 20px; }
+.size-sm  { width: 28px; height: 28px; }
+.size-md  { width: 32px; height: 32px; }
+.size-lg  { width: 40px; height: 40px; }
+.size-xl  { width: 48px; height: 48px; }
+.size-2xl { width: 56px; height: 56px; }
+.size-3xl { width: 80px; height: 80px; }
+
+// ─── Shape variants ───────────────────────────────────────────────────────────
+// .shape-circle  → full-round (member photos, profiles)
+// .shape-rounded → radius-xl 12px (team/org logos)
+// .shape-square  → radius-xsm 4px (FocusAreaCard stacks — Figma-verified: `rounded-[var(--corner-radius/xsm,4px)]`)
+
+.shape-circle  { border-radius: var(--radius-full); }
+.shape-rounded { border-radius: var(--radius-xl); }
+.shape-square  { border-radius: var(--radius-xsm); }
+
+// ─── Surface (clip container for photo + tint) ────────────────────────────────
+// Separate from .root so rings can be positioned outside the clipping context.
+
+.surface {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ─── Photo ────────────────────────────────────────────────────────────────────
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ─── Initials ─────────────────────────────────────────────────────────────────
+// Typography scales with avatar size via font-size: inherit.
+// Each size class sets --avatar-font-size; .initials picks it up.
+
+.root { --avatar-font-size: 10px; } // xs default
+
+.size-xs  { --avatar-font-size: 9px; }
+.size-sm  { --avatar-font-size: 11px; }
+.size-md  { --avatar-font-size: 12px; }
+.size-lg  { --avatar-font-size: 14px; }
+.size-xl  { --avatar-font-size: 16px; }
+.size-2xl { --avatar-font-size: 20px; }
+.size-3xl { --avatar-font-size: 24px; }
+
+.initials {
+  font-family: var(--font-family-primary);
+  font-size: var(--avatar-font-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.02em;
+  color: var(--foreground-brand-primary);
+  line-height: 1;
+  user-select: none;
+}
+
+// ─── Background tints ─────────────────────────────────────────────────────────
+// lavender (#C6CAFF) — Figma MemberCard hero avatar bg (node 36:21633)
+// slate    (#AFBACA) — Figma FocusAreaCard team avatar bg (node 46:137)
+// Other tints complete the palette for auto-assignment variety.
+
+.tint-lavender { background-color: #c6caff; }
+.tint-mint     { background-color: #b2f0e8; }
+.tint-peach    { background-color: #ffd4b8; }
+.tint-sky      { background-color: #b8d8ff; }
+.tint-rose     { background-color: #ffb8cc; }
+.tint-slate    { background-color: #afbaca; }
+
+// ─── Status pill ─────────────────────────────────────────────────────────────
+// Figma-verified geometry (Badge OH, node 36:21661):
+//   height: 16px, padding-x: 4px (--spacing-4xs), border-radius: full
+//   font: 10px / Label/2xsmall/default — inter regular, lh: 14px, ls: -0.2px
+//
+// Positioning: pill top aligns with avatar bottom (top: 100%), then pulled
+// up 2px so it slightly overlaps the avatar edge for visual anchoring.
+// In MemberCard this creates the section-boundary bridge effect.
+//
+// Color encoding:
+//   available, booked, frequently-booked — Figma-confirmed: brand-blue CalendarBlank
+//   booked      — no Figma variant; warning style carried from MemberCard implementation
+//   unavailable — no Figma variant; neutral style carried from MemberCard implementation
+
+.pill {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -2px; // slight anchor overlap
+
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 16px;
+  padding: 0 var(--spacing-4xs);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+
+  @include mixins.label-2xs;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+}
+
+.pillIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+// Figma "Status=Available to connect" (36:21661): #f2f5ff bg, --border-brand-subtle border
+.pill-available {
+  background: var(--global-color-blue-25); // #f2f5ff — Figma-verified
+  border: 1px solid var(--border-brand-subtle); // --global-color-blue-100 = #aebfff
+  color: var(--foreground-brand-primary);
+}
+
+// Figma "Status=Frequently Booked" (36:21665): identical visual to Available
+.pill-frequently-booked {
+  background: var(--global-color-blue-25);
+  border: 1px solid var(--border-brand-subtle);
+  color: var(--foreground-brand-primary);
+}
+
+// No Figma canonical for "booked" — using warning style from MemberCard implementation.
+// TODO: Confirm desired style with design during review of booked vs. frequently-booked.
+.pill-booked {
+  background: var(--transparent-warning-8);
+  border: 1px solid transparent;
+  color: var(--foreground-warning-secondary);
+}
+
+// No Figma canonical for "unavailable" — neutral style from MemberCard implementation.
+.pill-unavailable {
+  background: var(--background-neutral-subtle);
+  border: 1px solid transparent;
+  color: var(--foreground-neutral-tertiary);
+}
+
+// ─── Decorative rings ─────────────────────────────────────────────────────────
+// Source: Figma inner-circle.svg fill (36:21634) and outer-circle.svg fill (36:21636)
+// Canonical sizes from Figma (3xl / 80px avatar):
+//   Inner ring: 106×106px — extends 13px beyond avatar on each side
+//   Outer ring: ~150×150px — extends 35px beyond avatar on each side
+// Positioning: centered on avatar with Figma's subpixel offset (~0.5px) ignored for clarity.
+//
+// Rings are absolutely positioned and do not affect layout flow.
+// Parent container should account for ring overflow when using decorativeRing.
+//
+// TODO: The SVG paths below are preserved from the Figma localhost export.
+// Replace with production-hosted assets when available in the design handoff.
+// The decorativeRing prop API will not change.
+
+.ringInner,
+.ringOuter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ringInner {
+  width: 106px;
+  height: 106px;
+  z-index: -1;
+}
+
+.ringOuter {
+  width: 150px;
+  height: 150px;
+  z-index: -2;
+}
+
+// ─── AvatarStack ─────────────────────────────────────────────────────────────
+
+.stack {
+  display: inline-flex;
+  align-items: center;
+}
+
+.stackItem {
+  position: relative;
+  // White ring separates overlapping avatars — 2px matches MemberCard halo treatment
+  > * {
+    outline: 2px solid var(--background-base-white);
+    outline-offset: 0;
+  }
+}
+
+// Overflow pill inherits the size-* and shape-* classes from .root equivalents.
+// Reuses size-* / shape-* rules already defined above.
+.stackOverflow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-neutral-subtle);
+  color: var(--foreground-neutral-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--avatar-font-size);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  outline: 2px solid var(--background-base-white);
+  outline-offset: 0;
+  flex-shrink: 0;
+}
