@@ -56,28 +56,6 @@
   margin-top: var(--spacing-xs);
 }
 
-.authorAvatar {
-  width: 28px;  // size deviates from Figma 24px — verify with design before adjusting
-  height: 28px; // size deviates from Figma 24px — verify with design before adjusting
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--background-neutral-subtle);
-  flex-shrink: 0;
-}
-
-.authorFallback {
-  width: 28px;  // size deviates from Figma 24px — verify with design before adjusting
-  height: 28px; // size deviates from Figma 24px — verify with design before adjusting
-  border-radius: 50%;
-  background: var(--background-neutral-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @include mixins.label-2xs;
-  font-weight: var(--font-weight-semibold); // initials use bold weight — override mixin's 500 to 600
-  color: var(--foreground-brand-primary);
-  flex-shrink: 0;
-}
 
 .authorText {
   @include mixins.body-xs; // Figma: Body/xSmall/default — 12px/w400/18px; code had 13px, corrected

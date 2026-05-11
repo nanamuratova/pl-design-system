@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { ForumPostCardProps } from './ForumPostCard.types';
 import styles from './ForumPostCard.module.scss';
+import { Avatar } from '@components/Avatar';
 
 const EyeIcon = () => <svg className={styles.statIcon} viewBox="0 0 14 14" fill="none"><ellipse cx="7" cy="7" rx="5.5" ry="3.5" stroke="currentColor" strokeWidth="1.2"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>;
 const ThumbIcon = () => <svg className={styles.statIcon} viewBox="0 0 14 14" fill="none"><path d="M2 7.5v4h2V7.5H2ZM5 7.5l2-5 1 .5v3h3l-.5 3.5H5V7.5Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/></svg>;
@@ -8,7 +9,6 @@ const CommentIcon = () => <svg className={styles.statIcon} viewBox="0 0 14 14" f
 
 export function ForumPostCard({ title, excerpt, authorAvatar, authorName, authorRole, timeAgo, viewCount, likeCount, commentCount, href, pinned, className, ...props }: ForumPostCardProps) {
   const Tag = href ? 'a' : 'div';
-  const initials = authorName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <Tag href={href} className={clsx(styles.root, className)} {...props as any}>
@@ -17,11 +17,12 @@ export function ForumPostCard({ title, excerpt, authorAvatar, authorName, author
       {excerpt && <p className={styles.excerpt}>{excerpt}</p>}
 
       <div className={styles.meta}>
-        {authorAvatar ? (
-          <img src={authorAvatar} alt={authorName} className={styles.authorAvatar} />
-        ) : (
-          <div className={styles.authorFallback}>{initials}</div>
-        )}
+        <Avatar
+          name={authorName}
+          src={authorAvatar}
+          size="sm"
+          aria-label=""
+        />
         <span className={styles.authorText}>
           by <span className={styles.authorName}>{authorName}</span>
           {authorRole && <><span className={styles.dot}>·</span>{authorRole}</>}

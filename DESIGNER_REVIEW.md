@@ -5,25 +5,16 @@ a design decision before code can be fully reconciled.
 
 ---
 
-## 1. ForumPostCard — Avatar size discrepancy
+## ~~1. ForumPostCard — Avatar size discrepancy~~ ✅ RESOLVED
 
-**File:** `components/ForumPostCard/ForumPostCard.module.scss`
-**Rule:** `.authorAvatar`
+**Resolved:** May 2026 — Phase 2.2 Avatar refactor
+**File was:** `components/ForumPostCard/ForumPostCard.module.scss` `.authorAvatar`
 
 | | Value |
 |---|---|
-| Code (current) | `28px × 28px` |
-| Figma canonical | `24px × 24px` |
-| Deviation | 4px (~17%) |
-
-**Current code comment:**
-```scss
-// size deviates from Figma 24px — verify with design before adjusting
-```
-
-**Question for designers:** Is the 28px implementation intentional (e.g. a post-Figma
-refinement for better touch target / legibility at smaller viewport), or is it drift
-that should be corrected to 24px?
+| Code (was) | `28px × 28px` hardcoded inline |
+| Figma canonical | `24px × 24px` (`Avatar` `sm` size) |
+| Resolution | Replaced inline avatar markup with `<Avatar size="sm" />` (24px). Inline `.authorAvatar` / `.authorFallback` SCSS rules deleted. Figma confirmed brand-blue bg + white text fallback at all sizes including sm. |
 
 ---
 
