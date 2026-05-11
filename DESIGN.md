@@ -293,12 +293,15 @@ The system rejects **loud or decorative** gradients — saturated, multi-color, 
 
 Test for which is which: a compositional gradient is barely noticed; a decorative gradient is the first thing you see. If a gradient calls attention to itself, it's the wrong kind for this system.
 
-**Implementation:** compositional gradients use existing system tokens — no hardcoded hex in gradient stops. Two canonical forms:
+**Implementation:** compositional gradients use `--transparent-dark-*` tokens (slate/neutral overlay) rather than `--transparent-brand-*` tokens. Reason: at the low opacity needed for a compositional whisper (4–8%), neutral/slate tints read perceptibly while brand-colour tints appear nearly invisible due to lower contrast against white. The Figma canonical pattern uses a slate wash for card header hierarchy — not a brand-blue wash. No hardcoded hex in gradient stops.
 
-- Neutral lift: `linear-gradient(180deg, var(--background-base-white) 0%, var(--background-neutral-subtle) 100%)` — white to light grey, for neutral card headers.
-- Brand-tinted lift: `linear-gradient(180deg, var(--background-base-white) 0%, var(--transparent-brand-4) 100%)` — white to a near-invisible brand wash, for member/team card hero headers where affiliation is being signalled.
+Canonical form for card header hierarchy:
 
-Both forms are invisible enough that users notice the card's elevation before they notice the gradient. That is the test.
+```
+linear-gradient(180deg, var(--transparent-dark-8) 0%, var(--background-base-white) 100%)
+```
+
+`--transparent-dark-8` is near-black slate at 8% opacity — a cool-grey lift that reads without drawing attention. If that reads as too strong, step down to `--transparent-dark-6`. Both forms are invisible enough that users notice the card's elevation before they notice the gradient. That is the test.
 
 ---
 
@@ -416,7 +419,7 @@ Both forms are invisible enough that users notice the card's elevation before th
 
 **Don't add borders to cards.** Cards in this system use elevation only. A border on a card is a design question, not a default.
 
-**Don't use decorative gradients.** Multi-color, saturated, or attention-grabbing gradients are a design anti-pattern. They signal marketing intent, not functional hierarchy. Compositional gradients — subtle neutral-to-neutral or white-to-brand-wash transitions used to define a card header zone — are permitted provided they use the token palette and follow the rule in §7 (Gradients: compositional, not decorative). The practical test: a compositional gradient is not the first thing a user would describe about the component it lives in. If it is, it has crossed from compositional to decorative.
+**Don't use decorative gradients.** Multi-color, saturated, or attention-grabbing gradients are a design anti-pattern. They signal marketing intent, not functional hierarchy. Compositional gradients — subtle slate-to-white transitions using `--transparent-dark-*` tokens used to define a card header zone — are permitted provided they follow the rule in §7 (Gradients: compositional, not decorative). Do not use `--transparent-brand-*` tokens for gradients; at compositional opacity levels (4–8%) they are effectively invisible on white. The practical test: a compositional gradient is not the first thing a user would describe about the component it lives in. If it is, it has crossed from compositional to decorative.
 
 **Don't use hardcoded `box-shadow` values.** Use shadow tokens (`--shadow-xs`, `--shadow-sm`, `--shadow-xl`, `--shadow-button`, `--shadow-dropdown`). If your need isn't covered, add a token. Mark any existing hardcoded shadows as TODO.
 
