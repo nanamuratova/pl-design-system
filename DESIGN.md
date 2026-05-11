@@ -28,7 +28,7 @@ What the system intentionally does **not** want to feel like:
 - Enterprise dashboards overloaded with visual noise
 - Gamified social media interfaces
 
-This negative space is as important as the positive: the system deliberately rejects visual chaos, speculative-finance aesthetics, trend-chasing UI, gradients, glows, 3D effects, and manipulative engagement patterns. The result is a UI that feels credible and calm — confident enough not to need ornament.
+This negative space is as important as the positive: the system deliberately rejects visual chaos, speculative-finance aesthetics, trend-chasing UI, loud or decorative gradients, glows, 3D effects, and manipulative engagement patterns. The result is a UI that feels credible and calm — confident enough not to need ornament.
 
 This baseline shapes every component decision. The shadow-only card pattern (no borders, just elevation) is a direct expression of "calm." The cool blue-tinted neutrals are technical without being cold. Brand-blue used for "available" states (instead of green) rejects the traffic-light cliché in favor of treating availability as an act of affiliation. The minimal type scale favors readability and structure over expressive variation.
 
@@ -285,6 +285,21 @@ Even when existing code renders otherwise. The token compliance work across batc
 
 When Figma and code disagree on a value by more than 1–2px (or any amount for color), treat the code as suspect. Verify against Figma, correct the code, and document the correction in a comment. The only exceptions are layout dimensions that represent an intentional structural choice not captured in Figma (see DESIGNER_REVIEW.md for current open items).
 
+### Gradients: compositional, not decorative
+
+The system allows subtle **compositional** gradients where they serve as quiet hierarchical devices — for example, a soft white-to-neutral-subtle gradient behind an avatar in a card header, providing visual lift without ornament.
+
+The system rejects **loud or decorative** gradients — saturated, multi-color, attention-grabbing — which signal marketing intent or speculative-finance aesthetic.
+
+Test for which is which: a compositional gradient is barely noticed; a decorative gradient is the first thing you see. If a gradient calls attention to itself, it's the wrong kind for this system.
+
+**Implementation:** compositional gradients use existing system tokens — no hardcoded hex in gradient stops. Two canonical forms:
+
+- Neutral lift: `linear-gradient(180deg, var(--background-base-white) 0%, var(--background-neutral-subtle) 100%)` — white to light grey, for neutral card headers.
+- Brand-tinted lift: `linear-gradient(180deg, var(--background-base-white) 0%, var(--transparent-brand-4) 100%)` — white to a near-invisible brand wash, for member/team card hero headers where affiliation is being signalled.
+
+Both forms are invisible enough that users notice the card's elevation before they notice the gradient. That is the test.
+
 ---
 
 ## 8. Component Inventory
@@ -335,7 +350,7 @@ When Figma and code disagree on a value by more than 1–2px (or any amount for 
 
 **FocusAreaCard** — Domain focus area with a stacked avatar group and stat rows. The stacked avatar group uses overlapping 20px avatars with a 2px white separation border. The title is `label-lg` (18px) per Figma, not `label-md`. Use for directory-style domain listing. Do not use FocusAreaCard for a single entity in isolation — it is built for grids and discovery feeds where its visual rhythm against neighbors is part of the experience.
 
-**ForumPostCard** — Discussion post preview. Title is `label-lg` (18px), excerpt is `body-sm` for prose line-height, author metadata is `body-xs`. Cards have `--shadow-xs` at rest and `--shadow-sm` on hover; border uses the lighter `--border-neutral-xsubtle` (6%), not `--border-neutral-subtle` (12%). The `authorAvatar` is 28px in code (Figma spec: 24px) — flagged for designer review in DESIGNER_REVIEW.md. Do not use ForumPostCard as a detail view — it is a preview component. Clicking it should navigate to the full post.
+**ForumPostCard** — Discussion post preview. Title is `label-lg` (18px), excerpt is `body-sm` for prose line-height, author metadata is `body-xs`. Cards have `--shadow-xs` at rest and `--shadow-sm` on hover; border uses the lighter `--border-neutral-xsubtle` (6%), not `--border-neutral-subtle` (12%). The `authorAvatar` uses the canonical 24px `Avatar size="sm"` primitive — corrected from the pre-Phase-2.2 inline 28px. Do not use ForumPostCard as a detail view — it is a preview component. Clicking it should navigate to the full post.
 
 **MemberCard** — Person profile card. Avatar: 80px (Figma canonical). Available state uses brand-blue (`--transparent-brand-6` bg, `--border-brand-subtle`, `--foreground-brand-primary`) — explicitly not green. Booked state uses `--transparent-warning-8`. The card has no border at rest — shadow only. Use for member directory grids. Do not treat MemberCard as the sole source of truth for a member — it is a preview. A full member profile page must exist behind it.
 
@@ -399,6 +414,8 @@ When Figma and code disagree on a value by more than 1–2px (or any amount for 
 
 **Don't add borders to cards.** Cards in this system use elevation only. A border on a card is a design question, not a default.
 
+**Don't use decorative gradients.** Multi-color, saturated, or attention-grabbing gradients are a design anti-pattern. They signal marketing intent, not functional hierarchy. Compositional gradients — subtle neutral-to-neutral or white-to-brand-wash transitions used to define a card header zone — are permitted provided they use the token palette and follow the rule in §7 (Gradients: compositional, not decorative). The practical test: a compositional gradient is not the first thing a user would describe about the component it lives in. If it is, it has crossed from compositional to decorative.
+
 **Don't use hardcoded `box-shadow` values.** Use shadow tokens (`--shadow-xs`, `--shadow-sm`, `--shadow-xl`, `--shadow-button`, `--shadow-dropdown`). If your need isn't covered, add a token. Mark any existing hardcoded shadows as TODO.
 
 **Don't use `border-radius: 9999px`.** Always `var(--radius-full)`.
@@ -413,7 +430,7 @@ When Figma and code disagree on a value by more than 1–2px (or any amount for 
 
 ## 10. Open Questions for Design
 
-See [DESIGNER_REVIEW.md](./DESIGNER_REVIEW.md) for the current open items flagged during Batch 4 token compliance work. At time of writing, there are two open items: the ForumPostCard author avatar size discrepancy (code 28px vs. Figma 24px) and the TeamCard layout orientation divergence (code landscape vs. Figma portrait). These should be resolved before those components are used in production.
+See [DESIGNER_REVIEW.md](./DESIGNER_REVIEW.md) for the current open items flagged during Batch 4 token compliance work. At time of writing, there is one open item: the TeamCard layout orientation divergence (code landscape vs. Figma portrait — see DESIGNER_REVIEW.md §2). This should be resolved before TeamCard is used in production.
 
 ---
 
