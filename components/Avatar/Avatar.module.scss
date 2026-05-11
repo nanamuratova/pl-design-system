@@ -74,11 +74,16 @@
   line-height: 1;
   user-select: none;
 
-  // Scale with avatar size
-  .size-xs  & { font-size: 8px;  }
-  .size-sm  & { font-size: 9px;  }
-  .size-md  & { font-size: 12px; }
-  .size-lg  & { font-size: 14px; }
+  // Avatar initials at xs/sm use container-constrained font sizes
+  // outside the standard type scale (Figma-canonical 11px). The 20px
+  // and 24px containers can't accommodate label-xs (12px) initials at
+  // semibold weight without visual crowding. Treat as structural
+  // exception (Container-Constrained category per DESIGN.md), not
+  // as drift to be normalized.
+  .size-xs  & { font-size: 11px; } // Figma Tiny: 11px
+  .size-sm  & { font-size: 11px; } // Figma Extra Small: 11px
+  .size-md  & { font-size: 12px; } // matches label-xs from here on
+  .size-lg  & { font-size: 14px; } // matches label-sm
   .size-xl  & { font-size: 20px; }
   .size-2xl & { font-size: 24px; }
   .size-3xl & { font-size: 32px; }

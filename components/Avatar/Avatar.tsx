@@ -25,10 +25,18 @@ const SIZE_PX: Record<AvatarSize, number> = {
 };
 
 // ─── Initials ─────────────────────────────────────────────────────────────────
+// Figma canonical (node 10:1763, all 14 size×shape combinations):
+//   xs/sm/md (Tiny/Extra Small/Small — 20/24/32px) → single initial (first word only)
+//   lg/xl/2xl/3xl (Medium+ — 40px+)               → two initials (first + last)
+// At single-word names, single initial is always used regardless of size.
 
-function getInitials(name: string): string {
+const SINGLE_INITIAL_SIZES: AvatarSize[] = ['xs', 'sm', 'md'];
+
+function getInitials(name: string, size: AvatarSize): string {
   const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  if (SINGLE_INITIAL_SIZES.includes(size) || parts.length === 1) {
+    return parts[0].charAt(0).toUpperCase();
+  }
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
@@ -153,7 +161,7 @@ export function Avatar({
 
         {effectiveType === 'letter-of-name' && (
           <span className={styles.initials} aria-hidden="true">
-            {getInitials(name)}
+            {getInitials(name, size)}
           </span>
         )}
 

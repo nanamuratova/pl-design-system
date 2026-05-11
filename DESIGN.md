@@ -371,7 +371,11 @@ When Figma and code disagree on a value by more than 1–2px (or any amount for 
 
 ### TODO (stubs — empty directories)
 
-**Avatar** — `components/Avatar/` is empty. Designed in Figma as a component with circular and rounded-square variants, fallback initials, and size options. Implementation should consolidate the inline avatar patterns already used in MemberCard, FocusAreaCard, and ForumPostCard.
+**Avatar** — `components/Avatar/` contains the canonical Avatar primitive (Phase 2.1, May 2026). Two shapes: `circle` and `rounded` (4px). Seven sizes: `xs`=20px through `3xl`=96px, matching Figma's Tiny–Big scale. Six content types: `image`, `placeholder`, `letter-of-name`, `brand-logo`, `emoji`, `flag`. Also exports `AvatarStack` for grouped/overlapping avatar rows.
+
+**Size-aware initials:** The `letter-of-name` fallback uses a single initial at `xs`/`sm`/`md` (20–32px containers) and two initials at `lg`/`xl`/`2xl`/`3xl` (40px+). This matches Figma canonical (node 10:1763, all 14 size×shape variants) and accommodates visual density at smaller sizes. Single-word names always use a single initial regardless of size.
+
+**Container-constrained font sizes at xs/sm:** Initials at `xs` and `sm` use 11px (Figma canonical), which sits between the standard type-scale steps of `label-2xs` (10px) and `label-xs` (12px). The 20px/24px containers cannot accommodate 12px semibold initials without visual crowding. This is a structural exception per the Container-Constrained category in this document — not drift to be normalized.
 
 **Card** — `components/Card/` is empty. No generic card primitive was found in the Figma files; the system currently uses named card components (MemberCard, TeamCard, etc.) directly. This directory may be a speculative placeholder. Verify with design before building.
 
