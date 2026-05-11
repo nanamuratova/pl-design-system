@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { NavBar }       from '@components/NavBar';
-import { MemberCard }   from '@components/MemberCard';
+import { MemberProfileCard } from '@components/MemberProfileCard';
 import type { AvailabilityStatus } from '@components/MemberCard';
 import { SearchInput }  from '@components/SearchInput';
 import { Badge }        from '@components/Badge';
@@ -211,7 +211,7 @@ export function MemberDirectory() {
         ) : (
           <div className={s.grid}>
             {paged.map(m => (
-              <MemberCard
+              <MemberProfileCard
                 key={m.id}
                 name={m.name}
                 avatar={m.avatar}
