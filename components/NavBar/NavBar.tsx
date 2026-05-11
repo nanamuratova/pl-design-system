@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import type { NavBarProps } from './NavBar.types';
 import styles from './NavBar.module.scss';
+import { Avatar } from '@components/Avatar';
 
 const BellIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -23,8 +24,6 @@ export function NavBar({
   onNotificationClick, avatar, avatarFallback, userName, onAvatarClick,
   onMenuClick, actions, className,
 }: NavBarProps) {
-  const initials = avatarFallback ?? userName?.slice(0, 2).toUpperCase() ?? 'PL';
-
   return (
     <header className={clsx(styles.navbar, className)}>
       <div className={styles.inner}>
@@ -60,8 +59,8 @@ export function NavBar({
             )}
           </button>
 
-          <button className={styles.avatar} onClick={onAvatarClick} aria-label={userName ?? 'Profile'}>
-            {avatar ? <img src={avatar} alt={userName ?? 'Avatar'} /> : initials}
+          <button className={styles.avatarBtn} onClick={onAvatarClick} aria-label={userName ?? 'Profile'}>
+            <Avatar name={userName ?? 'PL'} src={avatar} size="md" aria-label="" />
           </button>
         </div>
 

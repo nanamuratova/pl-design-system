@@ -157,26 +157,24 @@
   border: 1.5px solid var(--background-base-white); // halo ring — separates badge from icon background
 }
 
-.avatar {
-  width: 32px;  // avatar circle dimension — not a spacing token; keep hardcoded
-  height: 32px; // avatar circle dimension — not a spacing token; keep hardcoded
+// Thin interactive shell around Avatar primitive.
+// outline (not border) so the 2px ring renders outside the 32px box
+// and doesn't clip the Avatar's content.
+.avatarBtn {
+  width: 32px;  // matches Avatar size="md" — not a spacing token; keep hardcoded
+  height: 32px; // matches Avatar size="md" — not a spacing token; keep hardcoded
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 120ms;
-  overflow: hidden;
+  border: none;
+  padding: 0;
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+  transition: outline-color 120ms;
   flex-shrink: 0;
-  background: var(--background-neutral-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @include mixins.label-sm;
-  font-weight: var(--font-weight-semibold);
-  color: var(--foreground-brand-primary);
+  background: transparent;
 
-  &:hover { border-color: var(--foreground-brand-primary); }
-
-  img { width: 100%; height: 100%; object-fit: cover; }
+  &:hover       { outline-color: var(--foreground-brand-primary); }
+  &:focus-visible { outline-color: var(--foreground-brand-primary); }
 }
 
 .menuButton {

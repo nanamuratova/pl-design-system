@@ -16,6 +16,7 @@ export interface NavBarProps {
   notificationCount?: number;
   onNotificationClick?: () => void;
   avatar?: string;
+  /** @deprecated Avatar computes initials from `userName` automatically. Will be removed in a future cleanup pass. */
   avatarFallback?: string;
   userName?: string;
   onAvatarClick?: () => void;
