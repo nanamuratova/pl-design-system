@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { OfficeHoursCardProps } from './OfficeHoursCard.types';
 import styles from './OfficeHoursCard.module.scss';
+import { Avatar } from '@components/Avatar';
 
 const CalIcon = () => (
   <svg className={styles.calIcon} viewBox="0 0 14 14" fill="none">
@@ -12,16 +13,19 @@ const CalIcon = () => (
 );
 
 export function OfficeHoursCard({ title, host, onSchedule, scheduleHref, scheduleLabel = 'Schedule Meeting', action, className, ...props }: OfficeHoursCardProps) {
-  const fallback = host.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const BtnTag = scheduleHref ? 'a' : 'button';
 
   return (
     <div className={clsx(styles.root, className)} {...props}>
       {title && <div className={styles.title}>{title}</div>}
       <div className={styles.row}>
-        <div className={clsx(styles.avatar, host.isTeam && styles.teamAvatar)}>
-          {host.avatar ? <img src={host.avatar} alt={host.name} /> : fallback}
-        </div>
+        <Avatar
+          name={host.name}
+          src={host.avatar}
+          size="xl"
+          shape={host.isTeam ? 'rounded' : 'circle'}
+          aria-label=""
+        />
         <div className={styles.hostInfo}>
           <div className={styles.hostName}>
             {host.name}
