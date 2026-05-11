@@ -18,9 +18,10 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 
 // ─── Shape ────────────────────────────────────────────────────────────────────
 // Figma "Avatar" component has exactly two shapes.
-// 'rounded' = border-radius: var(--radius-xsm, 4px) — Figma calls this "Rounded"
-// 'circle'  = border-radius: 50%                    — Figma calls this "Circle"
-// Previous impl had a spurious third shape at radius-xl (12px) — removed.
+// 'circle'  = border-radius: 50%           — Figma "Circle", all sizes identical
+// 'rounded' = border-radius scales by size — Figma "Rounded"
+//             xs/sm=4px, md=6px, lg=8px, xl/2xl=12px, 3xl=16px
+//             See Avatar.module.scss for per-size rules and Figma token mapping.
 export type AvatarShape = 'circle' | 'rounded';
 
 // ─── Type ─────────────────────────────────────────────────────────────────────

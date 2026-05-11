@@ -26,11 +26,25 @@
 
 // ─── Shape variants ───────────────────────────────────────────────────────────
 // Figma "Avatar" (10:1763) has exactly two shapes — see Avatar.types.ts for rationale.
-// 'rounded' = radius-xsm (4px) — Figma "Rounded"
-// 'circle'  = radius-full     — Figma "Circle"
+// 'circle'  = border-radius: 50% (--radius-full) — identical at all sizes
+// 'rounded' = border-radius scales with avatar size (Type=Image, Shape=Rounded verified):
+//   xs/sm  → --radius-xsm (4px)    Figma corner-radius/xsm
+//   md     → --radius-sm  (6px)    Figma corner-radius/sm
+//   lg     → --radius-md  (8px)    Figma corner-radius/md
+//   xl/2xl → --radius-xl  (12px)   Figma corner-radius/xl
+//   3xl    → --radius-2xl (16px)   Figma corner-radius/2xl
+// Previous impl used flat --radius-xsm (4px) at all rounded sizes — wrong for md+.
 
-.shape-circle  { border-radius: var(--radius-full); }
-.shape-rounded { border-radius: var(--radius-xsm); }
+.shape-circle { border-radius: var(--radius-full); }
+
+// rounded — size-aware
+.size-xs.shape-rounded,
+.size-sm.shape-rounded  { border-radius: var(--radius-xsm); }
+.size-md.shape-rounded  { border-radius: var(--radius-sm);  }
+.size-lg.shape-rounded  { border-radius: var(--radius-md);  }
+.size-xl.shape-rounded,
+.size-2xl.shape-rounded { border-radius: var(--radius-xl);  }
+.size-3xl.shape-rounded { border-radius: var(--radius-2xl); }
 
 // ─── Surface ──────────────────────────────────────────────────────────────────
 // Separate from root so decorative rings can render outside the clipping context.
