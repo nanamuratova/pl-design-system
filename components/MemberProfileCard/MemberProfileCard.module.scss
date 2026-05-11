@@ -10,9 +10,9 @@
 //
 // Knobs to adjust after visual check against Figma node 25931:55667:
 //   - BANNER_HEIGHT   → change .banner height
-//   - gradient stops  → change .banner background stops
+//   - gradient stops  → change .banner background (currently --transparent-dark-8; soften to -6)
 //   - ring dims       → change SVG width/height and ellipse/circle attrs in TSX
-//   - ring colours    → change stroke="var(--transparent-brand-*)" values
+//   - ring colours    → change stroke="var(--transparent-brand-*)" values in TSX
 //   - RING_TOP        → change .rings top value
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
@@ -40,11 +40,13 @@
   position: relative;
   height: 80px; // BANNER_HEIGHT
   flex-shrink: 0;
-  // Compositional gradient per DESIGN.md §7 — brand-tinted lift, barely perceptible.
-  // If visually loud, dial back to --transparent-brand-2.
+  // Compositional gradient per DESIGN.md §7 — neutral-slate lift, barely perceptible.
+  // Uses --transparent-dark-8 (slate/near-black at 8% opacity) for a cool-grey wash
+  // that reads against white. Brand-blue at similar opacity (--transparent-brand-4) is
+  // effectively invisible. If visually loud, dial back to --transparent-dark-6.
   background: linear-gradient(
     180deg,
-    var(--transparent-brand-4) 0%,
+    var(--transparent-dark-8) 0%,
     var(--background-base-white) 100%
   );
 }
@@ -77,7 +79,7 @@
 
 .pill {
   position: absolute;
-  bottom: 2px;
+  bottom: -10px; // centres pill on avatar bottom edge (half-in, half-out of circle)
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
