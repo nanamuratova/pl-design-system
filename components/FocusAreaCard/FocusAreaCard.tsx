@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import type { FocusAreaCardProps } from './FocusAreaCard.types';
 import styles from './FocusAreaCard.module.scss';
+import { Avatar, AvatarStack } from '@components/Avatar';
 
 const MAX_AVATARS = 4;
 
 export function FocusAreaCard({ title, description, teamCount, projectCount, members = [], href, className, ...props }: FocusAreaCardProps) {
   const Tag = href ? 'a' : 'div';
-  const visibleMembers = members.slice(0, MAX_AVATARS);
-  const overflow = members.length - MAX_AVATARS;
 
   return (
     <Tag href={href} className={clsx(styles.root, className)} {...props as any}>
@@ -20,15 +19,12 @@ export function FocusAreaCard({ title, description, teamCount, projectCount, mem
             <div className={styles.statRow}>
               <span className={styles.statLabel}>{teamCount} Teams</span>
               <div className={styles.statRight}>
-                {visibleMembers.length > 0 && (
-                  <div className={styles.avatarStack}>
-                    {visibleMembers.map((m, i) => (
-                      <span key={i} className={styles.avatarItem}>
-                        {m.avatar ? <img src={m.avatar} alt={m.name} /> : m.name.slice(0, 1)}
-                      </span>
+                {members.length > 0 && (
+                  <AvatarStack size="xs" maxVisible={MAX_AVATARS}>
+                    {members.map((m) => (
+                      <Avatar key={m.name} name={m.name} src={m.avatar} size="xs" aria-label="" />
                     ))}
-                    {overflow > 0 && <span className={styles.overflow}>+{overflow}</span>}
-                  </div>
+                  </AvatarStack>
                 )}
                 <span className={styles.arrow}>→</span>
               </div>
