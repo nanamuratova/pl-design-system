@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { TeamCardProps } from './TeamCard.types';
 import styles from './TeamCard.module.scss';
+import { Avatar } from '@components/Avatar';
 
 const ExternalIcon = () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={styles.externalIcon}><path d="M6 3H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><path d="M8.5 2H12v3.5M12 2l-5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 
@@ -43,20 +44,15 @@ export function TeamCard({ logo, logoFallback, name, description, website, tags 
 
       {visibleMembers.length > 0 && (
         <div className={styles.members}>
-          {visibleMembers.map((m, i) => {
-            const initials = m.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-            return (
-              <div key={i} className={styles.memberItem}>
-                <div className={styles.memberAvatar}>
-                  {m.avatar ? <img src={m.avatar} alt={m.name} /> : initials}
-                </div>
-                <div>
-                  <div className={styles.memberName}>{m.name}</div>
-                  {m.role && <div className={styles.memberRole}>{m.role}</div>}
-                </div>
+          {visibleMembers.map((m) => (
+            <div key={m.name} className={styles.memberItem}>
+              <Avatar name={m.name} src={m.avatar} size="md" aria-label="" />
+              <div>
+                <div className={styles.memberName}>{m.name}</div>
+                {m.role && <div className={styles.memberRole}>{m.role}</div>}
               </div>
-            );
-          })}
+            </div>
+          ))}
           {overflow > 0 && <div className={styles.overflowMember}>+{overflow}</div>}
         </div>
       )}

@@ -90,22 +90,6 @@
 
 .memberItem { display: flex; align-items: center; gap: var(--spacing-sm); }
 
-.memberAvatar {
-  width: 32px;  // layout dimension — keep hardcoded
-  height: 32px; // layout dimension — keep hardcoded
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--background-neutral-subtle);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @include mixins.label-xs;
-  font-weight: var(--font-weight-semibold); // 11px→12px (label-xs), w600 — initials in 32px avatar
-  color: var(--foreground-brand-primary);
-  overflow: hidden;
-  img { width: 100%; height: 100%; object-fit: cover; }
-}
 
 .memberName {
   @include mixins.label-sm; // 13px→14px per role (primary label in member row)
