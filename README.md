@@ -1,142 +1,78 @@
-# Protocol Labs Design System
+# PL Network / LabOS Design System
 
-A component library and token system built from Protocol Labs' Figma design files, intended for use by AI tools and engineers building PL-ecosystem products.
+AI-readable documentation layer for the Protocol Labs / LabOS Design System.
 
-## Purpose
+## What this repository is
 
-This repository gives AI coding tools (Claude, Cursor, etc.) and engineers a single, authoritative source for Protocol Labs UI: canonical design tokens, typed React components, and documented design intent. The primary workflow it enables:
+This repository is a **documentation and retrieval layer** that tells AI tools (Claude Design, Figma Make, Cursor, etc.) how to find and use canonical components from the Figma Design System library.
 
-> PM describes a feature → AI tool reads this repo → generates implementation that matches PL brand out of the box → designer reviews and refines.
+**Figma remains the single source of truth.** This repo does not contain the design system — it documents it.
 
-It is not a production npm package. It is a **living reference implementation** — run it locally, read the source, and copy components into your project.
+## What this repository is NOT
 
-## Quick Start
+- Not a component library
+- Not a Storybook
+- Not a visual approximation of components
+- Not a place to recreate or regenerate components
+- Styles are not regenerated here
 
-```bash
-git clone https://github.com/nanamuratova/pl-design-system.git
-cd pl-design-system
-npm install
-npm run dev
-```
+## How AI tools must use this repository
 
-Individual component showcases:
+1. **Read `guidelines.md` first** — contains the core rules for generation
+2. **Read `/figma/retrieval-priority.md`** — understand what to look for first
+3. **Read `/figma/figma-source-map.md`** — find the canonical Figma path for any component
+4. **Read the relevant component spec** in `/components/primitives/` or `/components/product/`
+5. **Instantiate from Figma** — never recreate manually
 
-```
-/preview/avatar
-/preview/forum-post-card
-/preview/focus-area-card
-/preview/memberprofilecard
-/preview/navbar
-/preview/office-hours-card
-/preview/team-card
-```
+## Figma Design Library
 
-Composed page examples:
+Canonical source: [Design-System-Full | Protocol Labs](https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full-%7C-Protocol-Labs?node-id=802-20272&m=dev)
 
-```
-/templates/member-directory   ← hero grid with MemberProfileCard
-/templates/member-profile
-/templates/team-profile
-/templates/forum
-/templates/home
-/templates/deals
-```
+## Missing component rule
 
-## For AI Tools
-
-If you are Claude, Cursor, or a similar AI tool reading this repo:
-
-1. **Read `DESIGN.md` first.** It is the editorial layer — brand identity, component principles, token architecture, usage rules, and anti-patterns. It is the source of truth for system *intent*.
-
-2. **Read `tokens/` for design values.** Three-layer architecture: primitives (`--global-color-*`) → semantic (`--foreground-*`, `--background-*`) → component. Components consume only the semantic/component layer — never reach into primitives.
-
-3. **Read `CLAUDE.md` for build rules.** File conventions, path aliases (`@components/`, `@/`), SCSS patterns, and component checklist.
-
-4. **Read `components/` for implementations.** Each component has `.tsx`, `.module.scss`, `.types.ts`, and `index.ts`.
-
-5. **Pair prompts with Figma reference images when available.** Output fidelity improves significantly when prompts include visual references alongside this system definition.
-
-## Tech Stack
-
-| | |
-|---|---|
-| Framework | Next.js 14, App Router |
-| Language | TypeScript (strict) |
-| Styling | SCSS Modules + CSS Custom Properties |
-| Accessibility | Radix UI primitives (Dropdown, ContextMenu, Slider, etc.) |
-| Typography | Inter v4.1 (variable, self-hosted) |
-| Icons | Phosphor Icons (regular weight) |
-| No Tailwind | All values come from the token system |
-
-## Repository Structure
+If a required component cannot be found in Figma, output exactly:
 
 ```
-pl-design-system/
-├── DESIGN.md              # Editorial layer — read first
-├── CLAUDE.md              # AI/Cursor build rules
-├── DESIGNER_REVIEW.md     # Open design decisions
-├── tokens/                # Three-layer token system
-│   ├── colors.scss        # Color primitives + semantic aliases
-│   ├── typography.scss    # Type scale tokens
-│   ├── spacing.scss       # Spacing scale
-│   └── index.scss         # Entry point
-├── components/            # 38 components
-├── styles/                # globals.scss, mixins.scss, media.scss
-├── assets/                # icons/, logos/ (SVG)
-├── public/fonts/          # Inter variable font files
-├── mockups/               # Page-level compositions (reference only)
-└── src/app/
-    ├── preview/           # Per-component showcase routes
-    └── templates/         # Full page template routes
+Missing canonical component: [component name]
 ```
 
-## Component Inventory
+Then stop. Do not approximate. Do not invent.
 
-**Foundation**
-`Avatar` · `AvatarStack`
+## Repository structure
 
-**Form controls**
-`Button` · `Input` · `Textarea` · `Checkbox` · `Switch` · `Slider` · `SearchInput` · `Upload` · `Toggle`
+```
+/README.md                       ← this file
+/guidelines.md                   ← core AI generation rules
+/figma/
+  figma-source-map.md            ← Figma page/path index for all components
+  import-rules.md                ← rules for importing from Figma
+  component-contracts.md         ← per-component contracts
+  retrieval-priority.md          ← retrieval order for AI agents
+/components/
+  component-catalog.md           ← full component inventory
+  /primitives/                   ← primitive component specs
+  /product/                      ← product/composite component specs
+/patterns/
+  layout-patterns.md
+  layout-compositions.md
+  overlay-patterns.md
+  page-examples.md
+/examples/
+  home-page.md
+  forum-page.md
+  members-page.md
+  team-page.md
+  deals-page.md
+  demo-day-page.md
+  founder-guides-page.md
+  job-board-page.md
+```
 
-**Navigation**
-`NavBar` · `Sidebar` · `BottomNav` · `Tabs` · `Drawer` · `Dropdown` · `ContextMenu` · `Pagination` · `Steps` · `Accordion`
+## Visual language
 
-**Feedback**
-`Alert` · `Badge` · `Tooltip` · `Progress` · `EmptyState`
+Protocol Labs / PL Network UI must feel:
+- Structured, calm, technical, modular
+- Minimal, trustworthy, community-oriented
+- Infrastructure-like: readable, scalable, collaborative, functional
 
-**Data display**
-`Table` · `Lightbox` · `Carousel` · `PageHeader`
-
-**Cards**
-`MemberCard` · `MemberProfileCard` · `TeamCard` · `ForumPostCard` · `OfficeHoursCard` · `FocusAreaCard` · `CTACard`
-
-**Shells (empty — see DESIGN.md §8)**
-`Card` · `DatePicker` · `Icon`
-
-## Known Limits
-
-This system was built through AI-assisted translation of Figma designs. Honest fidelity assessment:
-
-| Area | Fidelity |
-|---|---|
-| Tokens: color, typography, spacing, radius | High |
-| Component structure, variants, behavior | High |
-| Avatar primitive (sizes, shapes, initials logic) | High — Figma-verified |
-| Visual brand expression (gradient nuance, decorative detail) | Moderate — may need designer refinement |
-| Empty shell components (Card, DatePicker) | Low — structure only, not implemented |
-
-For AI-generated UI using this system: text prompts alone produce useful starting points but may diverge meaningfully from specific designs. Pairing prompts with Figma reference images significantly improves output fidelity. Treat generated output as a strong starting point for designer and engineer polish, not as production-ready.
-
-One open design question remains — see `DESIGNER_REVIEW.md`.
-
-## Open Questions
-
-See [`DESIGNER_REVIEW.md`](./DESIGNER_REVIEW.md) for unresolved design decisions affecting specific components.
-
-## License
-
-MIT — see [`LICENSE`](./LICENSE).
-
-## Acknowledgments
-
-Built by [Nana Muratova](https://github.com/nanamuratova) at Protocol Labs as an exploration of AI-assisted design system workflows.
+Avoid: flashy crypto aesthetics, speculative-finance UI, excessive gradients, glow effects, noisy dashboards, heavy decorative shadows, Dribbble-style novelty.
