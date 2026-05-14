@@ -1,35 +1,38 @@
 # Table Cells
 
-Canonical Figma path: `Primitive Components / Table`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Table`
+Page ID: `2411:87286`
+Frame: `14938:8436` — "Table Cell"
+Canonical path: `Primitive Components / Table` (cell primitives)
+Status: **Verified** — Figma MCP `get_metadata`
 
 ---
 
-## Cell types
+## Variant dimensions
 
-| Cell type | Content | Use for |
-|---|---|---|
-| Avatar cell | Avatar + name (+ optional subtitle) | Member name, author, assignee |
-| Badge cell | One or more Badge/Tag components | Status, category, type |
-| Progress cell | Progress bar + percentage | Completion %, funding % |
-| Country cell | Flag icon + country name | Location, nationality |
-| Rating cell | Star rating or numeric score | Reviews, ratings |
-| Action cell | Icon Button(s) or context menu trigger | Row-level actions |
-| Analytics cell | Numeric value + trend indicator | Metrics, stats |
+Each cell symbol combines:
+
+- **Type** — content pattern (text, avatar+details, toggles, badges, progress, chart, flags, checkbox, actions, etc.)
+- **Background** — `White`, `Light gray`
+- **State** — `Default`, `Hover`, `Active`
+
+Exact **Type** strings match Figma (including typos such as **signle** for single-button cells). Use the Figma component picker or `figma-source-map.md` for the exhaustive list.
 
 ---
 
 ## Rules
 
-- Use the correct cell type for the data — do not use a plain text cell when an Avatar or Badge cell exists
-- Action cells use canonical Icon Button and/or Context Menu — not raw HTML buttons
-- Do not build custom table cells with raw HTML
+- Pick the **Type** that matches the data column — do not use `Regular text` when `Avatar + details` or `Status badge` exists.
+- Row actions must use **signle** / **Double Button** cell types or canonical Icon Button / Context Menu embedded per Figma instances.
 
 ---
 
 ## AI instruction
 
-Instantiate from `Primitive Components / Table` in the Figma library. If unavailable:
+Instantiate table cells from the `Table Cell` frame on page `2411:87286`. If unavailable:
+
 ```
-Missing canonical component: Table
+Missing canonical component: Table Cell
 ```
+
+For full tables, see [table.md](./table.md).

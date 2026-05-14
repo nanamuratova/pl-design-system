@@ -28,11 +28,11 @@ File URL: https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full
 | Tabs | `1333:24058` | ❖ Tabs | ✅ Verified | [tabs.md](./primitives/tabs.md) |
 | Tooltips | `1161:20444` | ❖ Tooltips | ✅ Verified | [tooltips.md](./primitives/tooltips.md) |
 | Context Menu | `17368:2110` | ❖ Context Menu | ✅ Verified | [context-menu.md](./primitives/context-menu.md) |
-| Date Picker | `1467:24996` | ❖ Date Picker | TODO | [date-picker.md](./primitives/date-picker.md) |
-| Slider / Range | `1467:24998` | ❖ Slider / Range | TODO | [slider.md](./primitives/slider.md) |
-| Steps | `1467:25002` | ❖ Steps | TODO | [steps.md](./primitives/steps.md) |
-| Carousel | `2411:87282` | ❖ Carousel | TODO | [carousel.md](./primitives/carousel.md) |
-| Table | `2411:87286` | ❖ Table | TODO | [table.md](./primitives/table.md) |
+| Date Picker | `1467:24996` | ❖ Date Picker | ✅ Verified | [date-picker.md](./primitives/date-picker.md) |
+| Slider / Range | `1467:24998` | ❖ Slider / Range | ✅ Verified | [slider.md](./primitives/slider.md) |
+| Steps | `1467:25002` | ❖ Steps | ✅ Verified | [steps.md](./primitives/steps.md) |
+| Carousel | `2411:87282` | ❖ Carousel | ✅ Verified | [carousel.md](./primitives/carousel.md) |
+| Table | `2411:87286` | ❖ Table | ✅ Verified | [table.md](./primitives/table.md) |
 
 ---
 
@@ -47,7 +47,7 @@ File URL: https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full
 | Modals | `27043:54960` | ❖ Modals | ✅ Verified | [modals.md](./product/modals.md) |
 | Drawer | `17368:2111` | ❖ Drawer | ✅ Verified | [drawer.md](./product/drawer.md) |
 | Alerts & Notification | `1158:20439` | ❖ Alerts & Notification | ✅ Verified | [alerts.md](./product/alerts.md) |
-| Upload | `1333:24059` | ❖ Upload | TODO | [upload.md](./product/upload.md) |
+| Upload | `1333:24059` | ❖ Upload | ✅ Verified | [file-upload.md](./primitives/file-upload.md) |
 
 ---
 
@@ -63,7 +63,7 @@ File URL: https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full
 
 4. **Alerts & Notification is Composite** — Page ID `1158:20439` is listed under Composite Components in Figma, not Primitives.
 
-5. **Upload is Composite** — Page ID `1333:24059` is listed under Composite Components, not Primitives.
+5. **Upload page** — Page ID `1333:24059` is grouped under Composite Components in the Figma sidebar, but it contains canonical upload primitives (`File Upload Area`, `Image Upload`, `File Upload Status`). Spec: [file-upload.md](./primitives/file-upload.md).
 
 6. **Drawer is Composite** — Page ID `17368:2111` contains domain-specific Drawer compositions (event creation, editor, keyboard shortcuts), not a generic primitive.
 

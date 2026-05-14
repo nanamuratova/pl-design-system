@@ -341,15 +341,167 @@ Status: **✅ Verified** (MCP inspection)
 
 ---
 
-## Components: TODO Verify
+## Component: Date Picker
 
-| Component | Page ID | Status |
-|---|---|---|
-| Date Picker | `1467:24996` | TODO: MCP not yet inspected |
-| Slider / Range | `1467:24998` | TODO: MCP not yet inspected |
-| Steps | `1467:25002` | TODO: MCP not yet inspected |
-| Carousel | `2411:87282` | TODO: MCP not yet inspected |
-| Table | `2411:87286` | TODO: MCP not yet inspected |
+Figma page: `❖ Date Picker`
+Page ID: `1467:24996`
+Status: **✅ Verified** (MCP inspection)
+
+**Main frames:**
+- `14400:35519` — "Date Picker" (input trigger, 400×76)
+- `14400:34671` — `_BaseDatePickerDropdown / Signle Month` (typo: "Signle")
+- `22995:6927` — `_BaseDatePickerDropdown / Range - Multiple Months`
+- `22981:30337` — `_BaseDatePickerDropdown / Year & Month List`
+- `22969:24366` — `_BaseDateSelector` (month navigation strip)
+- `1864:62830` — `_BaseCalendarDate` (day cell matrix)
+- `5015:106879` — `_BaseCalendarMonth`
+- `14387:9638` — `_BaseCalendarDay` (`Type=3 Word`, `Type=1 Word`)
+- `14387:11465` — `_BaseActiveDot` (`Color=Blue|Green|Yellow|Red|Gray|White`)
+- `22981:38382` — "dropdown button"
+- `22981:38567` — "Period Range"
+
+**Date Picker (field) variants:**
+- **State**: Default, Click, Active
+
+**_BaseDatePickerDropdown / Single Month:**
+- **Type**: Basic, Range
+- **Size**: Medium, small
+
+**_BaseDatePickerDropdown / Range - Multiple Months:**
+- **Size**: Large, small
+
+**_BaseDatePickerDropdown / Year & Month List:**
+- **Type**: Months, Years
+
+**_BaseDateSelector:**
+- **Type**: Center, Left side
+- **Size**: Medium (56px h), Small (36px h)
+- **Dropdown - month**: true, false
+
+**_BaseCalendarDate (day cell) — key properties:**
+- **State**: Default, Hover, Active - Default Style, Active - Custom Style, Disable
+- **Connection**: Default, Left Rounded ⬅️, Square 🟦, Right Rounded ➡️ (range spanning)
+- **Style**: Rounded, Circle
+- **Size**: Small (36×36), Medium (48×48)
+
+**_BaseCalendarMonth:**
+- **Type**: Default, Hover, Disable
+
+**dropdown button:**
+- **size**: Medium (36px h), Small (24px h)
+- **State**: Default, Hover, Focus (Medium) · Figma uses `State=State4/State5/State6` for Small — preserve exact names when selecting
+
+**Period Range:**
+- **State**: Default, Hover, Active, Disabled
+
+---
+
+## Component: Slider / Range
+
+Figma page: `❖ Slider / Range`
+Page ID: `1467:24998`
+Status: **✅ Verified** (MCP inspection)
+
+**Frames:**
+- `14816:4878` — "Basic Slider"
+- `14805:4669` — "Double Slider"
+- `14778:46719` — "_BaseSliderControl"
+- `14778:45136` — "_BaseLineGraph"
+
+**Basic Slider:**
+- **Control**: 25%, 50%, 75%, 100%
+- **Weight**: Bold (10px track), Thin (4px track)
+
+**Double Slider (range):**
+- **Left Control** / **Right Control** pairs: 0%–25%, 0%–50%, …, 75%–100% (all combinations shown in file)
+- **Weight**: Bold, Thin
+
+**_BaseSliderControl:**
+- **Color**: Color, Light
+- **Icon**: True, False
+- **Size**: Medium (24×24), Small (18×18)
+
+**_BaseLineGraph:**
+- **Type**: Thin Line, Bold Line, Thin Line 02
+- **Active**: true, false
+
+---
+
+## Component: Steps
+
+Figma page: `❖ Steps`
+Page ID: `1467:25002`
+Status: **✅ Verified** (MCP inspection)
+
+**Frames & symbols:**
+- `15139:58793` — "Step" (composed stepper)
+- `15130:56377` — "_BaseIndicatorStep"
+- `15119:55100` — "_BaseStepLine"
+- `15139:58868` — "_BaseBasicStep" (standalone symbol)
+
+**Step (composed) variants:**
+- **Amount**: 2, 3, 4, 5, 6
+- **Type**: Basic (20px h), Basic-fill (32px h), Horizontal (110px h row), Vertical
+
+**_BaseIndicatorStep:**
+- **State**: Incomplete, Current, Complate ← exact Figma spelling
+- **Type**: Basic, Horizontal, Vertical
+
+**_BaseStepLine:**
+- **State**: Default, Selected, Ghost
+- **Type**: Horizontal, Vertical
+
+Note: A text layer on this page incorrectly labels content as "Tabs" — the page name and symbols are **Steps**.
+
+---
+
+## Component: Carousel
+
+Figma page: `❖ Carousel`
+Page ID: `2411:87282`
+Status: **✅ Verified** (MCP inspection)
+
+**Frames:**
+- `2470:91119` — "Carousel" (full indicator strip)
+- `2470:89976` — "_BaseCarouselItem" (single dot)
+
+**Carousel (indicator strip) variants:**
+- **Type**: Rounded, Line, Point with Border, Rounded with Border
+- **Number of Carousel Item**: 2, 3, 4, 5
+- **Style**: Horizontal, Vertical
+
+**_BaseCarouselItem:**
+- **Select**: false, true
+- **Status**: Rounded, Line, Point with Border, Rounded with Border (property names include prefix `🚫 Don't change` in Figma — preserve instance props)
+
+This page is **carousel pagination indicators**, not a full slide deck container.
+
+---
+
+## Component: Table
+
+Figma page: `❖ Table`
+Page ID: `2411:87286`
+Status: **✅ Verified** (MCP inspection)
+
+**Frames:**
+- `14938:8436` — "Table Cell" — dense matrix of cell primitives
+- `14938:29415` — "Table header"
+- `17260:61462` — "Read-made Table" — full composed examples
+
+**Table header variants:**
+- **Type**: Default, Disabled, Empty
+
+**Read-made Table (`Property 1`):**
+- Team members
+- Orders
+- Files uploaded
+- Cash Out Transactions
+- Leaderboard
+
+**Table Cell — sample of `Type` values (all × Background White|Light gray × State Default|Hover|Active):**
+
+Regular text, Basic, Icon + details, Brand logo + details, Avatar + details, Status badge, Badge group, Toggle, Toggle + Details, Rating, Progress, Chart, Avatar group, Only Flag, Flag + Country name, Only Checkbox, Icon & text, signle button, Double Button ← "signle" is exact Figma spelling
 
 ---
 
@@ -465,7 +617,22 @@ Status: **✅ Verified** (MCP inspection)
 
 Figma page: `❖ Upload`
 Page ID: `1333:24059`
-Status: TODO: MCP not yet inspected (listed under Composite Components in Figma)
+Status: **✅ Verified** (MCP inspection) — page is under **Composite Components** in the Figma sidebar but contains upload **primitives** used inside modals and forms.
+
+**Frames:**
+- `15147:12240` — "File Upload Area"
+- `15147:12322` — "Image Upload"
+- `15147:12371` — "File Upload Status"
+
+**File Upload Area:**
+- **Size**: Large (440×240), Small (500×80)
+- **State**: Default, Hover
+
+**Image Upload:**
+- **Property**: Default, Uploaded
+
+**File Upload Status:**
+- Three symbols all named `Property=Default` in metadata (heights ~82px, 64px, 90px) — select the correct instance by dimensions / preview in Figma, not by property name alone.
 
 ---
 

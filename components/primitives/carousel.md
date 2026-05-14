@@ -1,46 +1,50 @@
 # Carousel
 
-Canonical Figma path: `Primitive Components / Carousel`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Carousel`
+Page ID: `2411:87282`
+Canonical path: `Primitive Components / Carousel`
+Status: **Verified** — Figma MCP `get_metadata`
 
 ---
 
-## Indicator variants
+## Scope
 
-| Variant | Description |
-|---|---|
-| Dots | Small circular dots below carousel |
-| Lines | Thin horizontal line indicators |
+This page defines **carousel pagination indicators** (dot/line strips), not a full slide container with images.
 
 ---
 
-## Navigation
+## Carousel (`2470:91119`)
 
-- Left/right arrow buttons
-- Swipe (mobile)
-- Auto-play (if configured)
+Full strip of indicators.
+
+- **Type**: Rounded, Line, Point with Border, Rounded with Border
+- **Number of Carousel Item**: 2, 3, 4, 5
+- **Style**: Horizontal, Vertical
 
 ---
 
-## States
+## _BaseCarouselItem (`2470:89976`)
 
-- Active indicator (current slide)
-- Inactive indicator (other slides)
+Single indicator instance.
+
+- **Select**: false, true
+- **Status**: Rounded, Line, Point with Border, Rounded with Border
+
+Figma prefixes some status values with `🚫 Don't change` — preserve variant properties when swapping instances.
 
 ---
 
 ## Rules
 
-- Do not build a custom carousel with raw `overflow: hidden` + JS scroll
-- Indicators must use canonical dot or line treatment
-- Navigation arrows must use canonical Icon Button component
-- Auto-play must include pause-on-hover and a visible stop control
+- Pair these indicators with canonical content slides/frames defined elsewhere — do not draw custom dot rows.
+- Match **Number of Carousel Item** to the real slide count.
 
 ---
 
 ## AI instruction
 
 Instantiate from `Primitive Components / Carousel` in the Figma library. If unavailable:
+
 ```
 Missing canonical component: Carousel
 ```
