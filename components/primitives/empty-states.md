@@ -1,43 +1,80 @@
-# Empty States
+# Empty States Component
 
-Canonical Figma path: `Primitive Components / Empty`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Empty`
+Page ID: `2411:87283`
+Frame: `2457:94176` — "Empty"
+Canonical path: `Primitive Components / Empty`
+Status: **✅ Verified** — MCP inspection confirmed full variant matrix
 
 ---
 
-## Types
+## Purpose
 
-| Type | Use when |
+Communicate absence of data, no search results, empty feeds, or error states — while guiding the user toward a next action.
+
+---
+
+## Variants
+
+### Type (illustration theme)
+
+| Value | Use case |
 |---|---|
-| No data | Page or section has no content yet |
-| No results | Search or filter returned zero results |
-| Error | Something went wrong loading content |
-| 404 | Page not found |
-| Access restricted | User does not have permission |
+| `Night sky` | General empty, aspirational |
+| `Nature` | Calm / neutral empty |
+| `Folder` | Empty files, uploads, documents |
+| `Pages` | No content, no guides |
+| `Search` | No search results |
+| `Eye` | No views / restricted access |
+| `Document` | No documents / records |
+| `Spaceship` | Onboarding / launch context |
+| `Sad screen` | Error state / system failure |
+
+### Size
+
+| Value | Approx dimensions |
+|---|---|
+| `Small` | 300×283px |
+| `Medium` | 550×385px |
+| `Large` | 600×453px |
 
 ---
 
-## Anatomy
+## Structure
 
-- Illustration or icon
-- Headline (short, direct)
-- Body text (optional, explains the situation)
-- CTA button (optional, when user action can resolve it)
+Empty states contain:
+- Illustration (canonical themed image)
+- Title
+- Description
+- CTA (optional)
+
+---
+
+## Usage
+
+Use Empty for:
+- Empty forum feeds
+- No-results search responses
+- Empty member/team lists after filtering
+- Empty deals / jobs boards
+- Upload area with no files
+- Error / failure states
 
 ---
 
 ## Rules
 
-- Always use Empty state for zero-data scenarios — do not leave blank white space
-- CTA in empty state must use the canonical Button component
-- Error variant is distinct from No Data — do not use one for the other
-- Do not build a custom empty state from scratch (icon + h3 + p + button)
+1. Use the correct Type illustration for the context — do not use generic illustrations
+2. Use `Search` type specifically for no-results states
+3. Use `Sad screen` for error/system failure only
+4. Keep messaging optimistic and actionable — never blame the user
+5. CTA should suggest a clear next step
 
 ---
 
-## AI instruction
+## AI Instructions
 
-Instantiate from `Primitive Components / Empty` in the Figma library. If unavailable:
-```
-Missing canonical component: Empty
-```
+- Always instantiate from Figma library: `Primitive Components / Empty`
+- Never generate new illustrations or create custom SVG placeholders
+- Select the correct `Type` for the content context
+- Use `Small` for inline empty states within cards; `Medium/Large` for full-page empty states

@@ -1,65 +1,79 @@
-# Inputs
+# Input Component
 
-Canonical Figma path: `Primitive Components / Input`
-Status: TODO verify exact variant names via MCP
-
----
-
-## Input types
-
-- **Text input** — standard single-line text field
-- **Search input** — with magnifying glass icon and clear button
-- **Password input** — with show/hide toggle
-- **Tag input** — allows adding multiple tags/tokens inline
-- **Avatar input** — with avatar prefix (user lookup, assignee fields)
+Figma page: `❖ Input`
+Page ID: `13802:14570`
+Frame: `13797:14348`
+Canonical path: `Primitive Components / Input`
+Status: **✅ Verified** — MCP inspection confirmed full variant matrix
 
 ---
 
-## Styles
+## Purpose
 
-- **Default** — standard bordered input
-- **Underline** — bottom border only, no full box border
-- **Filled** — filled background, no border
+Text input for capturing single-line user data: names, search terms, form fields, tags.
 
 ---
 
-## States
+## Sub-components
 
-| State | Description |
+| Frame | Purpose |
 |---|---|
-| Default | No interaction, empty |
-| Hover | Cursor over input |
-| Focus | Active keyboard focus |
-| Error | Validation failure, error border + helper text |
-| Disabled | Non-interactive, reduced opacity |
-| Filled | Input has content |
+| `13797:14348` — Input | Main component set |
 
 ---
 
-## Anatomy
+## Variants
 
-- Label (above)
-- Input container
-- Leading icon or prefix (optional)
-- Trailing icon or suffix (optional)
-- Helper/error text (below)
-- Character count (optional, trailing)
+### Type
+- `Normal` — standard text input
+- `Tag` — input with inline tag chips (multi-value selection)
+
+### Style
+- `Rounded` — rounded border, default form style
+- `Fill` — filled background, lower emphasis surface
+
+> ⚠️ There is no "Underline" or "Default" style. Styles are exactly `Rounded` and `Fill`.
+
+### Size
+| Value | Height |
+|---|---|
+| Large | 76px |
+| Medium | 68px |
+| Small | 64px |
+
+### State
+| Value | Description |
+|---|---|
+| Placeholder | Empty, no focus |
+| Hover | Mouse over |
+| Typing | Active cursor, content being entered |
+| Fill & Focus | Focused with content |
+| Error | Validation failure |
+| Disable | Non-interactive |
 
 ---
 
-## Rules
+## Related Components
 
-- Always include a visible label (not placeholder-only)
-- Error state must show both error border and error helper text below
-- Placeholder text is supplementary — never the primary label
-- Do not build a custom input with a `div` + CSS border
-- Do not hardcode border-radius, color, or typography — use tokens
+- **Regular Search Input** — separate component for global and inline search. Do NOT use Input for search patterns; use Regular Search Input.
+- **Dropdown** — has its own `_dropdown input` frame that wraps Input with selection affordance
+- **TextArea** — for multi-line content
 
 ---
 
-## AI instruction
+## Usage Rules
 
-Instantiate from `Primitive Components / Input` in the Figma library. Select the correct style, type, and state. Do not recreate. If unavailable:
-```
-Missing canonical component: Input
-```
+1. Always select the correct `Type` first (Normal vs Tag)
+2. Use `Style=Rounded` for standard forms; `Style=Fill` for lower-emphasis contexts or dark surfaces
+3. Use `State=Error` with a helper text label when validation fails
+4. Never recreate input styling manually
+
+---
+
+## AI Instructions
+
+- Always instantiate from Figma library: `Primitive Components / Input`
+- Never create a custom `<input>` visual component
+- Do not use Input for password fields or avatar selection — check if there is a specific Figma variant for that pattern
+- For search, use `Regular Search Input` instead
+- Preserve all size and state variants; do not flatten or approximate

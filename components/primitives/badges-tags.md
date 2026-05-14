@@ -1,60 +1,80 @@
-# Badges & Tags
+# Badges & Tags Component
 
-Canonical Figma path: `Primitive Components / Badges & Tags`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Badges & Tags`
+Page ID: `1079:21757`
+Frame 1: `14216:28718` — "Badge"
+Frame 2: `14216:28702` — "_BaseBadgeDot"
+Canonical path: `Primitive Components / Badges & Tags`
+Status: **✅ Verified** — MCP inspection confirmed full variant matrix
 
 ---
 
-## Styles
+## Purpose
 
-| Style | Description |
+Badges communicate status, category, metadata, role, and lightweight system meaning. Badge Dots indicate presence, activity, or notification count.
+
+---
+
+## Sub-components
+
+### Badge
+
+| Property | Values |
 |---|---|
-| Filled | Solid background with contrasting text |
-| Outline | Border only, transparent background |
-| Soft | Low-opacity background tint, softer presence |
+| **Color** | Blue (Brand), Gray (Neutral), Green (Success), Yellow (Warning), Red (Error) |
+| **Style** | Light, Outline, Fill |
+| **Size** | Small (16px h), Medium (20px h), Large (24px h) |
+| **Disable** | False, True |
+
+> ⚠️ Figma uses color names (`Blue`, `Gray`, `Green`, `Yellow`, `Red`) not semantic labels. Map accordingly:
+> - Blue → Brand/Primary
+> - Gray → Neutral
+> - Green → Success
+> - Yellow → Warning
+> - Red → Error/Danger
+
+**Style guide:**
+- `Light` — subtle fill, low visual weight; use for categories and metadata
+- `Outline` — bordered, no fill; use for interactive filters and toggleable tags
+- `Fill` — solid fill; use for critical status, active states, high-emphasis labels
 
 ---
 
-## Semantic types (colors)
+### Badge Dot (_BaseBadgeDot)
 
-| Type | Use for |
+| Property | Values |
 |---|---|
-| Neutral | General metadata, categories, non-signal tags |
-| Brand | Protocol Labs branded content |
-| Success | Positive status: active, verified, published |
-| Warning | Caution status: pending, review needed |
-| Error | Problem status: failed, rejected, overdue |
+| **Color** | Light, Light Secondary, Blue, Green, Yellow, Red |
+| **Size** | Small (12px), Medium (16px), Large (16–24px) |
 
----
-
-## Dot variant
-
-Some badge variants include a leading dot indicator. Use when color alone may be insufficient to convey status (e.g., accessibility contexts).
+Use Badge Dots for presence indicators, online status, and notification indicators.
 
 ---
 
 ## Usage
 
-- Use **Soft** style for general metadata tags (skills, topics, focus areas) — lowest visual weight
-- Use **Filled** for important status indicators that need to stand out
-- Use **Outline** for labels that need to be distinguishable but not dominant
-- Use semantic colors correctly — do not use `Success` green for decorative purposes
+Use badges for:
+- Member roles and focus areas
+- Content categories
+- Availability status (e.g., "Available to connect", "Frequently Booked")
+- Filter chips and active filter indicators
+- Lightweight metadata on cards
 
 ---
 
 ## Rules
 
-- Do not overload a card with more than 3–4 badges
-- Do not draw a custom badge with raw `div` + CSS
-- Do not use badges as navigation elements
-- Badges are read-only indicators — they are not interactive buttons
-- Keep badge text concise (1–3 words)
+1. Use semantic colors — never custom colors
+2. Limit to 1–3 badges per card or list item
+3. Do not use oversized badges for primary content — they are metadata
+4. Gray badges are for secondary/neutral states
+5. "Disable=True" variant must be used for non-interactive disabled states
 
 ---
 
-## AI instruction
+## AI Instructions
 
-Instantiate from `Primitive Components / Badges & Tags` in the Figma library. If unavailable:
-```
-Missing canonical component: Badges & Tags
-```
+- Always instantiate from Figma library: `Primitive Components / Badges & Tags`
+- Never draw custom pill or tag shapes
+- Use the correct **Color** name (Blue, Gray, Green, Yellow, Red) from Figma
+- Preserve Disable variants when rendering non-interactive badges

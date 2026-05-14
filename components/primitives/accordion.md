@@ -1,41 +1,70 @@
-# Accordion
+# Accordion Component
 
-Canonical Figma path: `Primitive Components / Accordion`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Accordion`
+Page ID: `1333:24055`
+Frame: `14424:10186` — "Accordion"
+Canonical path: `Primitive Components / Accordion`
+Status: **✅ Verified** — MCP inspection confirmed full variant matrix
 
 ---
 
-## States
+## Purpose
 
-| State | Description |
+Accordions progressively disclose content while preserving compact layouts. Use for FAQs, filters, settings sections, expandable metadata, and dense information groups.
+
+---
+
+## Variants
+
+### Type
+| Value | Description |
 |---|---|
-| Collapsed | Content hidden, header visible with expand indicator |
-| Expanded | Content visible, collapse indicator |
-| Hover | Highlighted header |
-| Focus | Focus ring on header |
-| Disabled | Non-interactive, reduced opacity |
+| `Basic` | Default card-style row with border |
+| `Light Gary` | Subtle grey-fill row (note: "Gary" is the exact Figma spelling) |
+| `Underline` | Underline-only divider row, minimal chrome |
+
+### Open
+| Value | Closed height | Expanded height |
+|---|---|---|
+| `False` (collapsed) | 67px desktop / 64px mobile | — |
+| `True` (expanded) | — | 107px desktop / 124px mobile |
+
+### State
+- `Normal`
+- `Hover`
+- `Focus`
+- `Disable`
+
+### Device
+- `Desktop` (760px wide)
+- `Mobile` (353px wide)
 
 ---
 
-## Themes
+## Usage
 
-- **Light** — default, for light backgrounds
-- **Dark** — for dark panels or sidebars
+Use Accordion for:
+- FAQ sections
+- Filter panels
+- Expandable section headers
+- Dense settings blocks
+- Onboarding checklists
 
 ---
 
 ## Rules
 
-- Use for FAQ sections, settings panels, and collapsible filter groups
-- Expand indicator (caret/chevron) must rotate on state change — use canonical animation
-- Do not build a custom accordion from divs + CSS `max-height` transitions
-- Multiple accordions can be open simultaneously (unless spec requires single-open)
+1. Use concise labels (1 line)
+2. Avoid nested accordions
+3. Keep content scannable — do not put long scrollable content inside accordion items
+4. Preserve touch-friendly hit areas on mobile
+5. Use the correct Device variant: Desktop or Mobile
 
 ---
 
-## AI instruction
+## AI Instructions
 
-Instantiate from `Primitive Components / Accordion` in the Figma library. If unavailable:
-```
-Missing canonical component: Accordion
-```
+- Always instantiate from Figma library: `Primitive Components / Accordion`
+- Use `Device=Mobile` for all mobile-width contexts
+- Never recreate expand/collapse rows manually
+- Preserve all state variants (Normal, Hover, Focus, Disable)

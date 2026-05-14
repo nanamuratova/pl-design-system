@@ -1,79 +1,95 @@
 # Component Catalog
 
-Full inventory of all canonical components in the PL Network / LabOS Design System.
+All Figma Design System components for PL Network / LabOS, grouped by category.
+All entries below are **✅ Verified** via MCP inspection unless marked `TODO`.
 
-Canonical Figma file: [Design-System-Full | Protocol Labs](https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full-%7C-Protocol-Labs?node-id=802-20272&m=dev)
+Figma file: `Design-System-Full | Protocol Labs`
+File URL: https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full-%7C-Protocol-Labs
 
 ---
 
 ## Primitive Components
 
-| Component | Figma Path | Category | Purpose | Spec | Status |
-|---|---|---|---|---|---|
-| Button | `Primitive Components / Button` | Primitive | Primary action trigger | [buttons.md](primitives/buttons.md) | ✅ Verified |
-| Link Button | `Primitive Components / Link Button` | Primitive | Text link styled as button | [buttons.md](primitives/buttons.md) | TODO verify |
-| Icon Button | `Primitive Components / Icon Button` | Primitive | Icon-only action trigger | [buttons.md](primitives/buttons.md) | TODO verify |
-| Round Icon Button | `Primitive Components / Round Icon Button` | Primitive | Circular icon action button | [buttons.md](primitives/buttons.md) | TODO verify |
-| Input | `Primitive Components / Input` | Primitive | Single-line text entry | [inputs.md](primitives/inputs.md) | TODO verify |
-| TextArea | `Primitive Components / TextArea` | Primitive | Multi-line text entry | [textarea.md](primitives/textarea.md) | TODO verify |
-| Checkbox | `Primitive Components / Checkbox` | Primitive | Binary selection control | [checkbox.md](primitives/checkbox.md) | TODO verify |
-| Checkbox Label | `Primitive Components / Checkbox Label` | Primitive | Selectable row with rich content | [checkbox-label.md](primitives/checkbox-label.md) | TODO verify |
-| Checkbox Group | `Primitive Components / Checkbox Group` | Primitive | Grouped multi-select checkboxes | [checkbox-group.md](primitives/checkbox-group.md) | TODO verify |
-| Alerts & Notification | `Primitive Components / Alerts & Notification` | Primitive | System feedback messages | [alerts-notifications.md](primitives/alerts-notifications.md) | TODO verify |
-| Badges & Tags | `Primitive Components / Badges & Tags` | Primitive | Status indicators, category labels | [badges-tags.md](primitives/badges-tags.md) | TODO verify |
-| Date Picker | `Primitive Components / Date Picker` | Primitive | Date and range selection | [date-picker.md](primitives/date-picker.md) | TODO verify |
-| Accordion | `Primitive Components / Accordion` | Primitive | Collapsible content sections | [accordion.md](primitives/accordion.md) | TODO verify |
-| Dropdown | `Primitive Components / Dropdown` | Primitive | Select and multi-select | [dropdown.md](primitives/dropdown.md) | TODO verify |
-| Empty | `Primitive Components / Empty` | Primitive | Zero-state placeholder | [empty-states.md](primitives/empty-states.md) | TODO verify |
-| Pagination | `Primitive Components / Pagination` | Primitive | Page navigation | [pagination.md](primitives/pagination.md) | TODO verify |
-| Progress | `Primitive Components / Progress` | Primitive | Completion/loading indicator | [progress.md](primitives/progress.md) | TODO verify |
-| Regular Search Input | `Primitive Components / Regular Search Input` | Primitive | Search field | [search.md](primitives/search.md) | TODO verify |
-| Slider / Range | `Primitive Components / Slider` | Primitive | Continuous value selector | [slider.md](primitives/slider.md) | TODO verify |
-| Steps | `Primitive Components / Steps` | Primitive | Multi-step progress indicator | — | TODO verify |
-| Carousel | `Primitive Components / Carousel` | Primitive | Horizontal scroll content | [carousel.md](primitives/carousel.md) | TODO verify |
-| Switch & Toggle | `Primitive Components / Switch & Toggle` | Primitive | Binary on/off control | [toggle.md](primitives/toggle.md) | TODO verify |
-| Table (cells) | `Primitive Components / Table` | Primitive | Data table cell types | [table-cells.md](primitives/table-cells.md) | TODO verify |
-| Tabs | `Primitive Components / Tabs` | Primitive | View/section switcher | [tabs.md](primitives/tabs.md) | TODO verify |
-| Tooltips | `Primitive Components / Tooltips` | Primitive | Contextual helper text | [tooltips.md](primitives/tooltips.md) | TODO verify |
-| Upload | `Primitive Components / Upload` | Primitive | File selection/upload | [file-upload.md](primitives/file-upload.md) | TODO verify |
-| Context Menu | `Primitive Components / Context Menu` | Primitive | Right-click contextual actions | [context-menu.md](primitives/context-menu.md) | TODO verify |
-| Drawer | `Primitive Components / Drawer` | Primitive | Slide-in panel overlay | — | TODO verify |
+| Component | Figma Page ID | Figma Page Name | Status | Spec |
+|---|---|---|---|---|
+| Button | `802:20272` | ❖ Button | ✅ Verified | [buttons.md](./primitives/buttons.md) |
+| Input | `13802:14570` | ❖ Input | ✅ Verified | [inputs.md](./primitives/inputs.md) |
+| TextArea | `15774:38577` | ❖ TextArea | ✅ Verified | [textarea.md](./primitives/textarea.md) |
+| Checkbox + Radio | `1048:18099` | ❖ Checkbox | ✅ Verified | [checkbox.md](./primitives/checkbox.md) |
+| Checkbox Group | `2411:87285` | ❖ Checkbox Group | ✅ Verified | [checkbox-group.md](./primitives/checkbox-group.md) |
+| Badges & Tags | `1079:21757` | ❖ Badges & Tags | ✅ Verified | [badges-tags.md](./primitives/badges-tags.md) |
+| Accordion | `1333:24055` | ❖ Accordion | ✅ Verified | [accordion.md](./primitives/accordion.md) |
+| Dropdown | `1158:20441` | ❖ Dropdown | ✅ Verified | [dropdown.md](./primitives/dropdown.md) |
+| Empty States | `2411:87283` | ❖ Empty | ✅ Verified | [empty-states.md](./primitives/empty-states.md) |
+| Pagination | `1333:24057` | ❖ Pagination | ✅ Verified | [pagination.md](./primitives/pagination.md) |
+| Progress | `1161:20445` | ❖ Progress | ✅ Verified | [progress.md](./primitives/progress.md) |
+| Regular Search Input | `1333:24062` | ❖ Regular Search Input | ✅ Verified | [search-input.md](./primitives/search-input.md) |
+| Switch & Toggle | `1050:18030` | ❖ Switch & Toggle | ✅ Verified | [switch-toggle.md](./primitives/switch-toggle.md) |
+| Tabs | `1333:24058` | ❖ Tabs | ✅ Verified | [tabs.md](./primitives/tabs.md) |
+| Tooltips | `1161:20444` | ❖ Tooltips | ✅ Verified | [tooltips.md](./primitives/tooltips.md) |
+| Context Menu | `17368:2110` | ❖ Context Menu | ✅ Verified | [context-menu.md](./primitives/context-menu.md) |
+| Date Picker | `1467:24996` | ❖ Date Picker | TODO | [date-picker.md](./primitives/date-picker.md) |
+| Slider / Range | `1467:24998` | ❖ Slider / Range | TODO | [slider.md](./primitives/slider.md) |
+| Steps | `1467:25002` | ❖ Steps | TODO | [steps.md](./primitives/steps.md) |
+| Carousel | `2411:87282` | ❖ Carousel | TODO | [carousel.md](./primitives/carousel.md) |
+| Table | `2411:87286` | ❖ Table | TODO | [table.md](./primitives/table.md) |
 
 ---
 
-## Product Components
+## Composite Components
 
-| Component | Figma Path | Category | Purpose | Spec | Status |
-|---|---|---|---|---|---|
-| Header & Nav | `Product Components / Header & Nav` | Product | Primary application navigation | [header-navigation.md](product/header-navigation.md) | TODO verify |
-| Sidebars & Bottom Sheets | `Product Components / Sidebars & Bottom Sheets` | Product | Filter panels + mobile drawers | [sidebars-drawers.md](product/sidebars-drawers.md) | TODO verify |
-| Cards | `Product Components / Cards` | Product | Content preview cards | [cards.md](product/cards.md) | TODO verify |
-| Forum Cards | `Product Components / Forum Cards` | Product | Forum post preview cards | [forum-cards.md](product/forum-cards.md) | TODO verify |
-| Updates Cards | `Product Components / Updates Cards` | Product | Update/announcement cards | [updates-cards.md](product/updates-cards.md) | TODO verify |
-| Deals Cards | `Product Components / Deals Cards` | Product | Investment deal cards | [deals-cards.md](product/deals-cards.md) | TODO verify |
-| Demo Day Cards | `Product Components / Demo Day Cards` | Product | Demo Day event cards | [demo-day-cards.md](product/demo-day-cards.md) | TODO verify |
-| Jobs Cards | `Product Components / Jobs Cards` | Product | Job listing cards | [jobs-cards.md](product/jobs-cards.md) | TODO verify |
-| Founder Guides Cards | `Product Components / Founder Guides Cards` | Product | Founder guide article cards | [founder-guides.md](product/founder-guides.md) | TODO verify |
-| Office Hours Cards | `Product Components / Office Hours Cards` | Product | Office hours session cards | — | TODO verify |
-| Comments | `Product Components / Comments` | Product | Comment composer and threads | [comments.md](product/comments.md) | TODO verify |
-| Bottom Navigation | `Product Components / Bottom Navigation` | Product | Mobile bottom nav bar | [bottom-navigation.md](product/bottom-navigation.md) | TODO verify |
-| Tables | `Product Components / Tables` | Product | Domain-specific data tables | [tables.md](product/tables.md) | TODO verify |
+| Component | Figma Page ID | Figma Page Name | Status | Spec |
+|---|---|---|---|---|
+| Header & Nav | `24084:58112` | ❖ Header & Nav | ✅ Verified | [header-navigation.md](./product/header-navigation.md) |
+| Bottom Navigation | `24084:58112` | ❖ Header & Nav (same page) | ✅ Verified | [header-navigation.md](./product/header-navigation.md) |
+| Sidebars & Bottom Sheets | `25861:2872` | ❖ Sidebars & Bottom Sheets | ✅ Verified | [sidebars.md](./product/sidebars.md) |
+| Cards (all types) | `25865:10547` | ❖ Cards | ✅ Verified | [cards.md](./product/cards.md) |
+| Modals | `27043:54960` | ❖ Modals | ✅ Verified | [modals.md](./product/modals.md) |
+| Drawer | `17368:2111` | ❖ Drawer | ✅ Verified | [drawer.md](./product/drawer.md) |
+| Alerts & Notification | `1158:20439` | ❖ Alerts & Notification | ✅ Verified | [alerts.md](./product/alerts.md) |
+| Upload | `1333:24059` | ❖ Upload | TODO | [upload.md](./product/upload.md) |
 
 ---
 
-## Patterns
+## Key Organization Notes
 
-| Pattern | Type | Purpose | Spec |
-|---|---|---|---|
-| Stack / Vertical Flow | Layout | Linear vertical arrangement | [layout-patterns.md](../patterns/layout-patterns.md) |
-| Grid | Layout | Multi-column card/content grid | [layout-patterns.md](../patterns/layout-patterns.md) |
-| Sidebar | Layout | Fixed side panel + main content | [layout-patterns.md](../patterns/layout-patterns.md) |
-| Detail / Single Focus | Layout | Centered single-content view | [layout-patterns.md](../patterns/layout-patterns.md) |
-| Sidebar + Grid | Composition | Filter sidebar + card grid | [layout-compositions.md](../patterns/layout-compositions.md) |
-| Sidebar + List | Composition | Filter sidebar + list | [layout-compositions.md](../patterns/layout-compositions.md) |
-| Centered Content | Composition | Centered narrow content column | [layout-compositions.md](../patterns/layout-compositions.md) |
-| Full Width | Composition | Full-bleed content area | [layout-compositions.md](../patterns/layout-compositions.md) |
-| Split Content | Composition | Two equal columns | [layout-compositions.md](../patterns/layout-compositions.md) |
-| Modal | Overlay | Focused interruption overlay | [overlay-patterns.md](../patterns/overlay-patterns.md) |
-| Drawer | Overlay | Slide-in side panel | [overlay-patterns.md](../patterns/overlay-patterns.md) |
-| Bottom Sheet | Overlay | Mobile bottom slide-up panel | [overlay-patterns.md](../patterns/overlay-patterns.md) |
+> These clarifications correct common misunderstandings about the file structure.
+
+1. **Bottom Navigation is on the Header & Nav page** — Page ID `24084:58112`, Frame `25857:8274`. There is no separate "Bottom Navigation" page.
+
+2. **Comments are inside the Cards page** — Frame `27033:87590` (Desktop) and `27033:87756` (Mobile). Not a standalone component page.
+
+3. **Checkbox includes Radio buttons** — `Type=Radio` is a variant of the Checkbox component (Page ID `1048:18099`).
+
+4. **Alerts & Notification is Composite** — Page ID `1158:20439` is listed under Composite Components in Figma, not Primitives.
+
+5. **Upload is Composite** — Page ID `1333:24059` is listed under Composite Components, not Primitives.
+
+6. **Drawer is Composite** — Page ID `17368:2111` contains domain-specific Drawer compositions (event creation, editor, keyboard shortcuts), not a generic primitive.
+
+7. **Regular Search Input is separate from Input** — For search patterns always use Page ID `1333:24062`. The main `Input` component does not have a search variant.
+
+8. **Input styles are Rounded and Fill** — not "Default", "Underline", or "Filled".
+
+9. **Badge colors are Blue/Gray/Green/Yellow/Red** — Figma uses these color names, not semantic names like Brand/Neutral/Success/Warning/Error.
+
+---
+
+## Foundations (Non-component Pages)
+
+| Foundation | Figma Page ID | Description |
+|---|---|---|
+| Colors | `0:1` | Color palette display |
+| Color Variables-Token | `13610:4349` | Design token variables |
+| Typography | `802:20273` | Type scale and styles |
+| Effects | `1158:20442` | Shadows, blurs, elevation |
+
+---
+
+## Layout & Patterns
+
+| Page | Figma Page ID |
+|---|---|
+| Layout Patterns & Compositions | `25861:2795` |
+| Page Examples | `27043:33169` |
+| Miscellaneous | `2411:87291` |

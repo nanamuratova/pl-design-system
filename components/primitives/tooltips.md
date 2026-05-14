@@ -1,47 +1,73 @@
-# Tooltips
+# Tooltips Component
 
-Canonical Figma path: `Primitive Components / Tooltips`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Tooltips`
+Page ID: `1161:20444`
+Frame: `2002:65452` — "Tooltips"
+Canonical path: `Primitive Components / Tooltips`
+Status: **✅ Verified** — MCP inspection confirmed full variant matrix
 
 ---
 
-## Placement variants
+## Purpose
 
-- Top
-- Bottom
-- Left
-- Right
+Provide contextual information, keyboard shortcuts, and supplementary labels on hover or focus.
+
+---
+
+## Variants
+
+### Size
+
+| Value | Approx height | Use case |
+|---|---|---|
+| `Small` | 28–33px | Compact label tooltips |
+| `Medium` | 36–42px | Standard tooltips with text |
+| `Large` | 84–94px | Rich tooltips with longer descriptions |
+
+### Theme
+
+| Value | Description |
+|---|---|
+| `Light` | White/light background, subtle shadow |
+| `Dark` | Dark background, high contrast |
+| `Blue` | Brand blue, for emphasized hints |
+
+### Arrow Position
+
+The arrow can point from any of 8 positions:
+
+| Group | Values |
+|---|---|
+| Bottom edge (tooltip above) | `Bottom Right`, `Bottom Center`, `Bottom Left` |
+| Top edge (tooltip below) | `Top Right`, `Top Center`, `Top Left` |
+| Side | `Left Side`, `Right Side` |
 
 ---
 
 ## Usage
 
-- Use to explain icon-only buttons and controls
-- Use for truncated text labels where full text needs to be accessible
-- Use to provide brief supplemental context (not critical information)
+Use Tooltips for:
+- Icon button labels (hover hint)
+- Keyboard shortcut indicators
+- Truncated text expansion
+- Complex field helper hints
+- Feature discovery nudges
 
 ---
 
 ## Rules
 
-- Keep tooltip copy short: under 80 characters
-- Do not use tooltips for critical information — always provide an accessible alternative
-- Tooltips must appear on keyboard focus, not only on hover
-- Do not use tooltips as the only way to discover a feature
+1. Use `Theme=Dark` as the default — most legible in light UIs
+2. Use `Theme=Blue` sparingly for feature highlights
+3. Choose arrow position based on available screen space (prefer bottom-side tooltip appearing above the trigger)
+4. Keep tooltip text to 1–2 lines for Small/Medium; use Large for multi-line descriptions
+5. Do not use tooltips to hide critical information — it must be accessible without hover
 
 ---
 
-## Accessibility
+## AI Instructions
 
-- Triggered on `:hover` and `:focus`
-- Must be associated with the trigger via `aria-describedby`
-- Must not be the sole mechanism for conveying important information
-
----
-
-## AI instruction
-
-Instantiate from `Primitive Components / Tooltips` in the Figma library. If unavailable:
-```
-Missing canonical component: Tooltips
-```
+- Always instantiate from Figma library: `Primitive Components / Tooltips`
+- Select `Arrow` position based on trigger location on screen
+- Never draw custom tooltip bubbles or arrows
+- Preserve all size variants — do not scale non-matching sizes

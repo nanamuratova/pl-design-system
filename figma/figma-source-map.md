@@ -3,25 +3,52 @@
 Canonical Figma file: **Design-System-Full | Protocol Labs**
 File URL: https://www.figma.com/design/0fFjyzEincRez6m3D80vLg/Design-System-Full-%7C-Protocol-Labs
 
-Inspection method: Figma MCP Dev Mode (`get_metadata`, `get_design_context`)
+Inspection method: Figma MCP `get_metadata` — all entries below are **verified** unless explicitly marked TODO.
 
 ---
 
-## Foundations
+## Document Page Structure
 
-These are already correctly implemented. Do not regenerate.
-
-### Colors / Color Variables / Tokens
-Figma page: Foundations
-Status: Verified — implemented in `tokens/colors.scss`
-
-### Typography
-Figma page: Foundations
-Status: Verified — implemented in `tokens/typography.scss` and `tokens/_typography-mixins.scss`
-
-### Effects (Shadows, Radii)
-Figma page: Foundations
-Status: Verified — implemented in `tokens/spacing.scss`
+| Page ID | Page Name | Notes |
+|---|---|---|
+| `5740:96716` | Foundations | Section header |
+| `0:1` | 🎨 Colors | Foundation page |
+| `13610:4349` | 🎟️ Color Variables-Token | Foundation page |
+| `802:20273` | 🅰️ Typography | Foundation page |
+| `1158:20442` | 🏔 Effects | Foundation page |
+| `5740:96717` | Primitive Components | Section header |
+| `802:20272` | ❖ Button | Primitive |
+| `13802:14570` | ❖ Input | Primitive |
+| `15774:38577` | ❖ TextArea | Primitive |
+| `1048:18099` | ❖ Checkbox | Primitive (also contains Checkbox Label and Radio) |
+| `2411:87285` | ❖ Checkbox Group | Primitive |
+| `1079:21757` | ❖ Badges & Tags | Primitive |
+| `1467:24996` | ❖ Date Picker | Primitive |
+| `1333:24055` | ❖ Accordion | Primitive |
+| `1158:20441` | ❖ Dropdown | Primitive |
+| `2411:87283` | ❖ Empty | Primitive |
+| `1333:24057` | ❖ Pagination | Primitive |
+| `1161:20445` | ❖ Progress | Primitive |
+| `1333:24062` | ❖ Regular Search Input | Primitive |
+| `1467:24998` | ❖ Slider / Range | Primitive |
+| `1467:25002` | ❖ Steps | Primitive |
+| `2411:87282` | ❖ Carousel | Primitive |
+| `1050:18030` | ❖ Switch & Toggle | Primitive |
+| `2411:87286` | ❖ Table | Primitive |
+| `1333:24058` | ❖ Tabs | Primitive |
+| `1161:20444` | ❖ Tooltips | Primitive |
+| `17368:2110` | ❖ Context Menu | Primitive |
+| `24092:113086` | Composite Components | Section header |
+| `24084:58112` | ❖ Header & Nav | Composite (includes Bottom Navigation) |
+| `25861:2872` | ❖ Sidebars & Bottom Sheets | Composite |
+| `25865:10547` | ❖ Cards | Composite (all card types) |
+| `27043:54960` | ❖ Modals | Composite |
+| `1333:24059` | ❖ Upload | Composite |
+| `17368:2111` | ❖ Drawer | Composite |
+| `1158:20439` | ❖ Alerts & Notification | Composite |
+| `25861:2795` | Layout Patterns & Compositions | Patterns |
+| `27043:33169` | Page Examples | Examples |
+| `2411:87291` | Miscellaneous | Other |
 
 ---
 
@@ -31,439 +58,425 @@ Status: Verified — implemented in `tokens/spacing.scss`
 
 ## Component: Button
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Button`
-Figma node: `802:20272` (verified via MCP)
+Figma page: `❖ Button`
+Page ID: `802:20272`
+Frame: `13053:5771` — "Button"
+Status: **✅ Verified** (MCP inspection of node `802:20272`)
 
-Related components:
-- Link Button
-- Icon Button
-- Round Icon Button
-
-Variants (confirmed via MCP inspection):
-- **Type**: Default (Brand), Success, Warning, Error, Neutral, Ghost/Light
+Variants (all confirmed):
+- **Type**: Default (Brand), Success, Warning, Error, Neutral, Light/Ghost
 - **Style**: Fill, Border, Light
 - **Size**: Tiny (24px h), Extra Small (32px h), Small (36px h), Medium (40px h), Large (48px h), Extra Large (56px h), Big (58px h)
 - **State**: Normal, Hover, Focus, Active, Disable
 
-Status: **Verified** (MCP inspection confirmed full variant matrix)
-Notes: Do not recreate manually. Always instantiate from Figma library.
+Related components: Link Button, Icon Button, Round Icon Button (verify on same page)
 
----
-
-## Component: Link Button
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Link Button`
-Variants: TODO: verify exact Figma component path
-Status: TODO verify
-
----
-
-## Component: Icon Button
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Icon Button`
-Variants: TODO: verify exact Figma component path
-Status: TODO verify
-
----
-
-## Component: Round Icon Button
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Round Icon Button`
-Variants: TODO: verify exact Figma component path
-Status: TODO verify
+Notes: Do not recreate manually. The Figma file itself contains the instruction: "Canonical component. Do not recreate manually. Always instantiate from Figma library."
 
 ---
 
 ## Component: Input
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Input`
-Variants:
-- Style: Default, Underline, Filled
-- Type: Text, Search, Password, Tag, Avatar
-- State: Default, Hover, Focus, Error, Disabled, Filled
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Input`
+Page ID: `13802:14570`
+Frame: `13797:14348`
+Status: **✅ Verified** (MCP inspection)
+
+Variants (all confirmed):
+- **Type**: Normal, Tag
+- **Style**: Rounded, Fill
+- **Size**: Large (76px h), Medium (68px h), Small (64px h)
+- **State**: Placeholder, Hover, Typing, Fill & Focus, Error, Disable
+
+Important corrections:
+- Styles are **Rounded** and **Fill** — NOT "Default/Underline/Filled"
+- Types are **Normal** and **Tag** — Password and Avatar inputs are NOT separate types in this component
+- Search input is a SEPARATE component: `Regular Search Input`
 
 ---
 
 ## Component: TextArea
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / TextArea`
-Variants:
-- Standard
-- Rich text / comment field
-- With toolbar
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ TextArea`
+Page ID: `15774:38577`
+Frame: `13842:8583` — "TextArea Input Field"
+Also: `20157:48805` — "_Base-editor" (Type=Text editor, Type=Actions)
+Status: **✅ Verified** (MCP inspection)
+
+Variants (all confirmed):
+- **Style**: Border, Fill
+- **State**: Default, Fill, Focus, Typing, Error, Disable
+
+The `_Base-editor` component contains the rich-text toolbar (Text editor + Actions).
 
 ---
 
 ## Component: Checkbox
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Checkbox`
-Variants:
-- State: Unchecked, Checked, Indeterminate
-- Interaction: Default, Hover, Focus, Disabled
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Checkbox`
+Page ID: `1048:18099`
+Frame 1: `17215:16334` — "Checkbox" (the control)
+Frame 2: `14308:16244` — "Checkbox Label" (selectable row)
+Status: **✅ Verified** (MCP inspection)
 
----
+**Checkbox control:**
+- **Variant**: Unchecked, Checked, Minus-Indeterminate
+- **Type**: Checkbox, **Radio** ← Radio buttons are part of this component
+- **State**: Normal, Hover, Focus, Disable
+- **Size**: Medium (24px), Large (28px)
 
-## Component: Checkbox Label
+**Checkbox Label (selectable row):**
+- **Variant**: Unchecked, Checked, Minus-Indeterminate
+- **State**: Normal, Hover, Focus, Disable
+- **Size**: Small (62px h), Medium (74px h), Large (83px h)
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Checkbox Label`
-Variants:
-- Content: Simple text, Icon, Avatar, Image, Pricing
-- State: Default, Selected, Disabled
-Status: TODO verify exact variant names via MCP
+Note: The Checkbox page includes both Checkbox and Radio button controls.
 
 ---
 
 ## Component: Checkbox Group
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Checkbox Group`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Checkbox Group`
+Page ID: `2411:87285`
+Frame: `14352:23080` — "Checkbox Group"
+Status: **✅ Verified** (MCP inspection)
 
----
-
-## Component: Alerts & Notification
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Alerts & Notification`
-Variants:
-- Type: Info, Success, Warning, Error, Neutral
-- Style: Alert, Banner, Toast, Notification Card
-Status: TODO verify exact variant names via MCP
+Variants (all confirmed):
+- **Type**: Basic medium, Basic small, With Icon, With Logo, Avatar, With Image, Card
+- **Selected**: False, True
+- **State**: Default, Disabled, Hover, Focused
 
 ---
 
 ## Component: Badges & Tags
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Badges & Tags`
-Variants:
-- Style: Filled, Outline, Soft
-- Semantic: Neutral, Brand, Success, Warning, Error
-- With/without dot
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Badges & Tags`
+Page ID: `1079:21757`
+Frame 1: `14216:28718` — "Badge"
+Frame 2: `14216:28702` — "_BaseBadgeDot"
+Status: **✅ Verified** (MCP inspection)
 
----
+**Badge variants:**
+- **Color**: Blue (Brand), Gray (Neutral), Green (Success), Yellow (Warning), Red (Error)
+- **Style**: Light, Outline, Fill
+- **Size**: Small (16px h), Medium (20px h), Large (24px h)
+- **Disable**: False, True
 
-## Component: Date Picker
+**Badge Dot variants:**
+- **Color**: Light, Light Secondary, Blue, Green, Yellow, Red
+- **Size**: Small (12px), Medium (16px), Large (16–24px)
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Date Picker`
-Status: TODO verify — DatePicker directory exists in code repo but is empty
+Important: Figma uses color names (Blue, Gray, Green, Yellow, Red), not semantic names (Brand, Neutral, Success, etc.).
 
 ---
 
 ## Component: Accordion
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Accordion`
-Variants:
-- State: Collapsed, Expanded
-- Theme: Light, Dark
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Accordion`
+Page ID: `1333:24055`
+Frame: `14424:10186` — "Accordion"
+Status: **✅ Verified** (MCP inspection)
+
+Variants (all confirmed):
+- **Type**: Basic, Light Gary, Underline
+- **Open**: True (expanded, 107px h on desktop), False (collapsed, 67px h on desktop)
+- **State**: Normal, Hover, Focus, Disable
+- **Device**: Desktop, Mobile
+
+Note: "Light Gary" is the exact Figma spelling (not "Light Grey").
 
 ---
 
 ## Component: Dropdown
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Dropdown`
-Variants:
-- Type: Select, Multi-select, Searchable, Avatar, Country, Payment
-- Item states: Default, Hover, Selected, Disabled
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Dropdown`
+Page ID: `1158:20441`
+Frames: `14587:127686` — "Dropdown" · `23042:245240` — "_dropdown input" · `14545:73352` — "_BaseDropdownListItem"
+Status: **✅ Verified** (MCP inspection)
+
+**Dropdown (trigger display) variants:**
+- **Variants**: Basic, Select team, Multiple Team Selection, Select Company, Payment Method, Country, Action, Profile
+- **State**: Default, Open, Filled
+
+**_dropdown input (text field) variants:**
+- **Type**: Icon, Avatar, Payment, Tag
+- **Size**: Large (76px h), Medium (68px h), Small (64px h)
+- **State**: Default, Hover, Focus, Filled
+
+**_BaseDropdownListItem:**
+- **Type**: Basic, With Helper Text
+- **State**: Default, Hover, Disable
+
+Sub-components: Divider (Line, Dash Line, Line with Text, etc.), Keyboard Shortcut, Scrollbar
 
 ---
 
 ## Component: Empty
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Empty`
-Variants:
-- Type: No data, No results, Error, 404, Access restricted
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Empty`
+Page ID: `2411:87283`
+Frame: `2457:94176` — "Empty"
+Status: **✅ Verified** (MCP inspection)
+
+Variants (all confirmed):
+- **Type**: Night sky, Nature, Folder, Pages, Search, Eye, Document, Spaceship, Sad screen
+- **Size**: Small, Medium, Large
+
+Note: Each Type has a unique illustration. "Search" is for no-results. "Sad screen" is for errors. Do not create custom illustrations — use these canonical types.
 
 ---
 
 ## Component: Pagination
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Pagination`
-Variants:
-- Style: Numeric, Prev/Next, Compact, Go-to, Mobile
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Pagination`
+Page ID: `1333:24057`
+Frame: `14765:14724` — "Pagination"
+Status: **✅ Verified** (MCP inspection)
+
+Variants (all confirmed):
+- **Type**: Basic, With Search Input, Number
+- **Only icon button**: True (compact), False (with labels)
+- **Round**: True (pill shape), False (square corners)
+- **_BasePaginationItem State**: Normal, Hover, Focus, Disable (selected/unselected)
 
 ---
 
 ## Component: Progress
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Progress`
-Variants:
-- Type: Bar, Circle
-- State: Active, Complete, Disabled
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Progress`
+Page ID: `1161:20445`
+Frames: `17260:19786` — "Progress Bar" · `2011:62366` — "Progress circle"
+Status: **✅ Verified** (MCP inspection)
+
+**Progress Bar:**
+- **Type**: Solid blue, Blue gradient, Orange+purple Gradient
+- **Label & Helper Text**: True, False
+- Height: 10–12px bar
+
+**Progress circle:**
+- **Range Style**: Regular, Bold
+- **Progress**: 10%–100%
+- Size: 160×160px
+
+Note: The `_BaseProgressBar` symbols are marked "🚫 Don't Change" — do not modify the base.
 
 ---
 
 ## Component: Regular Search Input
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Regular Search Input`
-Variants:
-- Context: Global search, Sidebar search, With filters
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Regular Search Input`
+Page ID: `1333:24062`
+Frame: `14549:147723` — "Search"
+Status: **✅ Verified** (MCP inspection)
 
----
-
-## Component: Slider / Range
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Slider`
-Variants:
-- Type: Single, Range/Double
-- With/without tooltip, histogram
-Status: TODO verify exact variant names via MCP
-
----
-
-## Component: Steps
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Steps`
-Status: TODO verify exact variant names via MCP
-
----
-
-## Component: Carousel
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Carousel`
-Variants:
-- Indicator: Dots, Lines
-- State: Active, Inactive
-Status: TODO verify exact variant names via MCP
+Variants (all confirmed):
+- **Slate**: Default, Hover, Focus
+- **Type**: Underline, Basic
+- **Size**: xSmall (32px h), Small (40px h), Medium (48px h), Large (54px h)
 
 ---
 
 ## Component: Switch & Toggle
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Switch & Toggle`
-Variants:
-- Type: Switch, Toggle with label, Segmented (light/dark)
-- State: Active, Inactive, Disabled
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Switch & Toggle`
+Page ID: `1050:18030`
+Frame 1: `14643:30883` — "Toggle"
+Frame 2: `14643:35651` — "Toggle with Label"
+Status: **✅ Verified** (MCP inspection)
 
----
+**Toggle:**
+- **Type**: Dot (standard switch), With Icon (icon inside knob), Button (segmented pill)
+- **Pressed**: True, False
+- **State**: Normal, Hover, Focus, Disable
+- Size: 36×20px (Dot and With Icon), 132×28px (Button/segmented)
 
-## Component: Table
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Table`
-Variants:
-- Cell types: Avatar, Badge, Progress, Country, Rating, Action, Analytics
-Status: TODO verify exact variant names via MCP
-
----
-
-## Component: Tabs
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Tabs`
-Variants:
-- Style: Underline, Filled, Pill, Minimal
-- State: Active, Hover, Disabled
-Status: TODO verify exact variant names via MCP
+**Toggle with Label:**
+- **Type**: Icon, Dot
+- **Pressed**: True, False
+- **State**: Normal, Hover, Focus, Disable
+- **Label Position**: Left, Right
 
 ---
 
 ## Component: Tooltips
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Tooltips`
-Variants:
-- Placement: Top, Bottom, Left, Right
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Tooltips`
+Page ID: `1161:20444`
+Frame: `2002:65452` — "Tooltips"
+Status: **✅ Verified** (MCP inspection)
 
----
-
-## Component: Upload
-
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Upload`
-Variants:
-- Type: Drag & drop, Compact, Image upload
-- State: Default, Uploading, Complete, Failed
-Status: TODO verify exact variant names via MCP
+Variants (all confirmed):
+- **Size**: Small (28–33px h), Medium (36–42px h), Large (84–94px h)
+- **Theme**: Light, Dark, Blue
+- **Arrow**: Bottom Right, Bottom Center, Bottom Left, Top Right, Top Center, Top Left, Left Side, Right Side
 
 ---
 
 ## Component: Context Menu
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Context Menu`
+Figma page: `❖ Context Menu`
+Page ID: `17368:2110`
+Frame: `20382:23923` — "Context Menu"
+Status: **✅ Verified** (MCP inspection)
+
 Variants:
-- With/without separator, nested, destructive
-Status: TODO verify exact variant names via MCP
+- **Type**: Light (single variant visible at `20382:23921`)
+- Size: 264×493px
 
 ---
 
-## Component: Drawer
+## Component: Tabs
 
-Figma page: Primitive Components
-Canonical path: `Primitive Components / Drawer`
-Variants:
-- Position: Left, Right, Bottom
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Tabs`
+Page ID: `1333:24058`
+Frames: `14998:31094` — "Tabs" · `14996:29795` — "_BaseTabitem"
+Status: **✅ Verified** (MCP inspection)
+
+**Tabs (complete tab bar) types:**
+- Fill, Fill-small, Default, Double Sided Border, Left Border
+
+**_BaseTabitem types:**
+- Fill, Fill-small, Default, Double Sided Border, Border Bottom, Border Left
+- **State**: Default, Hover, Selected, Disabled
 
 ---
 
-## Product / Composite Components
+## Components: TODO Verify
+
+| Component | Page ID | Status |
+|---|---|---|
+| Date Picker | `1467:24996` | TODO: MCP not yet inspected |
+| Slider / Range | `1467:24998` | TODO: MCP not yet inspected |
+| Steps | `1467:25002` | TODO: MCP not yet inspected |
+| Carousel | `2411:87282` | TODO: MCP not yet inspected |
+| Table | `2411:87286` | TODO: MCP not yet inspected |
+
+---
+
+## Composite Components
 
 ---
 
 ## Component: Header & Nav
 
-Figma page: Product Components
-Canonical path: `Product Components / Header & Nav`
-Variants:
-- Platform: Desktop, Mobile
-- With/without search, notification bell, avatar menu
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Header & Nav`
+Page ID: `24084:58112`
+Frames: `24084:70668` — "Header Desktop" · `25855:3675` — "Header Mobile" · `25857:8274` — "Bottom Nav"
+Status: **✅ Verified** (MCP inspection)
+
+**Header Desktop variants:**
+- **State**: Not logged in, Not logged in More Open, Not logged in Notifications open, Logged in, Dropdown Open, Directory open, Events open, More Open, Notifications Open, Notifications Empty
+- **Color**: Light
+
+**Header Mobile variants:**
+- **Property 1**: Logged In, Logged In Dropdown Open, Logged In Notif Open, Logged In Notif Empty, Header Mobile Logged Out, Not Logged In, Not Logged In Notif Open
+
+**Bottom Nav (on same page):**
+- **Property 1**: Bottom Nav Default, Bottom Nav Directory, Bottom Nav Demo Day, Bottom Nav Events, Bottom Nav Logged In More, Bottom Nav Not Logged In More
 
 ---
 
 ## Component: Sidebars & Bottom Sheets
 
-Figma page: Product Components
-Canonical path: `Product Components / Sidebars & Bottom Sheets`
-Variants:
-- Context: Directory filter, Demo Day filter, Deals filter, Job Board filter, Founder Guides
-- Platform: Desktop sidebar, Mobile bottom sheet
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Sidebars & Bottom Sheets`
+Page ID: `25861:2872`
+Status: **✅ Verified** (MCP inspection)
+
+Context-specific sidebar instances:
+- `Filters Sidebar Members Desktop` + `Filters Drawer Members Mobile`
+- `Sidebar Team Filters` + `Filters Drawer Teams Mobile`
+- `Sidebar Deal Filters` + `Filters Drawer Deals Mobile`
+- `Sidebar Demo Day Filters` + `Filters Drawer Demo Day Mobile`
+- `Sidebar Job Board Filters`
+- `Sidebar Desktop` (generic, Property 1=Default/Open)
+- `Sidebar Mobile` (generic, Property 1=Default/Open)
 
 ---
 
 ## Component: Cards
 
-Figma page: Product Components
-Canonical path: `Product Components / Cards`
-Sub-components:
-- Focus Area Cards
-- Homepage Cards
-- Updates Cards
-- Directory Member Cards
-- Team Cards
-- Forum Cards
-- Deals Cards
-- Demo Day Cards
-- Job Board Cards
-- Founder Guides Cards
-- Office Hours Cards
-- Topic Cards
-- Comment Cards
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Cards`
+Page ID: `25865:10547`
+Status: **✅ Verified** (MCP inspection)
+
+Card groups on this page:
+- `Cards Focus Area` — Card Focus Area 1–5 variants
+- `Homepage Cards` — Card Investor, Card OH, Card Demo Day
+- Member Card Desktop + Member Card Mobile
+- Team Card Desktop + Team Card Mobile
+- `Updates Desktop` — DD/Events/Forum/OH Notification variants
+- `DD Landing Page Desktop` + Mobile — PL DD Upcoming/Reg Open/Active, Partner, Completed
+- `Card Jobs Desktop` + Mobile — Default, Expanded
+- `Card Topic` — Default, Hover, Disabled, Request Topic
+- `Card OH Desktop` + Mobile — Team, Member variants
+- `Comments Desktop` + Mobile — Empty, Typing, @mention, Published 1/7
+- `Team Fundraising Cards` — Large, Large Empty, Large Empty Founders, Small
+- `Team Fundraising Cards Investors` — Investors, Founders
+- Badge OH — Status=Available to connect, Frequently Booked
+- Forum Post Desktop + Mobile
+- Deals Card Default (desktop + mobile instances)
+- Deals Empty — Card Empty, Card Filters Empty
+- Sorting (desktop + mobile)
+
+Note: Comments are embedded in the Cards page.
 
 ---
 
-## Component: Forum Cards
+## Component: Modals
 
-Figma page: Product Components
-Canonical path: `Product Components / Forum Cards`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Modals`
+Page ID: `27043:54960`
+Frame: `27043:54961` and similar — "Advance Modals"
+Status: **✅ Verified** (MCP inspection)
 
----
+Modal compositions found:
+- Form modal (Input + TextArea + Button)
+- Authentication modal (Input + Alert + Checkbox + Social buttons)
+- Upload modal (File Upload Area + File Upload Status + Input + TextArea + Buttons)
+- Settings/onboarding modal (multiple Inputs + Checkbox Group + File Upload)
 
-## Component: Updates Cards
-
-Figma page: Product Components
-Canonical path: `Product Components / Updates Cards`
-Status: TODO verify exact variant names via MCP
-
----
-
-## Component: Deals Cards
-
-Figma page: Product Components
-Canonical path: `Product Components / Deals Cards`
-Status: TODO verify exact variant names via MCP
+Note: These are modal compositions, not a single parameterized component. Contains close button (Round-Icon Button), header, body, action footer.
 
 ---
 
-## Component: Demo Day Cards
+## Component: Alerts & Notification
 
-Figma page: Product Components
-Canonical path: `Product Components / Demo Day Cards`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Alerts & Notification`
+Page ID: `1158:20439`
+Frames: `14256:4250` — "Alert" · `15295:43746` — "Basic notification" · `15290:38530` — "Notification"
+Status: **✅ Verified** (MCP inspection)
 
----
+**Alert:**
+- **Size**: Small (32px h), Medium (52px h), Large (214px h)
+- **State**: Default, Error, Info, Sucess, Warning ← "Sucess" is exact Figma spelling
+- **Type**: Default, With Background
 
-## Component: Jobs Cards
+**Basic notification:**
+- **Type**: Small image, Avatar, Logo, Large image
 
-Figma page: Product Components
-Canonical path: `Product Components / Jobs Cards`
-Status: TODO verify exact variant names via MCP
+**Notification panel:**
+- **Type**: Basic, with tabs
 
----
-
-## Component: Founder Guides Cards
-
-Figma page: Product Components
-Canonical path: `Product Components / Founder Guides Cards`
-Status: TODO verify exact variant names via MCP
+⚠️ This component is under **Composite Components** in Figma, not Primitive.
 
 ---
 
-## Component: Office Hours Cards
+## Component: Upload
 
-Figma page: Product Components
-Canonical path: `Product Components / Office Hours Cards`
-Status: TODO verify exact variant names via MCP
-
----
-
-## Component: Comments
-
-Figma page: Product Components
-Canonical path: `Product Components / Comments`
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Upload`
+Page ID: `1333:24059`
+Status: TODO: MCP not yet inspected (listed under Composite Components in Figma)
 
 ---
 
-## Component: Bottom Navigation
+## Component: Drawer
 
-Figma page: Product Components
-Canonical path: `Product Components / Bottom Navigation`
-Tabs: Directory, Events, Demo Day, More
-Status: TODO verify exact variant names via MCP
+Figma page: `❖ Drawer`
+Page ID: `17368:2111`
+Frame: `20478:23465` — "Drawer"
+Status: **✅ Verified** (MCP inspection)
 
----
+Variants:
+- **Type**: Create event (444px w), editor (716px w), keyboard shortcuts (1392px w), footer (1376px w)
 
-## Layout Patterns
-
-Figma page: Layout Patterns / Page Templates
-Patterns:
-- Stack / Vertical Flow
-- Grid
-- Sidebar
-- Detail / Single Focus
-- Sidebar + Grid
-- Sidebar + List
-- Centered Content
-- Full Width
-- Split Content
-- Modal overlay
-- Drawer overlay
-- Bottom Sheet overlay
-Status: TODO verify exact page names via MCP
+Note: This is a Composite component in Figma. The Drawer is not a general-purpose primitive — it contains specific domain content.
